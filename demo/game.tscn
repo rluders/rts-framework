@@ -54,8 +54,9 @@ script = ExtResource("2_yunhj")
 selection_manager = NodePath("SelectionManager")
 command_manager = NodePath("CommandManager")
 
-[node name="SelectionManager" type="Node" parent="RTSController"]
+[node name="SelectionManager" type="Node" parent="RTSController" node_paths=PackedStringArray("selection_box")]
 script = ExtResource("3_psg5c")
+selection_box = NodePath("../../SelectionBox")
 
 [node name="CommandManager" type="Node" parent="RTSController"]
 script = ExtResource("4_lcg0b")
@@ -73,3 +74,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 transform = Transform3D(1, 0, 0, 0, 0.615661, 0.788011, 0, -0.788011, 0.615662, 0, 0, 0)
 current = true
 fov = 45.0
+
+[node name="SelectionBox" type="ColorRect" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0.376471, 0.376471, 0.592157)
