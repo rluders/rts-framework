@@ -29,7 +29,7 @@ The `Raycaster` is a singleton responsible for handling raycast operations in th
 ## Code
 
 ```gdscript
-extends Node
+extends Node3D
 class_name Raycaster
 
 const RAY_LENGTH: int = 1000

@@ -1,12 +1,10 @@
 extends Node3D
-class_name Raycaster
 
 const RAY_LENGTH : int = 1000
 
-var camera : Camera3D
-
-func _ready() -> void:
-	camera = get_parent().camera
+var camera : Camera3D :
+	set(value):
+		camera = value
 
 func get_unit_under_mouse(team: int):
 	var result = perform_raycast(2) # Layer for units

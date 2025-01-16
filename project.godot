@@ -14,6 +14,10 @@ config/name="RTS Framework"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Raycaster="*res://addons/rts_framework/core/raycaster.gd"
+
 [dotnet]
 
 project/assembly_name="RTS Framework"
