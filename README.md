@@ -1,5 +1,11 @@
 # RTS Game Framework
 
+> [!CAUTION]  
+> This project is a **Work in Progress (WIP)** and is not intended for production use.  
+> Features may be incomplete, and unexpected bugs or performance issues are likely to occur.  
+> Before diving in, we strongly recommend checking the **Issues** tab to understand the current state of development and known limitations.  
+> Use this framework for experimentation, learning, and fun, but please don’t expect a fully polished or optimized experience.
+
 ## Introduction
 
 **RTS Game Framework** is a modular and extensible architecture designed for creating Real-Time Strategy (RTS) games in Godot 4. This framework is built with flexibility in mind, leveraging reusable components, a robust state system, and clean separation of responsibilities to facilitate efficient game development.
