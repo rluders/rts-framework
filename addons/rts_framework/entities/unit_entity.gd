@@ -1,0 +1,2 @@
+extends BaseEntity
+class_name UnitEntity
