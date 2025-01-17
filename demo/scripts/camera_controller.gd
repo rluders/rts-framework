@@ -3,7 +3,8 @@ extends CameraController
 @export var rts_controller : RTSController
 
 func _ready() -> void:
-	# Optionally connect to RTSController signals
+	super()
+	# Connect to RTSController
 	if rts_controller:
 		rts_controller.focus_on_position.connect(_on_focus_on_position)
 

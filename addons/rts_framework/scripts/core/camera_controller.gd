@@ -7,8 +7,14 @@ class_name CameraController
 @export var max_zoom: float = 75.0
 @export var camera: Camera3D
 
-var move_margin: int = 20
+var mouse_present : bool = true
+var move_margin: int = 100
 var bounds: Rect2 = Rect2(-1000, -1000, 2000, 2000)
+
+func _ready() -> void:
+	var window : Window = get_tree().root.get_window()
+	window.mouse_entered.connect(func(): mouse_present = true)
+	window.mouse_exited.connect(func(): mouse_present = false)
 
 func _process(delta: float) -> void:
 	handle_movement(delta)
@@ -17,6 +23,9 @@ func _input(event: InputEvent) -> void:
 	handle_zoom(event)
 
 func handle_movement(delta: float) -> void:
+	if not mouse_present:
+		return
+	
 	var move_vec: Vector3 = Vector3()
 	var mouse_pos = get_viewport().get_mouse_position()
 	var viewport_size = get_viewport().size
