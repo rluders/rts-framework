@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://uame1evpoqs8"]
+
+[ext_resource type="Script" path="res://addons/rts_framework/scripts/states/state_machine.gd" id="1_kgudb"]
+[ext_resource type="PackedScene" uid="uid://l5i07kqny012" path="res://addons/rts_framework/scenes/selection_ring.tscn" id="2_68dlm"]
+
+[node name="BaseBuilding" type="Node3D"]
+
+[node name="Body" type="StaticBody3D" parent="."]
+collision_layer = 2
+collision_mask = 15
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("1_kgudb")
+
+[node name="SelectionRing" parent="." instance=ExtResource("2_68dlm")]

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://ctoeptkckw6xq"]
+
+[node name="SelectionBox" type="ColorRect"]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0.376471, 0.376471, 0.592157)

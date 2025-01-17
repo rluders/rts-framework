@@ -1,31 +1,32 @@
-[gd_scene load_steps=12 format=3 uid="uid://c4by2q2g1r3em"]
+[gd_scene load_steps=13 format=3 uid="uid://c4by2q2g1r3em"]
 
-[ext_resource type="Texture2D" uid="uid://oe2x1ry0bbgk" path="res://demo/assets/textures/dark.png" id="1_khcdc"]
+[ext_resource type="Texture2D" uid="uid://cj6w0rv0tko5d" path="res://demo/assets/textures/green.png" id="1_0crr1"]
 [ext_resource type="Script" path="res://demo/scripts/rts_controller.gd" id="2_yunhj"]
-[ext_resource type="Script" path="res://addons/rts_framework/managers/selection_manager.gd" id="3_psg5c"]
-[ext_resource type="Script" path="res://addons/rts_framework/managers/command_manager.gd" id="4_lcg0b"]
+[ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/selection_manager.gd" id="3_psg5c"]
+[ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/command_manager.gd" id="4_lcg0b"]
 [ext_resource type="Script" path="res://demo/scripts/camera_controller.gd" id="5_wamja"]
+[ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/scenes/selection_box.tscn" id="6_x1kyj"]
+[ext_resource type="PackedScene" uid="uid://d1t1ag5bk5u53" path="res://demo/scenes/entities/units/soldier.tscn" id="7_p3hpf"]
 
 [sub_resource type="Environment" id="Environment_tavya"]
 sdfgi_enabled = true
 glow_enabled = true
 
-[sub_resource type="NavigationMesh" id="NavigationMesh_yxugf"]
+[sub_resource type="NavigationMesh" id="NavigationMesh_0bv8g"]
 vertices = PackedVector3Array(-149.5, 0.5, -149.5, -149.5, 0.5, 149.5, 149.5, 0.5, 149.5, 149.5, 0.5, -149.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4bi01"]
-albedo_texture = ExtResource("1_khcdc")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a6t65"]
+albedo_texture = ExtResource("1_0crr1")
 uv1_triplanar = true
 uv1_world_triplanar = true
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_a1iik"]
-material = SubResource("StandardMaterial3D_4bi01")
+[sub_resource type="PlaneMesh" id="PlaneMesh_2rkuc"]
+material = SubResource("StandardMaterial3D_a6t65")
 size = Vector2(300, 300)
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dcxjy"]
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_h8212"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_q1qh8"]
+size = Vector3(300, 0.1, 300)
 
 [node name="Game" type="Node3D"]
 
@@ -38,16 +39,21 @@ transform = Transform3D(1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, 0, 147, 
 [node name="Map" type="Node" parent="."]
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="Map"]
-navigation_mesh = SubResource("NavigationMesh_yxugf")
+navigation_mesh = SubResource("NavigationMesh_0bv8g")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Map/NavigationRegion3D"]
-mesh = SubResource("PlaneMesh_a1iik")
+mesh = SubResource("PlaneMesh_2rkuc")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Map/NavigationRegion3D/MeshInstance3D"]
-physics_material_override = SubResource("PhysicsMaterial_dcxjy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/NavigationRegion3D/MeshInstance3D/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_h8212")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape3D_q1qh8")
+
+[node name="Entities" type="Node" parent="."]
+
+[node name="Soldier" parent="Entities" instance=ExtResource("7_p3hpf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -3.034)
 
 [node name="RTSController" type="Node" parent="." node_paths=PackedStringArray("selection_manager", "command_manager")]
 script = ExtResource("2_yunhj")
@@ -68,15 +74,9 @@ move_speed = 5.0
 camera = NodePath("../CameraHolder/Camera3D")
 
 [node name="CameraHolder" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraHolder"]
-transform = Transform3D(1, 0, 0, 0, 0.615661, 0.788011, 0, -0.788011, 0.615662, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.48481, 0.87462, 0, -0.87462, 0.48481, 0, 3.5, 0)
 current = true
-fov = 45.0
 
-[node name="SelectionBox" type="ColorRect" parent="."]
-visible = false
-offset_right = 40.0
-offset_bottom = 40.0
-color = Color(0, 0.376471, 0.376471, 0.592157)
+[node name="SelectionBox" parent="." instance=ExtResource("6_x1kyj")]
