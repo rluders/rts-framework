@@ -6,10 +6,10 @@ class_name CameraController
 @export var min_zoom: float = 45.0
 @export var max_zoom: float = 75.0
 @export var camera: Camera3D
+@export var move_margin: int = 100
 
 var mouse_present : bool = true
-var move_margin: int = 100
-var bounds: Rect2 = Rect2(-1000, -1000, 2000, 2000)
+var bounds: Rect2 = Rect2(-300, -300, 300, 300)
 
 func _ready() -> void:
 	var window : Window = get_tree().root.get_window()

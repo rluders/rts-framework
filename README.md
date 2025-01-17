@@ -251,7 +251,7 @@ We welcome contributions to the RTS Framework! Whether you’re fixing bugs, add
 2. **Clone Your Fork**:
 
     ```bash
-    git clone https://github.com/rluders/rts-framework.git
+    git clone https://github.com/<your-username>/rts-framework.git
     cd rts-framework
     ```
 
