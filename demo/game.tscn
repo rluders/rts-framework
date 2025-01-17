@@ -41,7 +41,7 @@ transform = Transform3D(1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, 0, 147, 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="Map"]
 navigation_mesh = SubResource("NavigationMesh_0bv8g")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/NavigationRegion3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/NavigationRegion3D" groups=["surface"]]
 mesh = SubResource("PlaneMesh_2rkuc")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Map/NavigationRegion3D/MeshInstance3D"]

@@ -40,8 +40,11 @@ func end_selection(end_pos: Vector2) -> void:
 		selection_box.visible = false
 		end_sel_pos = end_pos
 		
-		var rect = Rect2(start_sel_pos, end_sel_pos - start_sel_pos).abs()
-		selected_units = get_units_in_rect(rect)
+		if start_sel_pos.distance_squared_to(end_sel_pos) < 16:
+			selected_units = get_clicked_unit()
+		else:
+			var rect = Rect2(start_sel_pos, end_sel_pos - start_sel_pos).abs()
+			selected_units = get_units_in_rect(rect)
 		
 		apply_selection()
 		
@@ -55,41 +58,31 @@ func update_selection_box(current_pos: Vector2) -> void:
 		selection_box.position = rect.position
 		selection_box.size = rect.size
 
-func deselect_units() -> void:
-	selected_units.clear()
-	for unit in selected_units:
-		var select_component = unit.get_component()
-		if select_component:
-			select_component.deselect()
-	
-	emit_signal("units_selected", [])
-
-func select_units() -> void:
-	for unit in selected_units:
-		var select_component = unit.get_component()
-		if select_component:
-			select_component.select()
-	
-	emit_signal("units_selected", [])
-
 func get_unit_under_mouse():
 	return Raycaster.get_unit_under_mouse(get_parent().team) # parent is RTSController
 
 func apply_selection() -> void:
 	for unit in get_tree().get_nodes_in_group("units"):
-		var selectable = unit.get_component("SelectableComponent")
+		var selectable = unit.get_component("Selectable")
 		if selectable:
 			selectable.deselect()
 	
 	for unit in selected_units:
-		var selectable = unit.get_component("SelectableComponent")
+		var selectable = unit.get_component("Selectable")
 		if selectable:
 			selectable.select()
+
+func get_clicked_unit() -> Array:
+	var clicked_unit = get_unit_under_mouse()
+	if not clicked_unit:
+		return []
+	
+	return [clicked_unit]
 
 func get_units_in_rect(rect: Rect2) -> Array:
 	var units = []
 	for unit in get_tree().get_nodes_in_group("units"):
-		if not unit.has_component("SelectableComponent"):
+		if not unit.has_component("Selectable"):
 			print_debug(unit.name + " is not Selectable")
 			continue
 		var unit_screen_pos = Raycaster.world_to_screen(unit.global_transform.origin)

@@ -2,6 +2,8 @@
 extends Node
 class_name RTSController
 
+@export var team : int = 0
+
 @export var selection_manager: SelectionManager:
 	set(value):
 		selection_manager = value

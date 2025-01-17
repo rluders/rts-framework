@@ -7,13 +7,17 @@ var camera : Camera3D :
 		camera = value
 
 func get_unit_under_mouse(team: int):
-	var result = perform_raycast(2) # Layer for units
-	if result and "team" in result.collider and result.collider.team == team:
-		return result.collider
+	# FIXME How to dynamic define the layers?
+	var result = perform_raycast(3) # Layer for units
+	if result:
+		var unit = result.collider.get_parent()
+		if "team" in unit and unit.team == team:
+			return unit
 	return null
 
 func get_ground_target():
-	var result = perform_raycast(0b100111) # Example collision mask for surfaces
+	# FIXME How to dynamic define the layers?
+	var result = perform_raycast(5) # Collision mask for surfaces
 	if result.collider and result.collider.is_in_group("surface"):
 		return result.position
 	return null

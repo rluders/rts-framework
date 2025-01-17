@@ -32,6 +32,10 @@ project/assembly_name="RTS Framework"
 
 enabled=PackedStringArray("res://addons/rts_framework/plugin.cfg")
 
+[global_group]
+
+surface="Surface elements in the map"
+
 [input]
 
 select={
