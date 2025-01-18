@@ -58,8 +58,11 @@ func update_selection_box(current_pos: Vector2) -> void:
 		selection_box.position = rect.position
 		selection_box.size = rect.size
 
-func get_unit_under_mouse():
-	return Raycaster.get_unit_under_mouse(get_parent().team) # parent is RTSController
+func get_selected_units() -> Array:
+	return selected_units
+
+func has_selected_units() -> bool:
+	return len(selected_units) > 0
 
 func apply_selection() -> void:
 	for unit in get_tree().get_nodes_in_group("units"):
@@ -73,7 +76,7 @@ func apply_selection() -> void:
 			selectable.select()
 
 func get_clicked_unit() -> Array:
-	var clicked_unit = get_unit_under_mouse()
+	var clicked_unit = Raycaster.get_unit_under_mouse(get_parent().team) # parent is RTSController
 	if not clicked_unit:
 		return []
 	

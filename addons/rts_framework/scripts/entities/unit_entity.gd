@@ -5,6 +5,7 @@ class_name UnitEntity
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 
 func _ready() -> void:
+	super()
 	add_to_group("units")
 
 func move_to(target_position: Vector3) -> void:
