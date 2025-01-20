@@ -5,6 +5,7 @@ class_name BaseEntity
 @export var is_active: bool = true
 
 func _ready() -> void:
+	print_debug("Calling framework BaseEntity::_ready")
 	add_to_group("entities")
 
 func get_component(component_class: String) -> Node:

@@ -41,3 +41,10 @@ func _on_state_transitioned(state: State, new_state_name: String) -> void:
 	current_state = new_state
 	
 	state_changed.emit(new_state_name.to_lower())
+
+func get_state(state_name: String) -> State:
+	var state : State = states.get(state_name)
+	if not state:
+		push_error("State '%s' not found" % state_name)
+		return null
+	return state

@@ -1,19 +1,12 @@
 extends Node3D
 
+# This needs to be registered as global singleton `Raycaster`
+
 const RAY_LENGTH : int = 1000
 
 var camera : Camera3D :
 	set(value):
 		camera = value
-
-func get_unit_under_mouse(team: int):
-	# FIXME How to dynamic define the layers?
-	var result = perform_raycast(3) # Layer for units
-	if result:
-		var unit = result.collider.get_parent()
-		if "team" in unit and unit.team == team:
-			return unit
-	return null
 
 func get_ground_target():
 	# FIXME How to dynamic define the layers?

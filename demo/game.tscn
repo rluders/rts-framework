@@ -55,6 +55,13 @@ shape = SubResource("BoxShape3D_q1qh8")
 [node name="Soldier" parent="Entities" instance=ExtResource("7_p3hpf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -3.034)
 
+[node name="Soldier2" parent="Entities" instance=ExtResource("7_p3hpf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.98311, 0.01, -3.034)
+team = 1
+
+[node name="Soldier3" parent="Entities" instance=ExtResource("7_p3hpf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62814, 0.01, -3.034)
+
 [node name="RTSController" type="Node" parent="." node_paths=PackedStringArray("selection_manager", "command_manager")]
 script = ExtResource("2_yunhj")
 selection_manager = NodePath("SelectionManager")
