@@ -4,6 +4,13 @@ class_name CommandManager
 signal command_issued(command: String, units: Array, target: Variant, context: Dictionary)
 
 func issue_command(units: Array, target: Variant, context: Dictionary) -> void:
+	if units.is_empty():
+		push_error("Cannot issue command: No units provided")
+		return
+	if target == null:
+		push_error("Cannot issue command: Invalid target")
+		return
+
 	# Extract the command type from the context (default to "default")
 	var command = context.get("command_type", "default")
 	
@@ -14,15 +21,20 @@ func issue_command(units: Array, target: Variant, context: Dictionary) -> void:
 	match command:
 		"move":
 			for unit in units:
-				print(unit.name, " moves to ", target)
+				if unit.has_method("move_to")
+					print(unit.name, " moves to ", target)
 		"attack":
 			for unit in units:
-				print(unit.name + " attacks ", target)
+				if unit.has_method("attack"):
+					print(unit.name + " attacks ", target)
 		"build":
 			for unit in units:
-				print(unit.name + " builinds at ", target)
+				if unit.has_method("build"):
+					print(unit.name + " builinds at ", target)
 		"collect":
 			for unit in units:
-				print(unit.name + " collects ", target)
+				if unit.has_method("collect"):
+					print(unit.name + " collects ", target)
 		_:
-			print("Unknown command type:", command)
+			push_error("Unknown command type: %s" % command)
+

@@ -33,7 +33,7 @@ func _process(delta: float) -> void:
 	
 	# Detect object under mouse for hover
 	var target = Raycaster.perform_raycast(255)  # Replace with the correct mask
-	if target and target.collider:
+	if target or target.collider:
 		if not current_target or target.collider != current_target.collider:
 			current_target = target
 			handle_hover_target()
@@ -80,19 +80,28 @@ func handle_entities_target(target: Dictionary) -> void:
 	var command_type
 	
 	if not entity:
+		print_debug("Invalid entity target")
 		return
 		
 	if "team" in entity and entity.team != team:
 		command_type = "attack"
-	
+	else:
+		command_type = "follow"
+
 	if command_type:
-		command_manager.issue_command(
-			selection_manager.get_selected_units(),
-			entity,
-			{"command_type": command_type}
-		)
+		try:
+			command_manager.issue_command(
+				selection_manager.get_selected_units(),
+				entity,
+				{"command_type": command_type}
+			)
+		except:
+			print_debug("Failed to issue command: ", command_type)
 
 func get_target_group(target: Node) -> String:
+	if not target.get_parent():
+		return ""
+	
 	var groups = target.get_parent().get_groups()
 	if "surface" in groups:
 		return "surface"
