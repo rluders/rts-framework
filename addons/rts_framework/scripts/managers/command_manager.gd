@@ -39,7 +39,7 @@ func _input(event: InputEvent) -> void:
 			"entities":
 				issue_entity_command(selected_units, current_target)
 			_:
-				print_debug("Unknown target group")
+				push_error("Unknown target group")
 
 # --- Command Handlers ---
 func issue_surface_command(units: Array, target: Dictionary) -> void:
@@ -53,7 +53,7 @@ func issue_surface_command(units: Array, target: Dictionary) -> void:
 func issue_entity_command(units: Array, target: Dictionary) -> void:
 	var entity = target.collider.get_parent()
 	if not entity:
-		print_debug("Invalid entity target")
+		push_error("Invalid entity target")
 		return
 
 	var command_type = "follow"
@@ -81,7 +81,4 @@ func get_target_group(target: Node) -> String:
 
 func get_selected_units() -> Array:
 	# Retrieve selected units from the relevant group
-	var units = []
-	for unit in get_tree().get_nodes_in_group("team_%d_selected" % team):
-		units.append(unit)
-	return units
+	return get_tree().get_nodes_in_group("team_%d_selected" % team)
