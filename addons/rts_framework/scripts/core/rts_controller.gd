@@ -2,10 +2,10 @@
 extends Node
 class_name RTSController
 
-## This controller acts as a orquestrator for the core components of the framework,
-## it handles their events and some other actions to allow they to easily communicate.
+## This controller acts as an orchestrator for the core components of the framework.
+## It handles events and some actions to allow components to communicate easily.
 
-@export var team : int = 0
+@export var team: int = 0
 
 @export var selection_manager: SelectionManager:
 	set(value):
@@ -17,6 +17,8 @@ class_name RTSController
 		command_manager = value
 		update_configuration_warnings()
 
+var current_target
+
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings = []
 	if not selection_manager:
@@ -26,37 +28,54 @@ func _get_configuration_warnings() -> PackedStringArray:
 	return warnings
 
 func _process(delta: float) -> void:
-	if selection_manager.has_selected_units():
-		# What is under the mouse? To change the mouse cursor
-		pass
+	if Engine.is_editor_hint():
+		return
+	
+	# Detect object under mouse for hover
+	var target = Raycaster.perform_raycast(255)  # Replace with the correct mask
+	if target and target.collider:
+		if not current_target or target.collider != current_target.collider:
+			current_target = target
+			handle_hover_target()
+	else:
+		current_target = null
 
 func _input(event: InputEvent) -> void:
-	if selection_manager.has_selected_units():
-		if Input.is_action_just_pressed("command"):
-			var target = Raycaster.perform_raycast(255) # FIXME pass the correct mask
-			if not target and not target.collider:
-				return
-			
-			var target_group = get_target_group(target.collider)
+	if not selection_manager.has_selected_units():
+		return
 
-			# FIXME This would probably go away when the detector start to work
-			match target_group:
-				"surface":
-					handle_surface_target(target)
-				"entities":
-					handle_entities_target(target)
-				_:
-					print_debug("Unknown target group")
-					return
+	if Input.is_action_just_pressed("command"):
+		if not current_target or not current_target.collider:
+			return
+		
+		var target_group = get_target_group(current_target.collider)
 
-func handle_surface_target(target: Variant) -> void:
+		match target_group:
+			"surface":
+				handle_surface_target(current_target)
+			"entities":
+				handle_entities_target(current_target)
+			_:
+				print_debug("Unknown target group")
+
+func handle_hover_target() -> void:
+	var target_group = get_target_group(current_target.collider)
+	match target_group:
+		"surface":
+			print("Hovering over surface")
+		"entities":
+			print("Hovering over entity")
+		_:
+			print("Hovering over unknown object")
+
+func handle_surface_target(target: Dictionary) -> void:
 	command_manager.issue_command(
 		selection_manager.get_selected_units(),
 		target.position,
 		{"command_type": "move"}
 	)
 
-func handle_entities_target(target: Variant) -> void:
+func handle_entities_target(target: Dictionary) -> void:
 	var entity = target.collider.get_parent()
 	var command_type
 	
@@ -73,12 +92,10 @@ func handle_entities_target(target: Variant) -> void:
 			{"command_type": command_type}
 		)
 
-# FIXME This function would be probably used by the detector
-func get_target_group(target: Variant):
+func get_target_group(target: Node) -> String:
 	var groups = target.get_parent().get_groups()
-	print(groups)
 	if "surface" in groups:
 		return "surface"
 	if "entities" in groups:
 		return "entities"
-	return null
+	return ""

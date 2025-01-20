@@ -76,20 +76,28 @@ func apply_selection() -> void:
 			selectable.select()
 
 func get_clicked_unit() -> Array:
-	var clicked_unit = Raycaster.get_unit_under_mouse(get_parent().team) # parent is RTSController
+	var clicked_unit = get_unit_under_mouse(get_parent().team) # parent is RTSController
 	if not clicked_unit:
 		return []
-	
 	return [clicked_unit]
 
 func get_units_in_rect(rect: Rect2) -> Array:
 	var units = []
 	for unit in get_tree().get_nodes_in_group("units"):
 		if not unit.has_component("Selectable"):
-			print_debug(unit.name + " is not Selectable")
+			continue
+		if "team" not in unit or unit.team != get_parent().team:
 			continue
 		var unit_screen_pos = Raycaster.world_to_screen(unit.global_transform.origin)
 		if rect.has_point(unit_screen_pos):
 			units.append(unit)
 	
 	return units
+
+func get_unit_under_mouse(team: int):
+	var result = Raycaster.perform_raycast(3) # Layer for units
+	if result.collider:
+		var unit = result.collider.get_parent()
+		if "team" in unit and unit.team == team and unit.is_in_group("units"):
+			return unit
+	return null
