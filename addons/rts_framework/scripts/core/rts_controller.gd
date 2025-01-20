@@ -89,14 +89,11 @@ func handle_entities_target(target: Dictionary) -> void:
 		command_type = "follow"
 
 	if command_type:
-		try:
-			command_manager.issue_command(
-				selection_manager.get_selected_units(),
-				entity,
-				{"command_type": command_type}
-			)
-		except:
-			print_debug("Failed to issue command: ", command_type)
+		command_manager.issue_command(
+			selection_manager.get_selected_units(),
+			entity,
+			{"command_type": command_type}
+		)
 
 func get_target_group(target: Node) -> String:
 	if not target.get_parent():
