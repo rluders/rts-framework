@@ -15,10 +15,6 @@ func _on_units_selected(units: Array) -> void:
 	print("RTSController: Units selected:", units)
 	focus_camera_on_units(units)
 
-func _on_command_issued(command: String, units: Array, target: Variant, context: Dictionary) -> void:
-	print("RTSController: Command issued:", command, context)
-	emit_signal("command_issued", command, units, target, context)
-
 func focus_camera_on_units(units: Array) -> void:
 	if units.size() > 0:
 		var avg_position = Vector3.ZERO

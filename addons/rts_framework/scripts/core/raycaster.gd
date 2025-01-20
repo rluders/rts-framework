@@ -1,5 +1,7 @@
 extends Node3D
 
+# This needs to be registered as global singleton `Raycaster`
+
 const RAY_LENGTH : int = 1000
 
 var camera : Camera3D :
