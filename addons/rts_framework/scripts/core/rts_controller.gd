@@ -2,7 +2,12 @@
 extends Node
 class_name RTSController
 
-@export var team: int = 0
+@export var team: int = 0:
+	set(value):
+		if value < 0:
+			push_error("Team ID cannot be negative")
+			return
+		team = value
 
 @export var selection_manager: SelectionManager:
 	set(value):
@@ -29,7 +34,7 @@ func _ready() -> void:
 		command_manager.command_issued.connect(_on_command_issued)
 
 func _on_units_selected(units: Array) -> void:
-	print("Units selected: ", units)
+	print_debug("Units selected: ", units)
 
 func _on_command_issued(command: String, target: Variant, context: Dictionary) -> void:
-	print("Command issued: ", command, " targeting: ", target, " with context: ", context)
+	print_debug("Command issued: %s targeting: %s with context: %s" % [command, target, context])

@@ -1,7 +1,12 @@
 extends Node
 class_name CommandManager
 
-@export var team: int = 0
+@export var team: int = 0:
+	set(value):
+		if value < 0:
+			push_error("Team ID cannot be negative")
+			return
+		team = value
 
 var current_target: Dictionary
 
@@ -20,7 +25,11 @@ func _input(event: InputEvent) -> void:
 
 		var selected_units = get_selected_units()
 		if selected_units.is_empty():
-			return;
+			return
+			
+
+		if not current_target.collider:
+			return
 
 		var target_group = get_target_group(current_target.collider)
 

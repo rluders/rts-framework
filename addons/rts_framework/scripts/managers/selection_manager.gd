@@ -1,8 +1,15 @@
 extends Node
 class_name SelectionManager
 
+const CLICK_DISTANCE_THRESHOLD : float = 16.0
+
 @export var selection_box: ColorRect
-@export var team: int = 0
+@export var team: int = 0:
+	set(value):
+		if value < 0:
+			push_error("Team ID cannot be negative")
+			return
+		team = value
 
 var selected_units: Array = []
 var is_dragging: bool = false
@@ -34,7 +41,7 @@ func end_selection(end_pos: Vector2) -> void:
 	selection_box.visible = false
 	end_sel_pos = end_pos
 
-	if start_sel_pos.distance_squared_to(end_pos) < 16:
+	if start_sel_pos.distance_squared_to(end_pos) < CLICK_DISTANCE_THRESHOLD:
 		selected_units = get_clicked_unit()
 	else:
 		selected_units = get_units_in_rect(Rect2(start_sel_pos, end_sel_pos - start_sel_pos).abs())
@@ -50,12 +57,13 @@ func update_selection_box(current_pos: Vector2) -> void:
 		selection_box.size = rect.size
 
 func update_selected_group() -> void:
-	get_tree().call_group("team_%d_selected" % team, "deselect")
-	for unit in get_tree().get_nodes_in_group("team_%d_selected" % team):
-		unit.remove_from_group("team_%d_selected" % team)
+	var group_name = get_team_group_name()
+	get_tree().call_group(group_name, "deselect")
+	for unit in get_tree().get_nodes_in_group(group_name):
+		unit.remove_from_group(group_name)
 
 	for unit in selected_units:
-		unit.add_to_group("team_%d_selected" % team)
+		unit.add_to_group(group_name)
 
 func get_mouse_position() -> Vector2:
 	return get_viewport().get_mouse_position()
@@ -77,3 +85,6 @@ func get_units_in_rect(rect: Rect2) -> Array:
 		if rect.has_point(screen_pos):
 			units.append(unit)
 	return units
+
+func get_team_group_name() -> String:
+	return "team_%d_selected" % team
