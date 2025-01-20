@@ -21,7 +21,7 @@ func issue_command(units: Array, target: Variant, context: Dictionary) -> void:
 	match command:
 		"move":
 			for unit in units:
-				if unit.has_method("move_to")
+				if unit.has_method("move_to"):
 					print(unit.name, " moves to ", target)
 		"attack":
 			for unit in units:
