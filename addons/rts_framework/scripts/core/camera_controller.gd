@@ -37,10 +37,10 @@ func _process(delta: float) -> void:
 	handle_zoom(delta)
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_pressed("camera_rotate"):
+	if event.is_action_pressed("camera_rotate"):
 		rotating = true
 		last_mouse_position = event.position
-	else:
+	elif event.is_action_released("camera_rotate"):
 		rotating = false
 
 	if event is InputEventMouseMotion and rotating:
