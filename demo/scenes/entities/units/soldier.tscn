@@ -24,5 +24,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CapsuleShape3D_ksoos")
 
 [node name="SelectionRing" parent="." index="1"]
-visible = true
 modulate = Color(0.180392, 1, 1, 1)
