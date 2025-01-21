@@ -21,10 +21,9 @@ func _ready() -> void:
 	if not camera:
 		camera = $Camera3D
 
-	# Set default FOV
-	camera.fov = clamp(max_zoom / 2, min_zoom, max_zoom)
+	camera.fov = current_zoom
 
-	# Confine the mouse to the window
+	# Update window focus status based on mouse enter and exit events
 	var window: Window = get_tree().root.get_window()
 	window.mouse_entered.connect(func(): window_focused = true)
 	window.mouse_exited.connect(func(): window_focused = false)
