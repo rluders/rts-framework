@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://demo/scripts/rts_controller.gd" id="2_yunhj"]
 [ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/selection_manager.gd" id="3_psg5c"]
 [ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/command_manager.gd" id="4_lcg0b"]
-[ext_resource type="Script" path="res://demo/scripts/camera_controller.gd" id="5_wamja"]
+[ext_resource type="PackedScene" uid="uid://bdjx0t2xkn5gg" path="res://addons/rts_framework/scenes/camera_controller.tscn" id="6_3gdxu"]
 [ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/scenes/selection_box.tscn" id="6_x1kyj"]
 [ext_resource type="PackedScene" uid="uid://d1t1ag5bk5u53" path="res://demo/scenes/entities/units/soldier.tscn" id="7_p3hpf"]
 
@@ -53,14 +53,14 @@ shape = SubResource("BoxShape3D_q1qh8")
 [node name="Entities" type="Node" parent="."]
 
 [node name="Soldier" parent="Entities" instance=ExtResource("7_p3hpf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, -3.034)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.227193, -3.034)
 
 [node name="Soldier2" parent="Entities" instance=ExtResource("7_p3hpf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.98311, 0.01, -3.034)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.98311, 0.227193, -3.034)
 team = 1
 
 [node name="Soldier3" parent="Entities" instance=ExtResource("7_p3hpf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62814, 0.01, -3.034)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62814, 0.227193, -3.034)
 
 [node name="RTSController" type="Node" parent="." node_paths=PackedStringArray("selection_manager", "command_manager")]
 script = ExtResource("2_yunhj")
@@ -74,16 +74,6 @@ selection_box = NodePath("../../SelectionBox")
 [node name="CommandManager" type="Node" parent="RTSController"]
 script = ExtResource("4_lcg0b")
 
-[node name="CameraController" type="Node" parent="." node_paths=PackedStringArray("rts_controller", "camera")]
-script = ExtResource("5_wamja")
-rts_controller = NodePath("../RTSController")
-move_speed = 5.0
-camera = NodePath("../CameraHolder/Camera3D")
-
-[node name="CameraHolder" type="Node3D" parent="."]
-
-[node name="Camera3D" type="Camera3D" parent="CameraHolder"]
-transform = Transform3D(1, 0, 0, 0, 0.48481, 0.87462, 0, -0.87462, 0.48481, 0, 3.5, 0)
-current = true
+[node name="CameraHolder" parent="." instance=ExtResource("6_3gdxu")]
 
 [node name="SelectionBox" parent="." instance=ExtResource("6_x1kyj")]
