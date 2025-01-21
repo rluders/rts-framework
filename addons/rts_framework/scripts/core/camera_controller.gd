@@ -22,7 +22,7 @@ func _ready() -> void:
 		camera = $Camera3D
 
 	# Set default FOV
-	camera.fov = clampf(max_zoom / 2, min_zoom, max_zoom)
+	camera.fov = clamp(max_zoom / 2, min_zoom, max_zoom)
 
 	# Confine the mouse to the window
 	var window: Window = get_tree().root.get_window()
