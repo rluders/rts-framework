@@ -16,13 +16,13 @@ func select() -> void:
 		selection_sprite.visible = true
 		set_selection_color(highlight_color)
 	
-	emit_signal("selected")
+	selected.emit()
 
 func deselect() -> void:
 	if selection_sprite:
 		selection_sprite.visible = false
 	
-	emit_signal("deselected")
+	deselected.emit()
 
 func set_selection_color(color: Color) -> void:
 	if selection_sprite and selection_sprite.modulate:
