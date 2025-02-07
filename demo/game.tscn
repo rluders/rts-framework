@@ -13,7 +13,7 @@ sdfgi_enabled = true
 glow_enabled = true
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_0bv8g"]
-vertices = PackedVector3Array(-149.5, 0.5, -149.5, -149.5, 0.5, 149.5, 149.5, 0.5, 149.5, 149.5, 0.5, -149.5)
+vertices = PackedVector3Array(-49.5, 0.45, -49.5, -49.5, 0.45, 49.5, 49.5, 0.45, 49.5, 49.5, 0.45, -49.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a6t65"]
@@ -25,8 +25,8 @@ uv1_world_triplanar = true
 material = SubResource("StandardMaterial3D_a6t65")
 size = Vector2(300, 300)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_q1qh8"]
-size = Vector3(300, 0.1, 300)
+[sub_resource type="BoxShape3D" id="BoxShape3D_m28nb"]
+size = Vector3(100, 0.1, 100)
 
 [node name="Game" type="Node3D"]
 
@@ -47,8 +47,8 @@ mesh = SubResource("PlaneMesh_2rkuc")
 [node name="StaticBody3D" type="StaticBody3D" parent="Map/NavigationRegion3D/MeshInstance3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/NavigationRegion3D/MeshInstance3D/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-shape = SubResource("BoxShape3D_q1qh8")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0707459, 0)
+shape = SubResource("BoxShape3D_m28nb")
 
 [node name="Entities" type="Node" parent="."]
 

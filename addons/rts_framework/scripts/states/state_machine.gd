@@ -30,7 +30,7 @@ func _on_state_transitioned(state: State, new_state_name: String) -> void:
 	if state != current_state:
 		return
 	
-	var new_state = states.get(new_state_name.to_lower())
+	var new_state = states.get(new_state_name)
 	if !new_state:
 		return
 	
@@ -43,8 +43,24 @@ func _on_state_transitioned(state: State, new_state_name: String) -> void:
 	state_changed.emit(new_state_name.to_lower())
 
 func get_state(state_name: String) -> State:
-	var state : State = states.get(state_name)
+	var state : State = states.get(state_name.to_lower())
 	if not state:
 		push_error("State '%s' not found" % state_name)
 		return null
 	return state
+
+func transition_to(state_name: String, params: Dictionary = {}) -> void:
+	var state = states.get(state_name)
+	if not state:
+		push_error("State '%s' not found" % state_name)
+		return
+	
+	if current_state:
+		current_state.exit()
+	
+	state.enter(params)
+	current_state = state
+	state_changed.emit(state_name)
+
+func get_root_node():
+	return get_parent()

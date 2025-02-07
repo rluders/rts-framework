@@ -7,11 +7,10 @@ class_name BuildingEntity
 func _ready() -> void:
 	add_to_group("buildings")
 
+# Adds a production item to the queue and starts production
 func start_production(scene: PackedScene) -> void:
-	var queue = get_queue()
+	var queue = get_component("Queue") as QueueComponent
 	if queue:
 		queue.add_to_queue(scene)
-		queue.start_production()
-
-func get_queue() -> QueueComponent:
-	return get_component("QueueComponent") as QueueComponent
+		if not queue.is_producing:
+			queue.start_production()

@@ -43,12 +43,13 @@ func _input(event: InputEvent) -> void:
 
 # --- Command Handlers ---
 func issue_surface_command(units: Array, target: Dictionary) -> void:
-	Signals.emit_command_issued(
-		"move",
-		units,
-		target.position,
-		{"target_group": "surface"}
-	)
+	#Signals.emit_command_issued(
+		#"move",
+		#units,
+		#target.position,
+		#{"target_group": "surface"}
+	#)
+	emit_command_issued("move", target.position, {"target_group": "surface"})
 
 func issue_entity_command(units: Array, target: Dictionary) -> void:
 	var entity = target.collider.get_parent()
@@ -60,14 +61,19 @@ func issue_entity_command(units: Array, target: Dictionary) -> void:
 	if "team" in entity and entity.team != team:
 		command_type = "attack"
 
-	Signals.emit_command_issued(
-		command_type,
-		units,
-		entity,
-		{"target_group": "entities"}
-	)
+	#Signals.emit_command_issued(
+		#command_type,
+		#units,
+		#entity,
+		#{"target_group": "entities"}
+	#)
+	emit_command_issued(command_type, entity, {"target_group": "entities"})
 
 # --- Helper Methods ---
+func emit_command_issued(command: String, target: Variant, context: Dictionary) -> void:
+	var team_group = "team_%d_selected" % team
+	get_tree().call_group(team_group, "_on_command_issued", command, target, context)
+
 func get_target_group(target: Node) -> String:
 	if not target.get_parent():
 		return ""
