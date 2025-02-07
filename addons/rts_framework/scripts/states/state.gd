@@ -14,3 +14,9 @@ func update(_delta: float) -> void:
 
 func physics_update(_delta: float) -> void:
 	pass
+
+func get_state_machine() -> StateMachine:
+	return get_parent() as StateMachine
+
+func get_root_node():
+	return get_state_machine().get_root_node()
