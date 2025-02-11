@@ -1,6 +1,8 @@
 extends BaseEntity
 class_name UnitEntity
 
+@export var speed : float = 10
+
 @onready var state_machine: StateMachine = $StateMachine
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 
@@ -59,6 +61,8 @@ func _on_command_issued(command: String, units: Array, target: Variant, context:
 	if self not in units:
 		print_debug(self.name, " is not part of the command group.")
 		return  # Ignore commands not intended for this unit
+		
+	print_debug(self.name, " is part of the command group.")
 	
 	match command:
 		"move":
@@ -72,3 +76,6 @@ func _on_command_issued(command: String, units: Array, target: Variant, context:
 			collect(target)
 		_:
 			print_debug("Unknown command: %s" % command)
+
+func move_toward(to: Vector3, delta: float) -> void:
+	self.set_global_position(self.get_global_position().move_toward(to, delta))

@@ -33,6 +33,9 @@ func _input(event: InputEvent) -> void:
 
 		var target_group = get_target_group(current_target.collider)
 
+		print_debug("selected_units: ", selected_units)
+		print_debug("target_group: ", target_group)
+
 		match target_group:
 			"surface":
 				issue_surface_command(selected_units, current_target)

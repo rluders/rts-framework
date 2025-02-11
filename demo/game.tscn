@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/command_manager.gd" id="4_lcg0b"]
 [ext_resource type="PackedScene" uid="uid://bdjx0t2xkn5gg" path="res://addons/rts_framework/scenes/camera_controller.tscn" id="6_3gdxu"]
 [ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/scenes/selection_box.tscn" id="6_x1kyj"]
-[ext_resource type="PackedScene" uid="uid://d1t1ag5bk5u53" path="res://demo/scenes/entities/units/soldier.tscn" id="7_p3hpf"]
+[ext_resource type="PackedScene" uid="uid://d1t1ag5bk5u53" path="res://demo/scenes/entities/units/soldier/soldier.tscn" id="7_p3hpf"]
 
 [sub_resource type="Environment" id="Environment_tavya"]
 sdfgi_enabled = true
