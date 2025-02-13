@@ -34,3 +34,6 @@ script = ExtResource("3_r2ii1")
 [node name="Move" type="Node" parent="StateMachine" index="1" node_paths=PackedStringArray("navigation_agent")]
 script = ExtResource("4_r5yb2")
 navigation_agent = NodePath("../../NavigationAgent3D")
+
+[node name="SelectableComponent" parent="Components" index="0" node_paths=PackedStringArray("root_entity")]
+root_entity = NodePath("../..")

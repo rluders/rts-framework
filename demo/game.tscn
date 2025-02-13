@@ -1,8 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4by2q2g1r3em"]
+[gd_scene load_steps=15 format=3 uid="uid://c4by2q2g1r3em"]
 
 [ext_resource type="Texture2D" uid="uid://cj6w0rv0tko5d" path="res://demo/assets/textures/green.png" id="1_0crr1"]
 [ext_resource type="Script" path="res://demo/scripts/rts_controller.gd" id="2_yunhj"]
+[ext_resource type="Material" uid="uid://xbrk8vvyu0xj" path="res://demo/materials/team_0.tres" id="3_1d533"]
 [ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/selection_manager.gd" id="3_psg5c"]
+[ext_resource type="Material" uid="uid://beikxwyxmudot" path="res://demo/materials/team_1.tres" id="4_6ku06"]
 [ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/command_manager.gd" id="4_lcg0b"]
 [ext_resource type="PackedScene" uid="uid://bdjx0t2xkn5gg" path="res://addons/rts_framework/scenes/camera_controller.tscn" id="6_3gdxu"]
 [ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/scenes/selection_box.tscn" id="6_x1kyj"]
@@ -41,10 +43,10 @@ transform = Transform3D(1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, 0, 147, 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="Map"]
 navigation_mesh = SubResource("NavigationMesh_0bv8g")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/NavigationRegion3D" groups=["surface"]]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/NavigationRegion3D"]
 mesh = SubResource("PlaneMesh_2rkuc")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Map/NavigationRegion3D/MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/NavigationRegion3D/MeshInstance3D" groups=["surface"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/NavigationRegion3D/MeshInstance3D/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0707459, 0)
@@ -54,13 +56,16 @@ shape = SubResource("BoxShape3D_m28nb")
 
 [node name="Soldier" parent="Entities" instance=ExtResource("7_p3hpf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.227193, -3.034)
+material = ExtResource("3_1d533")
 
 [node name="Soldier2" parent="Entities" instance=ExtResource("7_p3hpf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.98311, 0.227193, -3.034)
+material = ExtResource("4_6ku06")
 team = 1
 
 [node name="Soldier3" parent="Entities" instance=ExtResource("7_p3hpf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62814, 0.227193, -3.034)
+material = ExtResource("3_1d533")
 
 [node name="RTSController" type="Node" parent="." node_paths=PackedStringArray("selection_manager", "command_manager")]
 script = ExtResource("2_yunhj")

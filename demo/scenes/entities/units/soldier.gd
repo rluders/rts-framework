@@ -1,14 +1,12 @@
 extends UnitEntity
 class_name Soldier
 
+@export var material : StandardMaterial3D
+
 func _ready() -> void:
 	super()
-	#Signals.command_issued.connect(_on_command_issued)
+	$MeshInstance3D.material_override = material
 
-#func _on_command_issued(command: String, units: Array, target: Variant, context: Dictionary) -> void:
-	#if self not in units:
-		#return
-		
 func _on_command_issued(command: String, target: Variant, context: Dictionary) -> void:
 	match command:
 		"move":
