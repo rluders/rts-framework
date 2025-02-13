@@ -32,7 +32,6 @@ func _input(event: InputEvent) -> void:
 			return
 
 		var target_group = get_target_group(current_target.collider)
-		print_debug(current_target.collider, target_group)
 
 		match target_group:
 			"surface":
@@ -40,7 +39,7 @@ func _input(event: InputEvent) -> void:
 			"entities":
 				issue_entity_command(selected_units, current_target)
 			_:
-				push_error("Unknown target group: %s" % target_group)
+				push_error("Unknown target group")
 
 # --- Command Handlers ---
 func issue_surface_command(units: Array, target: Dictionary) -> void:
@@ -65,6 +64,7 @@ func emit_command_issued(command: String, target: Variant, context: Dictionary) 
 
 func get_target_group(target: Node) -> String:
 	if not target:
+		push_warning("Not target group for empty target")
 		return ""
 
 	var groups = target.get_groups()

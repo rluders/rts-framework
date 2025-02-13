@@ -30,7 +30,7 @@ func _on_state_transitioned(state: State, new_state_name: String) -> void:
 	if state != current_state:
 		return
 	
-	var new_state = states.get(new_state_name)
+	var new_state = states.get(new_state_name.to_lower())
 	if !new_state:
 		return
 	
@@ -49,6 +49,11 @@ func get_state(state_name: String) -> State:
 		return null
 	return state
 
+func _handle_state_transition(new_state: State) -> void:
+	if current_state:
+		current_state.exit()
+	current_state = new_state
+
 func transition_to(state_name: String, params: Dictionary = {}) -> void:
 	var state = states.get(state_name)
 	if not state:
@@ -58,8 +63,9 @@ func transition_to(state_name: String, params: Dictionary = {}) -> void:
 	if current_state:
 		current_state.exit()
 	
+	_handle_state_transition(state)
+	
 	state.enter(params)
-	current_state = state
 	state_changed.emit(state_name)
 
 func get_root_node():

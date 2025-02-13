@@ -9,6 +9,8 @@ signal deselected
 @export var highlight_color: Color = Color(1, 1, 0, 1)
 
 func _ready() -> void:
+	assert(root_entity != null, "root_entity must be set for SelectableComponent")
+	
 	if selection_sprite:
 		selection_sprite.visible = false
 	

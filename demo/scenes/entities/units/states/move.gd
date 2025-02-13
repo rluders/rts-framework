@@ -7,7 +7,6 @@ extends State
 
 var target_position: Vector3
 var body
-var word_pos
 
 func _ready() -> void:
 	body = get_root_node()
