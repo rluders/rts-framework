@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bdjx0t2xkn5gg"]
 
-[ext_resource type="Script" path="res://addons/rts_framework/scripts/core/camera_controller.gd" id="1_3b8cp"]
+[ext_resource type="Script" path="res://addons/rts_framework/features/camera/camera_controller.gd" id="1_3b8cp"]
 
 [node name="CameraHolder" type="Node3D" node_paths=PackedStringArray("camera")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 57)

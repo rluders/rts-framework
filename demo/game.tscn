@@ -1,11 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4by2q2g1r3em"]
+[gd_scene load_steps=15 format=3 uid="uid://c4by2q2g1r3em"]
 
 [ext_resource type="Texture2D" uid="uid://cj6w0rv0tko5d" path="res://demo/assets/textures/green.png" id="1_0crr1"]
 [ext_resource type="Script" path="res://demo/scripts/rts_controller.gd" id="2_yunhj"]
-[ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/selection_manager.gd" id="3_psg5c"]
-[ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/command_manager.gd" id="4_lcg0b"]
-[ext_resource type="PackedScene" uid="uid://bdjx0t2xkn5gg" path="res://addons/rts_framework/scenes/camera_controller.tscn" id="6_3gdxu"]
-[ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/scenes/selection_box.tscn" id="6_x1kyj"]
+[ext_resource type="Material" uid="uid://xbrk8vvyu0xj" path="res://demo/materials/team_0.tres" id="3_1d533"]
+[ext_resource type="Script" path="res://addons/rts_framework/features/selection/selection_manager.gd" id="3_psg5c"]
+[ext_resource type="Material" uid="uid://beikxwyxmudot" path="res://demo/materials/team_1.tres" id="4_6ku06"]
+[ext_resource type="Script" path="res://addons/rts_framework/features/command/command_manager.gd" id="4_lcg0b"]
+[ext_resource type="PackedScene" uid="uid://bdjx0t2xkn5gg" path="res://addons/rts_framework/features/camera/camera_controller.tscn" id="6_3gdxu"]
+[ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/features/selection/selection_box.tscn" id="6_x1kyj"]
 [ext_resource type="PackedScene" uid="uid://d1t1ag5bk5u53" path="res://demo/scenes/entities/units/soldier.tscn" id="7_p3hpf"]
 
 [sub_resource type="Environment" id="Environment_tavya"]
@@ -13,7 +15,7 @@ sdfgi_enabled = true
 glow_enabled = true
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_0bv8g"]
-vertices = PackedVector3Array(-149.5, 0.5, -149.5, -149.5, 0.5, 149.5, 149.5, 0.5, 149.5, 149.5, 0.5, -149.5)
+vertices = PackedVector3Array(-49.5, 0.45, -49.5, -49.5, 0.45, 49.5, 49.5, 0.45, 49.5, 49.5, 0.45, -49.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a6t65"]
@@ -25,8 +27,8 @@ uv1_world_triplanar = true
 material = SubResource("StandardMaterial3D_a6t65")
 size = Vector2(300, 300)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_q1qh8"]
-size = Vector3(300, 0.1, 300)
+[sub_resource type="BoxShape3D" id="BoxShape3D_m28nb"]
+size = Vector3(100, 0.1, 100)
 
 [node name="Game" type="Node3D"]
 
@@ -41,26 +43,29 @@ transform = Transform3D(1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, 0, 147, 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="Map"]
 navigation_mesh = SubResource("NavigationMesh_0bv8g")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/NavigationRegion3D" groups=["surface"]]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/NavigationRegion3D"]
 mesh = SubResource("PlaneMesh_2rkuc")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Map/NavigationRegion3D/MeshInstance3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/NavigationRegion3D/MeshInstance3D" groups=["surface"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/NavigationRegion3D/MeshInstance3D/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-shape = SubResource("BoxShape3D_q1qh8")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0707459, 0)
+shape = SubResource("BoxShape3D_m28nb")
 
 [node name="Entities" type="Node" parent="."]
 
 [node name="Soldier" parent="Entities" instance=ExtResource("7_p3hpf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.227193, -3.034)
+material = ExtResource("3_1d533")
 
 [node name="Soldier2" parent="Entities" instance=ExtResource("7_p3hpf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.98311, 0.227193, -3.034)
+material = ExtResource("4_6ku06")
 team = 1
 
 [node name="Soldier3" parent="Entities" instance=ExtResource("7_p3hpf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62814, 0.227193, -3.034)
+material = ExtResource("3_1d533")
 
 [node name="RTSController" type="Node" parent="." node_paths=PackedStringArray("selection_manager", "command_manager")]
 script = ExtResource("2_yunhj")

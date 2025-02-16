@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://uame1evpoqs8"]
 
-[ext_resource type="Script" path="res://addons/rts_framework/scripts/states/state_machine.gd" id="1_kgudb"]
-[ext_resource type="PackedScene" uid="uid://l5i07kqny012" path="res://addons/rts_framework/scenes/selection_ring.tscn" id="2_68dlm"]
+[ext_resource type="Script" path="res://addons/rts_framework/features/state_machine/state_machine.gd" id="1_kgudb"]
+[ext_resource type="PackedScene" uid="uid://l5i07kqny012" path="res://addons/rts_framework/features/selection/selection_ring.tscn" id="2_68dlm"]
 
 [node name="BaseBuilding" type="Node3D"]
 
