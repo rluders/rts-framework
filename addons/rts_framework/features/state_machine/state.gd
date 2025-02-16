@@ -3,7 +3,7 @@ class_name State
 
 signal state_transitioned
 
-func enter() -> void:
+func enter(params: Dictionary) -> void:
 	pass
 
 func exit() -> void:
