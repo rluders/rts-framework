@@ -61,17 +61,18 @@ func _unit_is_mapped(unit : BaseEntity) -> bool:
 
 # Create a fog of war visibility circles and visibility shape 3d
 func _map_unit_to_new_circles_body(unit : BaseEntity) -> void:
+	var effective_sight_range = unit.sight_range * texture_units_per_world_unit;
 	var shroud_circle = DynamicCircle2D.instantiate() # Make a white circle 2D
 	shroud_circle.color = fog_circle_color # Set color
-	shroud_circle.radius = unit.sight_range * texture_units_per_world_unit  # Set circle size to world units and unit sight range
+	shroud_circle.radius = effective_sight_range  # Set circle size to world units and unit sight range
 	_fog_viewport.add_child(shroud_circle) # Add the view circle 2D to fog of war viewport. In the fog of war viewport it create an image for the fog of war.
 	var fow_circle = DynamicCircle2D.instantiate()
 	fow_circle.color = shroud_circle_color
-	fow_circle.radius = unit.sight_range * texture_units_per_world_unit
+	fow_circle.radius = effective_sight_range
 	_fog_viewport_container.add_sibling(fow_circle)
 	_unit_to_circles_mapping[unit] = [shroud_circle, fow_circle] # Keep map to connect unit with fog of war view
 	var visibility_shape_3d = VisibilityShape3D.instantiate() # Make a cylinder
-	visibility_shape_3d.shape.radius = unit.sight_range  # Cylinder radius equal to sight range
+	visibility_shape_3d.shape.radius = effective_sight_range  # Cylinder radius equal to sight range
 	_visibility_field.add_child(visibility_shape_3d) # Add the shape to the VisibilityField(Area3D node type)
 	_unit_to_shape_3d_mapping[unit] = visibility_shape_3d # Map unit and shape
 
