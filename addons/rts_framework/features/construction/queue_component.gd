@@ -1,4 +1,4 @@
-extends BaseComponent
+extends Node
 class_name QueueComponent
 
 signal queue_updated(queue: Array)

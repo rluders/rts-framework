@@ -8,28 +8,30 @@
 [ext_resource type="Script" path="res://demo/scenes/entities/units/soldier/states/build.gd" id="6_00vqt"]
 [ext_resource type="Script" path="res://demo/scenes/entities/units/soldier/states/collect.gd" id="7_ucjpv"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_axipv"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ksoos"]
 radius = 0.258745
 height = 0.997191
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_axipv"]
-
 [node name="Soldier" instance=ExtResource("1_j25l6")]
 script = ExtResource("2_kl8ra")
 
-[node name="Body#CollisionShape3D" type="CollisionShape3D" parent="." index="0"]
+[node name="Body" parent="." index="0"]
+collision_layer = 14
+
+[node name="MeshInstance3D" parent="Body" index="0"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, 0)
+mesh = SubResource("CapsuleMesh_axipv")
+
+[node name="CollisionShape3D" parent="Body" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CapsuleShape3D_ksoos")
 
-[node name="Body#MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, 0)
-mesh = SubResource("CapsuleMesh_axipv")
-skeleton = NodePath("")
-
-[node name="SelectionRing" parent="." index="2"]
+[node name="SelectionRing" parent="." index="1"]
 modulate = Color(0.180392, 1, 1, 1)
 
-[node name="StateMachine" parent="." index="4" node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" parent="." index="3" node_paths=PackedStringArray("initial_state")]
 initial_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine" index="0"]

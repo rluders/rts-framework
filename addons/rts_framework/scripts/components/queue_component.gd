@@ -1,0 +1,2 @@
+extends BaseComponent
+class_name QueueComponent
