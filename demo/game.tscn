@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/features/selection/selection_box.tscn" id="6_x1kyj"]
 [ext_resource type="PackedScene" uid="uid://d1t1ag5bk5u53" path="res://demo/scenes/entities/units/soldier.tscn" id="7_p3hpf"]
 [ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/fog_of_war_manager.gd" id="8_gt1di"]
-[ext_resource type="PackedScene" uid="uid://clbjgy724q2si" path="res://addons/rts_framework/features/vision/DynamicCircle2D.tscn" id="9_6ehfp"]
+[ext_resource type="PackedScene" uid="uid://clbjgy724q2si" path="res://addons/rts_framework/features/vision/dynamic_circle_2d.tscn" id="9_6ehfp"]
 [ext_resource type="Shader" path="res://addons/rts_framework/features/vision/fog_of_war_manager.gdshader" id="10_0tcdm"]
 [ext_resource type="Shader" path="res://addons/rts_framework/features/vision/detailed_fog_of_war.gdshader" id="11_5rehe"]
 
