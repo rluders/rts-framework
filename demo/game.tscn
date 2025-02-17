@@ -164,6 +164,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ScreenOverlay" type="MeshInstance3D" parent="RTSController/FogOfWarManager"]
+visible = false
 material_override = SubResource("ShaderMaterial_imaik")
 cast_shadow = 0
 extra_cull_margin = 16384.0
@@ -174,3 +175,6 @@ mesh = SubResource("QuadMesh_3f4cn")
 [node name="CameraHolder" parent="." instance=ExtResource("6_3gdxu")]
 
 [node name="SelectionBox" parent="." instance=ExtResource("6_x1kyj")]
+
+[connection signal="body_entered" from="RTSController/FogOfWarManager/VisibilityField" to="RTSController/FogOfWarManager" method="_on_visibility_field_body_entered"]
+[connection signal="body_exited" from="RTSController/FogOfWarManager/VisibilityField" to="RTSController/FogOfWarManager" method="_on_visibility_field_body_exited"]

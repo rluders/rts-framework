@@ -93,12 +93,13 @@ func _cleanup_mapping(unit : BaseEntity) -> void:
 
 # When a PhysicsBody3D enters the total field of vision
 func _on_visibility_field_body_entered(body: Node3D) -> void:
-	if body.get_parent() != null:
-		if body.get_parent() is Node3D:
-			body.get_parent().visible = true
+	print_debug("_on_visibility_field_body_entered")
+	if body is UnitEntity:
+		body.visible = true
 
 # When a PhysicsBody3D exits the total field of vision
 func _on_visibility_field_body_exited(body: Node3D) -> void:
-	if body.get_parent() != null:
-		if body.get_parent() is Node3D:
-			body.get_parent().visible = false
+	print_debug("_on_visibility_field_body_exited")
+	if body is UnitEntity:
+		body.visible = false
+		
