@@ -1,84 +1,157 @@
-[gd_scene load_steps=15 format=3 uid="uid://c4by2q2g1r3em"]
+[gd_scene load_steps=23 format=3 uid="uid://c4by2q2g1r3em"]
 
 [ext_resource type="Texture2D" uid="uid://cj6w0rv0tko5d" path="res://demo/assets/textures/green.png" id="1_0crr1"]
 [ext_resource type="Script" path="res://demo/scripts/rts_controller.gd" id="2_yunhj"]
-[ext_resource type="Material" uid="uid://xbrk8vvyu0xj" path="res://demo/materials/team_0.tres" id="3_1d533"]
-[ext_resource type="Script" path="res://addons/rts_framework/features/selection/selection_manager.gd" id="3_psg5c"]
-[ext_resource type="Material" uid="uid://beikxwyxmudot" path="res://demo/materials/team_1.tres" id="4_6ku06"]
-[ext_resource type="Script" path="res://addons/rts_framework/features/command/command_manager.gd" id="4_lcg0b"]
-[ext_resource type="PackedScene" uid="uid://bdjx0t2xkn5gg" path="res://addons/rts_framework/features/camera/camera_controller.tscn" id="6_3gdxu"]
-[ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/features/selection/selection_box.tscn" id="6_x1kyj"]
-[ext_resource type="PackedScene" uid="uid://d1t1ag5bk5u53" path="res://demo/scenes/entities/units/soldier.tscn" id="7_p3hpf"]
+[ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/selection_manager.gd" id="3_psg5c"]
+[ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/command_manager.gd" id="4_lcg0b"]
+[ext_resource type="PackedScene" uid="uid://bdjx0t2xkn5gg" path="res://addons/rts_framework/scenes/camera_controller.tscn" id="6_3gdxu"]
+[ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/fog_of_war_manager.gd" id="6_gkhgm"]
+[ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/scenes/selection_box.tscn" id="6_x1kyj"]
+[ext_resource type="PackedScene" uid="uid://clbjgy724q2si" path="res://addons/rts_framework/assets/2D/DynamicCircle2D/DynamicCircle2D.tscn" id="7_05e0i"]
+[ext_resource type="PackedScene" uid="uid://d1t1ag5bk5u53" path="res://demo/scenes/entities/units/soldier/soldier.tscn" id="7_p3hpf"]
+[ext_resource type="Shader" path="res://addons/rts_framework/shaders/detailed_fog_of_war.gdshader" id="7_qrkfw"]
+[ext_resource type="Shader" path="res://addons/rts_framework/scenes/fog_of_war_manager.gdshader" id="8_1lxfs"]
 
 [sub_resource type="Environment" id="Environment_tavya"]
 sdfgi_enabled = true
 glow_enabled = true
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_0bv8g"]
-vertices = PackedVector3Array(-49.5, 0.45, -49.5, -49.5, 0.45, 49.5, 49.5, 0.45, 49.5, 49.5, 0.45, -49.5)
+vertices = PackedVector3Array(-149.5, 0.5, -149.5, -149.5, 0.5, 149.5, 149.5, 0.5, 149.5, 149.5, 0.5, -149.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a6t65"]
-albedo_texture = ExtResource("1_0crr1")
-uv1_triplanar = true
-uv1_world_triplanar = true
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_2rkuc"]
+@@ -29,37 +27,8 @@ uv1_world_triplanar = true
 material = SubResource("StandardMaterial3D_a6t65")
 size = Vector2(300, 300)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_m28nb"]
-size = Vector3(100, 0.1, 100)
+[sub_resource type="BoxShape3D" id="BoxShape3D_q1qh8"]
+size = Vector3(300, 0.1, 300)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sr23m"]
+shader = ExtResource("8_1lxfs")
+shader_parameter/blurr_factor = 1.0
+shader_parameter/remove_alpha = false
+shader_parameter/overlay = true
+[sub_resource type="ViewportTexture" id="ViewportTexture_4w0u2"]
+viewport_path = NodePath("RTSController/FogOfWarManager/CombinedViewport")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4olb4"]
+resource_local_to_scene = true
+render_priority = 2
+shader = ExtResource("7_qrkfw")
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/texture_units_per_world_unit = 1
+shader_parameter/outer_margin_for_fade_out = 2.0
+shader_parameter/debug_texture_view = true
+shader_parameter/world_visibility_texture = SubResource("ViewportTexture_4w0u2")
+[sub_resource type="QuadMesh" id="QuadMesh_3f4cn"]
+flip_faces = true
+size = Vector2(2, 2)
+[sub_resource type="CylinderMesh" id="CylinderMesh_yqc4k"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_unkmi"]
+height = 7.443
+radius = 0.826
 
 [node name="Game" type="Node3D"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_tavya")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, 0, 147, 0)
-
+@@ -72,37 +41,31 @@ transform = Transform3D(1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, 0, 147,
 [node name="Map" type="Node" parent="."]
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, 0, 150)
 navigation_mesh = SubResource("NavigationMesh_0bv8g")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/NavigationRegion3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/NavigationRegion3D" groups=["surface"]]
 mesh = SubResource("PlaneMesh_2rkuc")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Map/NavigationRegion3D/MeshInstance3D" groups=["surface"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/NavigationRegion3D/MeshInstance3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/NavigationRegion3D/MeshInstance3D/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0707459, 0)
-shape = SubResource("BoxShape3D_m28nb")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("BoxShape3D_q1qh8")
 
 [node name="Entities" type="Node" parent="."]
 
 [node name="Soldier" parent="Entities" instance=ExtResource("7_p3hpf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.227193, -3.034)
-material = ExtResource("3_1d533")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.53427, 0.227193, 7.06359)
+speed = null
+team = null
+is_active = null
 
 [node name="Soldier2" parent="Entities" instance=ExtResource("7_p3hpf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.98311, 0.227193, -3.034)
-material = ExtResource("4_6ku06")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.55116, 0.227193, 7.06359)
+speed = null
 team = 1
+is_active = null
 
-[node name="Soldier3" parent="Entities" instance=ExtResource("7_p3hpf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62814, 0.227193, -3.034)
-material = ExtResource("3_1d533")
+[node name="Soldier3" parent="Entities" groups=["revealed_units"] instance=ExtResource("7_p3hpf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.16241, 0.227193, 7.06359)
+speed = null
+team = null
+is_active = null
 
 [node name="RTSController" type="Node" parent="." node_paths=PackedStringArray("selection_manager", "command_manager")]
 script = ExtResource("2_yunhj")
-selection_manager = NodePath("SelectionManager")
-command_manager = NodePath("CommandManager")
-
-[node name="SelectionManager" type="Node" parent="RTSController" node_paths=PackedStringArray("selection_box")]
-script = ExtResource("3_psg5c")
-selection_box = NodePath("../../SelectionBox")
-
+@@ -116,77 +79,6 @@ selection_box = NodePath("../../SelectionBox")
 [node name="CommandManager" type="Node" parent="RTSController"]
 script = ExtResource("4_lcg0b")
 
+[node name="FogOfWarManager" type="Node" parent="RTSController"]
+script = ExtResource("6_gkhgm")
+[node name="CombinedViewport" type="SubViewport" parent="RTSController/FogOfWarManager"]
+disable_3d = true
+render_target_update_mode = 4
+[node name="Background" type="ColorRect" parent="RTSController/FogOfWarManager/CombinedViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+[node name="FogViewportContainer" type="SubViewportContainer" parent="RTSController/FogOfWarManager/CombinedViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="FogViewport" type="SubViewport" parent="RTSController/FogOfWarManager/CombinedViewport/FogViewportContainer"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+render_target_clear_mode = 2
+render_target_update_mode = 4
+[node name="EditorOnlyCircle" parent="RTSController/FogOfWarManager/CombinedViewport" instance=ExtResource("7_05e0i")]
+position = Vector2(25, 25)
+radius = 20
+[node name="Revealer" type="ColorRect" parent="RTSController/FogOfWarManager/CombinedViewport"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="BlurrOverlay" type="ColorRect" parent="RTSController/FogOfWarManager/CombinedViewport"]
+material = SubResource("ShaderMaterial_sr23m")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="ScreenOverlay" type="MeshInstance3D" parent="RTSController/FogOfWarManager"]
+visible = false
+material_override = SubResource("ShaderMaterial_4olb4")
+cast_shadow = 0
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_3f4cn")
+[node name="VisibilityField" type="Area3D" parent="RTSController/FogOfWarManager"]
 [node name="CameraHolder" parent="." instance=ExtResource("6_3gdxu")]
 
 [node name="SelectionBox" parent="." instance=ExtResource("6_x1kyj")]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.2064, 1.99722, 24.8852)
+visible = false
+mesh = SubResource("CylinderMesh_yqc4k")
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("CylinderShape3D_unkmi")
+[connection signal="body_entered" from="RTSController/FogOfWarManager/VisibilityField" to="RTSController/FogOfWarManager" method="_on_visibility_field_body_entered"]
+[connection signal="body_exited" from="RTSController/FogOfWarManager/VisibilityField" to="RTSController/FogOfWarManager" method="_on_visibility_field_body_exited"]
