@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Raycaster="*res://addons/rts_framework/scripts/core/raycaster.gd"
-Signals="*res://addons/rts_framework/scripts/core/signals.gd"
+Raycaster="*res://addons/rts_framework/core/raycaster.gd"
+Signals="*res://addons/rts_framework/core/signals.gd"
 
 [display]
 
