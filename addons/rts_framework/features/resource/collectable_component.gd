@@ -1,2 +1,2 @@
-extends Node3D
+extends BaseComponent
 class_name CollectableComponent

@@ -1,4 +1,4 @@
-extends Node
+extends BaseManager
 class_name SelectionManager
 
 const CLICK_DISTANCE_THRESHOLD : float = 16.0

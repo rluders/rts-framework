@@ -1,4 +1,4 @@
-extends Node
+extends BaseComponent
 class_name SelectableComponent
 
 signal selected
