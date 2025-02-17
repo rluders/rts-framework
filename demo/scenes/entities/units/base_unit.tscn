@@ -1,18 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://cdhy5hf5mew1v"]
 
-[ext_resource type="Script" path="res://addons/rts_framework/features/state_machine/state_machine.gd" id="1_q7cpe"]
-[ext_resource type="PackedScene" uid="uid://l5i07kqny012" path="res://addons/rts_framework/features/selection/selection_ring.tscn" id="2_y1672"]
-[ext_resource type="Script" path="res://addons/rts_framework/features/selection/selectable_component.gd" id="3_yml0a"]
+[ext_resource type="Script" path="res://addons/rts_framework/scripts/states/state_machine.gd" id="1_q7cpe"]
+[ext_resource type="PackedScene" uid="uid://l5i07kqny012" path="res://addons/rts_framework/scenes/selection_ring.tscn" id="2_y1672"]
+[ext_resource type="Script" path="res://addons/rts_framework/scripts/components/selectable_component.gd" id="3_yml0a"]
 
-[node name="BaseUnit" type="CharacterBody3D"]
+[node name="BaseUnit" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.005, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.65661e-09, 0)
+[node name="Body" type="RigidBody3D" parent="."]
+collision_layer = 4
+collision_mask = 15
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
 
 [node name="SelectionRing" parent="." instance=ExtResource("2_y1672")]
 visible = false

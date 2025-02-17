@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://l5i07kqny012"]
 
-[ext_resource type="Shader" path="res://addons/rts_framework/features/selection/assets/shaders/ring_selection.gdshader" id="1_unvq6"]
-[ext_resource type="Texture2D" uid="uid://bt2s2hkx60r86" path="res://addons/rts_framework/features/selection/assets/textures/pixel.png" id="2_qc4ts"]
+[ext_resource type="Shader" path="res://addons/rts_framework/shaders/ring_selection.gdshader" id="1_unvq6"]
+[ext_resource type="Texture2D" uid="uid://bt2s2hkx60r86" path="res://addons/rts_framework/assets/pixel.png" id="2_qc4ts"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xupk7"]
 render_priority = 0
