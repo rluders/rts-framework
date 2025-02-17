@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c4by2q2g1r3em"]
+[gd_scene load_steps=23 format=3 uid="uid://c4by2q2g1r3em"]
 
 [ext_resource type="Texture2D" uid="uid://cj6w0rv0tko5d" path="res://demo/assets/textures/green.png" id="1_0crr1"]
 [ext_resource type="Script" path="res://demo/scripts/rts_controller.gd" id="2_yunhj"]
@@ -9,6 +9,10 @@
 [ext_resource type="PackedScene" uid="uid://bdjx0t2xkn5gg" path="res://addons/rts_framework/features/camera/camera_controller.tscn" id="6_3gdxu"]
 [ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/features/selection/selection_box.tscn" id="6_x1kyj"]
 [ext_resource type="PackedScene" uid="uid://d1t1ag5bk5u53" path="res://demo/scenes/entities/units/soldier.tscn" id="7_p3hpf"]
+[ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/fog_of_war_manager.gd" id="8_gt1di"]
+[ext_resource type="PackedScene" uid="uid://clbjgy724q2si" path="res://addons/rts_framework/assets/2D/DynamicCircle2D/DynamicCircle2D.tscn" id="9_6ehfp"]
+[ext_resource type="Shader" path="res://addons/rts_framework/scenes/fog_of_war_manager.gdshader" id="10_0tcdm"]
+[ext_resource type="Shader" path="res://addons/rts_framework/shaders/detailed_fog_of_war.gdshader" id="11_5rehe"]
 
 [sub_resource type="Environment" id="Environment_tavya"]
 sdfgi_enabled = true
@@ -30,6 +34,29 @@ size = Vector2(300, 300)
 [sub_resource type="BoxShape3D" id="BoxShape3D_m28nb"]
 size = Vector3(100, 0.1, 100)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sr23m"]
+shader = ExtResource("10_0tcdm")
+shader_parameter/blurr_factor = 1.0
+shader_parameter/remove_alpha = false
+shader_parameter/overlay = true
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_m5cnj"]
+viewport_path = NodePath("RTSController/FogOfWarManager/CombinedViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_imaik"]
+resource_local_to_scene = true
+render_priority = 2
+shader = ExtResource("11_5rehe")
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/texture_units_per_world_unit = 2
+shader_parameter/outer_margin_for_fade_out = 2.0
+shader_parameter/debug_texture_view = true
+shader_parameter/world_visibility_texture = SubResource("ViewportTexture_m5cnj")
+
+[sub_resource type="QuadMesh" id="QuadMesh_3f4cn"]
+flip_faces = true
+size = Vector2(2, 2)
+
 [node name="Game" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -41,6 +68,7 @@ transform = Transform3D(1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, 0, 147, 
 [node name="Map" type="Node" parent="."]
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, 50)
 navigation_mesh = SubResource("NavigationMesh_0bv8g")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Map/NavigationRegion3D"]
@@ -49,22 +77,21 @@ mesh = SubResource("PlaneMesh_2rkuc")
 [node name="StaticBody3D" type="StaticBody3D" parent="Map/NavigationRegion3D/MeshInstance3D" groups=["surface"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/NavigationRegion3D/MeshInstance3D/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0707459, 0)
 shape = SubResource("BoxShape3D_m28nb")
 
 [node name="Entities" type="Node" parent="."]
 
 [node name="Soldier" parent="Entities" instance=ExtResource("7_p3hpf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.227193, -3.034)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.92926, 0.211501, 6.07202)
 material = ExtResource("3_1d533")
 
 [node name="Soldier2" parent="Entities" instance=ExtResource("7_p3hpf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.98311, 0.227193, -3.034)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.94615, 0.211501, 6.07202)
 material = ExtResource("4_6ku06")
 team = 1
 
-[node name="Soldier3" parent="Entities" instance=ExtResource("7_p3hpf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62814, 0.227193, -3.034)
+[node name="Soldier3" parent="Entities" groups=["revealed_units"] instance=ExtResource("7_p3hpf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5574, 0.211501, 6.07202)
 material = ExtResource("3_1d533")
 
 [node name="RTSController" type="Node" parent="." node_paths=PackedStringArray("selection_manager", "command_manager")]
@@ -78,6 +105,71 @@ selection_box = NodePath("../../SelectionBox")
 
 [node name="CommandManager" type="Node" parent="RTSController"]
 script = ExtResource("4_lcg0b")
+
+[node name="FogOfWarManager" type="Node" parent="RTSController"]
+script = ExtResource("8_gt1di")
+
+[node name="CombinedViewport" type="SubViewport" parent="RTSController/FogOfWarManager"]
+disable_3d = true
+size = Vector2i(200, 200)
+render_target_update_mode = 4
+
+[node name="Background" type="ColorRect" parent="RTSController/FogOfWarManager/CombinedViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -100.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="FogViewportContainer" type="SubViewportContainer" parent="RTSController/FogOfWarManager/CombinedViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FogViewport" type="SubViewport" parent="RTSController/FogOfWarManager/CombinedViewport/FogViewportContainer"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(200, 200)
+render_target_clear_mode = 2
+render_target_update_mode = 4
+
+[node name="EditorOnlyCircle" parent="RTSController/FogOfWarManager/CombinedViewport" instance=ExtResource("9_6ehfp")]
+position = Vector2(25, 25)
+radius = 20
+
+[node name="Revealer" type="ColorRect" parent="RTSController/FogOfWarManager/CombinedViewport"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -100.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlurrOverlay" type="ColorRect" parent="RTSController/FogOfWarManager/CombinedViewport"]
+material = SubResource("ShaderMaterial_sr23m")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -100.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScreenOverlay" type="MeshInstance3D" parent="RTSController/FogOfWarManager"]
+material_override = SubResource("ShaderMaterial_imaik")
+cast_shadow = 0
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_3f4cn")
+
+[node name="VisibilityField" type="Area3D" parent="RTSController/FogOfWarManager"]
 
 [node name="CameraHolder" parent="." instance=ExtResource("6_3gdxu")]
 

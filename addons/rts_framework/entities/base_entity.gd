@@ -4,6 +4,8 @@ class_name BaseEntity
 @export var team: int = 0
 @export var is_active: bool = true
 
+@export var sight_range : int = 2
+
 func _ready() -> void:
 	print_debug("Calling framework BaseEntity::_ready")
 	add_to_group("entities")
@@ -20,4 +22,4 @@ func has_component(component_class: String) -> bool:
 	return true if get_component(component_class) else false
 
 func is_revealing() -> bool:
-	return false;
+	return true;
