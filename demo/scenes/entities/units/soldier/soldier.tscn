@@ -1,0 +1,50 @@
+[gd_scene load_steps=10 format=3 uid="uid://d1t1ag5bk5u53"]
+
+[ext_resource type="PackedScene" uid="uid://cdhy5hf5mew1v" path="res://demo/scenes/entities/units/base_unit.tscn" id="1_j25l6"]
+[ext_resource type="Script" path="res://demo/scenes/entities/units/soldier/soldier.gd" id="2_kl8ra"]
+[ext_resource type="Script" path="res://demo/scenes/entities/units/soldier/states/idle.gd" id="3_bkodq"]
+[ext_resource type="Script" path="res://demo/scenes/entities/units/soldier/states/move.gd" id="4_xlvh7"]
+[ext_resource type="Script" path="res://demo/scenes/entities/units/soldier/states/attack.gd" id="5_a1emu"]
+[ext_resource type="Script" path="res://demo/scenes/entities/units/soldier/states/build.gd" id="6_00vqt"]
+[ext_resource type="Script" path="res://demo/scenes/entities/units/soldier/states/collect.gd" id="7_ucjpv"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_axipv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ksoos"]
+radius = 0.258745
+height = 0.997191
+
+[node name="Soldier" instance=ExtResource("1_j25l6")]
+script = ExtResource("2_kl8ra")
+
+[node name="Body" parent="." index="0"]
+collision_layer = 14
+
+[node name="MeshInstance3D" parent="Body" index="0"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, 0)
+mesh = SubResource("CapsuleMesh_axipv")
+
+[node name="CollisionShape3D" parent="Body" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CapsuleShape3D_ksoos")
+
+[node name="SelectionRing" parent="." index="1"]
+modulate = Color(0.180392, 1, 1, 1)
+
+[node name="StateMachine" parent="." index="3" node_paths=PackedStringArray("initial_state")]
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" index="0"]
+script = ExtResource("3_bkodq")
+
+[node name="Move" type="Node" parent="StateMachine" index="1"]
+script = ExtResource("4_xlvh7")
+
+[node name="Attack" type="Node" parent="StateMachine" index="2"]
+script = ExtResource("5_a1emu")
+
+[node name="Build" type="Node" parent="StateMachine" index="3"]
+script = ExtResource("6_00vqt")
+
+[node name="Collect" type="Node" parent="StateMachine" index="4"]
+script = ExtResource("7_ucjpv")
