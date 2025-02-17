@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://oeyhw10yass5"]
+[gd_scene load_steps=9 format=3 uid="uid://71g6dowvqb5i"]
 
-[ext_resource type="Script" path="res://addons/rts_framework/scripts/managers/fog_of_war_manager.gd" id="1_vrsar"]
+[ext_resource type="Script" path="res://addons/rts_framework/features/vision/fog_of_war_manager.gd" id="1_vrsar"]
 [ext_resource type="Shader" path="res://addons/rts_framework/features/vision/detailed_fog_of_war.gdshader" id="2_oehrr"]
 [ext_resource type="PackedScene" uid="uid://clbjgy724q2si" path="res://addons/rts_framework/features/vision/dynamic_circle_2d.tscn" id="2_t5hlw"]
 [ext_resource type="Shader" path="res://addons/rts_framework/features/vision/fog_of_war_manager.gdshader" id="3_rx4ay"]
@@ -11,18 +11,18 @@ shader_parameter/blurr_factor = 1.0
 shader_parameter/remove_alpha = false
 shader_parameter/overlay = true
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_hyxgb"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_m5cnj"]
 viewport_path = NodePath("CombinedViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bbtq4"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_imaik"]
 resource_local_to_scene = true
 render_priority = 2
 shader = ExtResource("2_oehrr")
 shader_parameter/color = Color(0, 0, 0, 1)
 shader_parameter/texture_units_per_world_unit = 2
 shader_parameter/outer_margin_for_fade_out = 2.0
-shader_parameter/debug_texture_view = false
-shader_parameter/world_visibility_texture = SubResource("ViewportTexture_hyxgb")
+shader_parameter/debug_texture_view = true
+shader_parameter/world_visibility_texture = SubResource("ViewportTexture_m5cnj")
 
 [sub_resource type="QuadMesh" id="QuadMesh_3f4cn"]
 flip_faces = true
@@ -86,7 +86,12 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ScreenOverlay" type="MeshInstance3D" parent="."]
-material_override = SubResource("ShaderMaterial_bbtq4")
+material_override = SubResource("ShaderMaterial_imaik")
 cast_shadow = 0
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_3f4cn")
+
+[node name="VisibilityField" type="Area3D" parent="."]
+
+[connection signal="body_entered" from="VisibilityField" to="." method="_on_visibility_field_body_entered"]
+[connection signal="body_exited" from="VisibilityField" to="." method="_on_visibility_field_body_exited"]
