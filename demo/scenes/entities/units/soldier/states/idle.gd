@@ -1,6 +1,6 @@
 extends State
 
-func enter() -> void:
+func enter(params: Dictionary) -> void:
 	print_debug("Enter: ", self.name)
 
 func exit() -> void:

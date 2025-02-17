@@ -1,22 +1,47 @@
 extends State
 
-@onready var soldier : UnitEntity = get_owner()
+@export var navigation_agent: NavigationAgent3D
 
-func enter() -> void:
-	print_debug("Enter: ", self.name)
+@export var speed : float = 20
+@export var acceleration : float = 10
+
+var target_position: Vector3
+var body
+
+func _ready() -> void:
+	body = get_root_node()
+	
+	navigation_agent.velocity_computed.connect(func (v): set_linear_velocity(v))
+	navigation_agent.target_reached.connect(_on_target_reached)
+
+func set_linear_velocity(velocity) -> void:
+	body.velocity = velocity
+
+func enter(params: Dictionary = {}) -> void:
+	if params.has("target_position"):
+		target_position = params["target_position"]
+		
+		var navmap = body.get_world_3d().get_navigation_map()
+		var closest_point = NavigationServer3D.map_get_closest_point(navmap, target_position)
+		navigation_agent.target_position = closest_point
+		
+		print_debug("Entering %s State to position: " % self.name, closest_point)
 
 func exit() -> void:
-	print_debug("Exit: ", self.name)
+	print_debug("Exiting %s State" % self.name)
 
-func update(_delta: float) -> void:
+func physics_update(delta: float) -> void:
+	if target_position:
+		var direction : Vector3
+		
+		direction = navigation_agent.get_next_path_position() - body.global_position
+		direction = direction.normalized()
+		
+		body.velocity = body.velocity.lerp(direction * speed, acceleration * delta)
+		body.move_and_slide()
+
+func update(delta: float) -> void:
 	pass
 
-func physics_update(_delta: float) -> void:
-	if soldier.navigation_agent.is_navigation_finished():
-		state_transitioned.emit(self, "idle")
-		return
-	
-	soldier.move_toward(soldier.navigation_agent.get_next_path_position(), soldier.speed*_delta)
-
-func set_target(target_position: Vector3):
-	soldier.navigation_agent.target_position = target_position
+func _on_target_reached() -> void:
+	state_transitioned.emit(self, "idle")
