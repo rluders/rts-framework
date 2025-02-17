@@ -1,2 +1,2 @@
-extends Node
+extends BaseComponent
 class_name QueueComponent

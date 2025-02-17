@@ -1,4 +1,4 @@
-extends Node
+extends BaseManager
 class_name CommandManager
 
 @export var team: int = 0:
