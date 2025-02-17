@@ -50,9 +50,6 @@ func _on_state_transitioned(state: State, new_state_name: String) -> void:
 	
 	transition_to(new_state_name)
 
-func transition_to(new_state_name: String):
-	current_state.state_transitioned.emit(current_state, new_state_name)
-
 func get_state(state_name: String) -> State:
 	return states.get(state_name.to_lower())
 
