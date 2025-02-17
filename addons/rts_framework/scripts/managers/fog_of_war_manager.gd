@@ -1,9 +1,9 @@
 extends BaseManager
 class_name FogOfWarManager
 
-const DynamicCircle2D : PackedScene = preload("res://addons/rts_framework/assets/2D/DynamicCircle2D/DynamicCircle2D.tscn")
+const DynamicCircle2D : PackedScene = preload("res://addons/rts_framework/features/vision/DynamicCircle2D.tscn")
 
-const VisibilityShape3D : PackedScene  = preload("res://addons/rts_framework/assets/3D/visibility_shape_3d.tscn")
+const VisibilityShape3D : PackedScene  = preload("res://addons/rts_framework/features/vision/visibility_shape_3d.tscn")
 
 const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 
