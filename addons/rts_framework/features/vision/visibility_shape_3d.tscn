@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxjoclnhwtp6i"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ywvbb"]
+
+[node name="VisibilityShape3D" type="CollisionShape3D"]
+shape = SubResource("CylinderShape3D_ywvbb")

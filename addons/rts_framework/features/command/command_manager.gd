@@ -1,4 +1,4 @@
-extends Node
+extends BaseManager
 class_name CommandManager
 
 @export var team: int = 0:
@@ -32,6 +32,9 @@ func _input(event: InputEvent) -> void:
 			return
 
 		var target_group = get_target_group(current_target.collider)
+
+		print_debug("selected_units: ", selected_units)
+		print_debug("target_group: ", target_group)
 
 		match target_group:
 			"surface":
