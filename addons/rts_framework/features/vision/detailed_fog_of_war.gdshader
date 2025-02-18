@@ -1,11 +1,29 @@
 shader_type spatial;
 render_mode unshaded;
 
+/**
+Color of fog
+*/
 uniform vec4 color : source_color = vec4(vec3(0.0), 1.0);
+/**
+TODO: add description for world_visibility_texture
+*/
 uniform sampler2D world_visibility_texture : hint_default_white, filter_linear, repeat_disable;
+/**
+TODO: add description for texture_units_per_world_unit
+*/
 uniform int texture_units_per_world_unit = 2;
-uniform float outer_margin_for_fade_out = 2.0;
+/**
+TODO: add description for outer_margin_for_fade_out
+*/
+uniform float outer_margin_for_fade_out = 0.0;
+/**
+TODO: add description for debug_texture_view
+*/
 uniform bool debug_texture_view = false;
+/**
+TODO: add description for depth_texture
+*/
 uniform sampler2D depth_texture : hint_depth_texture;
 
 void vertex()

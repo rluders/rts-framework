@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://71g6dowvqb5i"]
 
 [ext_resource type="Script" path="res://addons/rts_framework/features/vision/fog_of_war_manager.gd" id="1_vrsar"]
+[ext_resource type="PackedScene" uid="uid://clbjgy724q2si" path="res://addons/rts_framework/features/vision/dynamic_circle_2d.tscn" id="2_g5u0g"]
 [ext_resource type="Shader" path="res://addons/rts_framework/features/vision/detailed_fog_of_war.gdshader" id="2_oehrr"]
-[ext_resource type="PackedScene" uid="uid://clbjgy724q2si" path="res://addons/rts_framework/features/vision/dynamic_circle_2d.tscn" id="2_t5hlw"]
 [ext_resource type="Shader" path="res://addons/rts_framework/features/vision/fog_of_war_manager.gdshader" id="3_rx4ay"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sr23m"]
@@ -20,8 +20,8 @@ render_priority = 2
 shader = ExtResource("2_oehrr")
 shader_parameter/color = Color(0, 0, 0, 1)
 shader_parameter/texture_units_per_world_unit = 2
-shader_parameter/outer_margin_for_fade_out = 2.0
-shader_parameter/debug_texture_view = true
+shader_parameter/outer_margin_for_fade_out = 0.0
+shader_parameter/debug_texture_view = false
 shader_parameter/world_visibility_texture = SubResource("ViewportTexture_m5cnj")
 
 [sub_resource type="QuadMesh" id="QuadMesh_3f4cn"]
@@ -33,15 +33,14 @@ script = ExtResource("1_vrsar")
 
 [node name="CombinedViewport" type="SubViewport" parent="."]
 disable_3d = true
-size = Vector2i(200, 200)
+handle_input_locally = false
+size = Vector2i(500, 500)
 render_target_update_mode = 4
 
 [node name="Background" type="ColorRect" parent="CombinedViewport"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -100.0
-offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
@@ -57,13 +56,13 @@ grow_vertical = 2
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(200, 200)
+size = Vector2i(500, 500)
 render_target_clear_mode = 2
 render_target_update_mode = 4
 
-[node name="EditorOnlyCircle" parent="CombinedViewport" instance=ExtResource("2_t5hlw")]
-position = Vector2(25, 25)
-radius = 20
+[node name="EditorOnlyCircle" parent="CombinedViewport" instance=ExtResource("2_g5u0g")]
+position = Vector2(30, 30)
+radius = 25
 
 [node name="Revealer" type="ColorRect" parent="CombinedViewport"]
 visible = false

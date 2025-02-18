@@ -1,3 +1,4 @@
+@tool
 extends BaseManager
 class_name FogOfWarManager
 
@@ -7,9 +8,48 @@ const VisibilityShape3D : PackedScene  = preload("res://addons/rts_framework/fea
 
 const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 
-@export_range(1, 10) var texture_units_per_world_unit : int = 2  # px/m
+## TODO add description for fog_circle_color. Color where units already saw and left. Can see in debug_texture_view
 @export var fog_circle_color : Color = Color(0.25, 0.25, 0.25)
+## TODO add description for shroud_circle_color. Color around the units. Can see in debug_texture_view
 @export var shroud_circle_color : Color = Color(1.0, 1.0, 1.0)
+@export_category("Fog Values")
+## TODO add description for texture_units_per_world_unit.
+@export_range(1, 10000, 1,"suffix:px/m") var texture_units_per_world_unit : int = 2 : # px/m
+		set(value):
+			find_child("ScreenOverlay").material_override.set_shader_parameter("texture_units_per_world_unit", value)
+			texture_units_per_world_unit = value
+## Size of the generated fog
+@export var fog_size : Vector2i = DEFAULT_SIZE:
+	set(value):
+		var map_effective_size = value * texture_units_per_world_unit
+		find_child("CombinedViewport").size = map_effective_size
+		fog_size = value
+## Color of the generated fog
+@export var fog_color : Color :
+	set(value):
+		find_child("ScreenOverlay").material_override.set_shader_parameter("color", value)
+	get:
+		return find_child("ScreenOverlay").material_override.get_shader_parameter("color")
+## TODO add description for outer_margin_for_fade_out.
+@export var outer_margin_for_fade_out : float :
+	set(value):
+		find_child("ScreenOverlay").material_override.set_shader_parameter("outer_margin_for_fade_out", value)
+	get:
+		return find_child("ScreenOverlay").material_override.get_shader_parameter("outer_margin_for_fade_out")
+
+@export_category("Debug Values")
+## Revels the whole fog.
+@export var revel_fog : bool = false:
+	set(value):
+		find_child("Revealer").set_visible(value)
+	get:
+		return find_child("Revealer").is_visible()
+## TODO add description for debug_texture_view.
+@export var debug_texture_view : bool = false:
+	set(value):
+		find_child("ScreenOverlay").material_override.set_shader_parameter("debug_texture_view", value)
+	get:
+		return find_child("ScreenOverlay").material_override.get_shader_parameter("debug_texture_view")
 
 #TODO Think if to merge both Dictionary or not
 var _unit_to_circles_mapping : Dictionary = {}
@@ -22,28 +62,28 @@ var _unit_to_shape_3d_mapping : Dictionary = {}
 @onready var _screen_overlay : MeshInstance3D = find_child("ScreenOverlay")
 @onready var _visibility_field : Area3D = find_child("VisibilityField")
 
-
 func _ready() -> void:
 	_screen_overlay.material_override.set_shader_parameter(
 		"texture_units_per_world_unit", texture_units_per_world_unit
 	)
-	_revealer.hide()
-	find_child("EditorOnlyCircle").queue_free()
-
+	if not Engine.is_editor_hint():
+		_revealer.hide()
+		find_child("EditorOnlyCircle").queue_free()
 
 func _physics_process(_delta) -> void:
-	var units_synced = {}
-	var units_to_sync = get_tree().get_nodes_in_group("revealed_units")
-	for unit in units_to_sync:
-		if not unit.is_revealing():
-			continue
-		units_synced[unit] = 1
-		if not _unit_is_mapped(unit):
-			_map_unit_to_new_circles_body(unit)
-		_sync_vision_to_unit(unit)
-	for mapped_unit in _unit_to_circles_mapping:
-		if not mapped_unit in units_synced:
-			_cleanup_mapping(mapped_unit)
+	if not Engine.is_editor_hint(): # Code to execute when in game.
+		var units_synced = {}
+		var units_to_sync = get_tree().get_nodes_in_group("revealed_units")
+		for unit in units_to_sync:
+			if not unit.is_revealing():
+				continue
+			units_synced[unit] = 1
+			if not _unit_is_mapped(unit):
+				_map_unit_to_new_circles_body(unit)
+			_sync_vision_to_unit(unit)
+		for mapped_unit in _unit_to_circles_mapping:
+			if not mapped_unit in units_synced:
+				_cleanup_mapping(mapped_unit)
 
 
 func reveal() -> void:
@@ -51,8 +91,9 @@ func reveal() -> void:
 
 
 func resize(map_size: Vector2) -> void:
-	_fog_viewport.size = map_size * texture_units_per_world_unit
-	_combined_viewport.size = map_size * texture_units_per_world_unit
+	var map_effective_size = map_size * texture_units_per_world_unit
+	find_child("FogViewport").size = map_effective_size
+	find_child("CombinedViewport").size = map_effective_size
 
 
 func _unit_is_mapped(unit : BaseEntity) -> bool:

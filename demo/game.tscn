@@ -26,7 +26,7 @@ uv1_world_triplanar = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_2rkuc"]
 material = SubResource("StandardMaterial3D_a6t65")
-size = Vector2(300, 300)
+size = Vector2(500, 500)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m28nb"]
 size = Vector3(100, 0.1, 100)
@@ -68,10 +68,8 @@ team = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5574, 0.211501, 6.07202)
 material = ExtResource("3_1d533")
 
-[node name="RTSController" type="Node" parent="." node_paths=PackedStringArray("selection_manager", "command_manager")]
+[node name="RTSController" type="Node" parent="."]
 script = ExtResource("2_yunhj")
-selection_manager = NodePath("SelectionManager")
-command_manager = NodePath("CommandManager")
 
 [node name="SelectionManager" type="Node" parent="RTSController" node_paths=PackedStringArray("selection_box")]
 script = ExtResource("3_psg5c")
@@ -81,6 +79,7 @@ selection_box = NodePath("../../SelectionBox")
 script = ExtResource("4_lcg0b")
 
 [node name="FogOfWarManager" parent="RTSController" instance=ExtResource("8_12bj3")]
+fog_size = Vector2i(300, 300)
 
 [node name="CameraHolder" parent="." instance=ExtResource("6_3gdxu")]
 
