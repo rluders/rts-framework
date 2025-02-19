@@ -8,11 +8,12 @@ const VisibilityShape3D : PackedScene  = preload("res://addons/rts_framework/fea
 
 const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 
-## TODO add description for fog_circle_color. Color where units already saw and left. Can see in debug_texture_view
+## Color of area the units saw and not seeing currenty. Can see in Debug Texture View
 @export var fog_circle_color : Color = Color(0.25, 0.25, 0.25)
-## TODO add description for shroud_circle_color. Color around the units. Can see in debug_texture_view
+## Color of area the units see around them. Can see in Debug Texture View
 @export var shroud_circle_color : Color = Color(1.0, 1.0, 1.0)
 @export_category("Fog Values")
+
 ## TODO add description for texture_units_per_world_unit.
 @export_range(1, 10000, 1,"suffix:px/m") var texture_units_per_world_unit : int = 2 : # px/m
 		set(value):
@@ -44,7 +45,7 @@ const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 		find_child("Revealer").set_visible(value)
 	get:
 		return find_child("Revealer").is_visible()
-## TODO add description for debug_texture_view.
+## Shows small texture of the fog
 @export var debug_texture_view : bool = false:
 	set(value):
 		find_child("ScreenOverlay").material_override.set_shader_parameter("debug_texture_view", value)
