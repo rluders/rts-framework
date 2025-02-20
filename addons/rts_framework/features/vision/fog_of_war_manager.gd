@@ -14,8 +14,8 @@ const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 @export var shroud_circle_color : Color = Color(1.0, 1.0, 1.0)
 @export_category("Fog Values")
 
-## TODO add description for texture_units_per_world_unit.
-@export_range(1, 10000, 1,"suffix:px/m") var texture_units_per_world_unit : int = 2 : # px/m
+## The size of a single pixel in the 3D world
+@export_range(1, 10000, 1,"suffix:px/length") var texture_units_per_world_unit : int = 2 : # px/length
 		set(value):
 			find_child("ScreenOverlay").material_override.set_shader_parameter("texture_units_per_world_unit", value)
 			texture_units_per_world_unit = value
@@ -51,6 +51,26 @@ const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 		find_child("ScreenOverlay").material_override.set_shader_parameter("debug_texture_view", value)
 	get:
 		return find_child("ScreenOverlay").material_override.get_shader_parameter("debug_texture_view")
+
+@export_group("Editor Only Circle")
+## TODO: Add description
+@export var editor_only_circle_color : Color = Color.WHITE :
+	set(value):
+		find_child("EditorOnlyCircle").color = value
+	get:
+		return find_child("EditorOnlyCircle").color
+## TODO: Add description
+@export var editor_only_circle_radius : int = 25 :
+	set(value):
+		find_child("EditorOnlyCircle").radius = value
+	get:
+		return find_child("EditorOnlyCircle").radius
+## TODO: Add description
+@export var editor_only_circle_position : Vector2 = Vector2(30,30) :
+	set(value):
+		find_child("EditorOnlyCircle").position = value
+	get:
+		return find_child("EditorOnlyCircle").position
 
 #TODO Think if to merge both Dictionary or not
 var _unit_to_circles_mapping : Dictionary = {}
