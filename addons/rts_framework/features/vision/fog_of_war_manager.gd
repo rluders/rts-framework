@@ -1,4 +1,5 @@
 @tool
+@icon("res://addons/rts_framework/features/vision/fog_of_war_icon.svg")
 extends BaseManager
 class_name FogOfWarManager
 
@@ -19,12 +20,24 @@ const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 		set(value):
 			find_child("ScreenOverlay").material_override.set_shader_parameter("texture_units_per_world_unit", value)
 			texture_units_per_world_unit = value
+## AAA
+@export var map_mesh_node : MeshInstance3D:
+	set(value):
+		map_mesh_node = value
+		if map_mesh_node:
+			if map_mesh_node.mesh:
+				fog_size = value.mesh.size
 ## Size of the generated fog
 @export var fog_size : Vector2i = DEFAULT_SIZE:
 	set(value):
 		var map_effective_size = value * texture_units_per_world_unit
 		find_child("CombinedViewport").size = map_effective_size
 		fog_size = value
+	get:
+		if map_mesh_node:
+			if map_mesh_node.mesh:
+				return map_mesh_node.mesh.size
+		return fog_size
 ## Color of the generated fog
 @export var fog_color : Color :
 	set(value):
@@ -51,6 +64,12 @@ const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 		find_child("ScreenOverlay").material_override.set_shader_parameter("debug_texture_view", value)
 	get:
 		return find_child("ScreenOverlay").material_override.get_shader_parameter("debug_texture_view")
+## Shows small texture of the fog
+@export_range(0, 1) var debug_texture_view_size : float = 0.2:
+	set(value):
+		find_child("ScreenOverlay").material_override.set_shader_parameter("debug_texture_view_size", value)
+	get:
+		return find_child("ScreenOverlay").material_override.get_shader_parameter("debug_texture_view_size")
 
 @export_group("Editor Only Circle")
 ## TODO: Add description
@@ -105,6 +124,10 @@ func _physics_process(_delta) -> void:
 		for mapped_unit in _unit_to_circles_mapping:
 			if not mapped_unit in units_synced:
 				_cleanup_mapping(mapped_unit)
+	else:
+		if map_mesh_node: # If there is a map mesh, then update in editor the size
+			if map_mesh_node.mesh:
+				fog_size = map_mesh_node.mesh.size
 
 
 func reveal() -> void:
@@ -156,13 +179,13 @@ func _cleanup_mapping(unit : BaseEntity) -> void:
 
 # When a PhysicsBody3D enters the total field of vision
 func _on_visibility_field_body_entered(body: Node3D) -> void:
-	print_debug("_on_visibility_field_body_entered")
+	#print_debug("_on_visibility_field_body_entered")
 	if body is UnitEntity:
 		body.visible = true
 
 # When a PhysicsBody3D exits the total field of vision
 func _on_visibility_field_body_exited(body: Node3D) -> void:
-	print_debug("_on_visibility_field_body_exited")
+	#print_debug("_on_visibility_field_body_exited")
 	if body is UnitEntity:
 		body.visible = false
 		

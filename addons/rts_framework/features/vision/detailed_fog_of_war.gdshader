@@ -22,6 +22,10 @@ TODO: add description for debug_texture_view
 */
 uniform bool debug_texture_view = false;
 /**
+TODO: add description for debug_texture_view
+*/
+uniform float debug_texture_view_size = 0.2;
+/**
 TODO: add description for depth_texture
 */
 uniform sampler2D depth_texture : hint_depth_texture;
@@ -34,10 +38,10 @@ void vertex()
 void fragment()
 {
   ALBEDO = color.rgb;
-  if (debug_texture_view && UV.x <= 0.2 && UV.y <= 0.2)
+  if (debug_texture_view && UV.x <= debug_texture_view_size && UV.y <= debug_texture_view_size)
   {
     ALBEDO = textureLod(world_visibility_texture, vec2(UV * 5.0), 0.0).rgb;
-    if (UV.x > 0.199 || UV.y > 0.199)
+    if (UV.x > debug_texture_view_size || UV.y > debug_texture_view_size)
     {
       ALBEDO = vec3(1.0, 0.0, 0.0);
     }
@@ -105,7 +109,7 @@ void fragment()
     }
   }
 
-  if (debug_texture_view && UV.x <= 0.2 && UV.y <= 0.2)
+  if (debug_texture_view && UV.x <= debug_texture_view_size && UV.y <= debug_texture_view_size)
   {
     ALPHA = 1.0;
   }
