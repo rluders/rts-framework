@@ -1,11 +1,33 @@
 shader_type spatial;
 render_mode unshaded;
 
+/**
+Color of fog
+*/
 uniform vec4 color : source_color = vec4(vec3(0.0), 1.0);
+/**
+TODO: add description for world_visibility_texture
+*/
 uniform sampler2D world_visibility_texture : hint_default_white, filter_linear, repeat_disable;
+/**
+TODO: add description for texture_units_per_world_unit
+*/
 uniform int texture_units_per_world_unit = 2;
-uniform float outer_margin_for_fade_out = 2.0;
+/**
+TODO: add description for outer_margin_for_fade_out
+*/
+uniform float outer_margin_for_fade_out = 0.0;
+/**
+TODO: add description for debug_texture_view
+*/
 uniform bool debug_texture_view = false;
+/**
+TODO: add description for debug_texture_view
+*/
+uniform float debug_texture_view_size = 0.2;
+/**
+TODO: add description for depth_texture
+*/
 uniform sampler2D depth_texture : hint_depth_texture;
 
 void vertex()
@@ -16,10 +38,10 @@ void vertex()
 void fragment()
 {
   ALBEDO = color.rgb;
-  if (debug_texture_view && UV.x <= 0.2 && UV.y <= 0.2)
+  if (debug_texture_view && UV.x <= debug_texture_view_size && UV.y <= debug_texture_view_size)
   {
     ALBEDO = textureLod(world_visibility_texture, vec2(UV * 5.0), 0.0).rgb;
-    if (UV.x > 0.199 || UV.y > 0.199)
+    if (UV.x > debug_texture_view_size || UV.y > debug_texture_view_size)
     {
       ALBEDO = vec3(1.0, 0.0, 0.0);
     }
@@ -87,7 +109,7 @@ void fragment()
     }
   }
 
-  if (debug_texture_view && UV.x <= 0.2 && UV.y <= 0.2)
+  if (debug_texture_view && UV.x <= debug_texture_view_size && UV.y <= debug_texture_view_size)
   {
     ALPHA = 1.0;
   }
