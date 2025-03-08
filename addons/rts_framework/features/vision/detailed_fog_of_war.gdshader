@@ -2,6 +2,15 @@ shader_type spatial;
 render_mode unshaded;
 
 /**
+TODO: add description for ALPHA_FROM_MARGIN_MIN
+*/
+const float ALPHA_FROM_MARGIN_MIN = 0.8;
+/**
+TODO: add description for ALPHA_FROM_MARGIN_SLOPE
+*/
+const float ALPHA_FROM_MARGIN_SLOPE = 0.2;
+
+/**
 Color of fog
 */
 uniform vec4 color : source_color = vec4(vec3(0.0), 1.0);
@@ -93,7 +102,7 @@ void fragment()
       max_distance_from_boundary = max(
           max_distance_from_boundary, world_position.z - world_visibility_texture_size_scaled.y);
       float alpha_from_margin =
-          smoothstep(0.0, outer_margin_for_fade_out, max_distance_from_boundary) * 0.2 + 0.8;
+          smoothstep(0.0, outer_margin_for_fade_out, max_distance_from_boundary) * ALPHA_FROM_MARGIN_SLOPE + ALPHA_FROM_MARGIN_MIN;
       ALPHA = max(ALPHA, alpha_from_margin);
 
       float alpha_from_world_visibility_texture = 0.0;
