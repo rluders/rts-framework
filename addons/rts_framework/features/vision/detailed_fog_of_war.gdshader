@@ -50,10 +50,9 @@ void fragment()
   if (debug_texture_view && UV.x <= debug_texture_view_size && UV.y <= debug_texture_view_size)
   {
     ALBEDO = textureLod(world_visibility_texture, vec2(UV * 5.0), 0.0).rgb;
-    if (UV.x > debug_texture_view_size || UV.y > debug_texture_view_size)
-    {
-      ALBEDO = vec3(1.0, 0.0, 0.0);
-    }
+  }
+  else if (debug_texture_view) {
+	ALBEDO = vec3(1.0, 0.0, 0.0);
   }
 
   ALPHA = 0.0;
