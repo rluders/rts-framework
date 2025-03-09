@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c4by2q2g1r3em"]
+[gd_scene load_steps=16 format=3 uid="uid://c4by2q2g1r3em"]
 
 [ext_resource type="Texture2D" uid="uid://cj6w0rv0tko5d" path="res://demo/assets/textures/green.png" id="1_0crr1"]
 [ext_resource type="Script" path="res://demo/scripts/rts_controller.gd" id="2_yunhj"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bdjx0t2xkn5gg" path="res://addons/rts_framework/features/camera/camera_controller.tscn" id="6_3gdxu"]
 [ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/features/selection/selection_box.tscn" id="6_x1kyj"]
 [ext_resource type="PackedScene" uid="uid://d1t1ag5bk5u53" path="res://demo/scenes/entities/units/soldier.tscn" id="7_p3hpf"]
+[ext_resource type="PackedScene" uid="uid://71g6dowvqb5i" path="res://addons/rts_framework/features/vision/fog_of_war_manager.tscn" id="8_12bj3"]
 
 [sub_resource type="Environment" id="Environment_tavya"]
 sdfgi_enabled = true
@@ -25,7 +26,7 @@ uv1_world_triplanar = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_2rkuc"]
 material = SubResource("StandardMaterial3D_a6t65")
-size = Vector2(300, 300)
+size = Vector2(500, 500)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m28nb"]
 size = Vector3(100, 0.1, 100)
@@ -41,6 +42,7 @@ transform = Transform3D(1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, 0, 147, 
 [node name="Map" type="Node" parent="."]
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, 50)
 navigation_mesh = SubResource("NavigationMesh_0bv8g")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Map/NavigationRegion3D"]
@@ -49,28 +51,25 @@ mesh = SubResource("PlaneMesh_2rkuc")
 [node name="StaticBody3D" type="StaticBody3D" parent="Map/NavigationRegion3D/MeshInstance3D" groups=["surface"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/NavigationRegion3D/MeshInstance3D/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0707459, 0)
 shape = SubResource("BoxShape3D_m28nb")
 
 [node name="Entities" type="Node" parent="."]
 
 [node name="Soldier" parent="Entities" instance=ExtResource("7_p3hpf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.227193, -3.034)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.92926, 0.211501, 6.07202)
 material = ExtResource("3_1d533")
 
 [node name="Soldier2" parent="Entities" instance=ExtResource("7_p3hpf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.98311, 0.227193, -3.034)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.94615, 0.211501, 6.07202)
 material = ExtResource("4_6ku06")
 team = 1
 
-[node name="Soldier3" parent="Entities" instance=ExtResource("7_p3hpf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.62814, 0.227193, -3.034)
+[node name="Soldier3" parent="Entities" groups=["revealed_units"] instance=ExtResource("7_p3hpf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5574, 0.211501, 6.07202)
 material = ExtResource("3_1d533")
 
-[node name="RTSController" type="Node" parent="." node_paths=PackedStringArray("selection_manager", "command_manager")]
+[node name="RTSController" type="Node" parent="."]
 script = ExtResource("2_yunhj")
-selection_manager = NodePath("SelectionManager")
-command_manager = NodePath("CommandManager")
 
 [node name="SelectionManager" type="Node" parent="RTSController" node_paths=PackedStringArray("selection_box")]
 script = ExtResource("3_psg5c")
@@ -78,6 +77,9 @@ selection_box = NodePath("../../SelectionBox")
 
 [node name="CommandManager" type="Node" parent="RTSController"]
 script = ExtResource("4_lcg0b")
+
+[node name="FogOfWarManager" parent="RTSController" instance=ExtResource("8_12bj3")]
+fog_size = Vector2i(300, 300)
 
 [node name="CameraHolder" parent="." instance=ExtResource("6_3gdxu")]
 
