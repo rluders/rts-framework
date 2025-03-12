@@ -12,7 +12,7 @@ config_version=5
 
 config/name="RTS Framework"
 run/main_scene="res://demo/game.tscn"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -72,3 +72,7 @@ camera_rotate={
 3d_physics/layer_3="Units"
 3d_physics/layer_4="Resources"
 3d_physics/layer_5="Environment"
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
