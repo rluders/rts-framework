@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c4by2q2g1r3em"]
+[gd_scene load_steps=17 format=3 uid="uid://c4by2q2g1r3em"]
 
 [ext_resource type="Texture2D" uid="uid://cj6w0rv0tko5d" path="res://demo/assets/textures/green.png" id="1_0crr1"]
 [ext_resource type="Script" uid="uid://cuyhslhlbyrr2" path="res://demo/scripts/rts_controller.gd" id="2_yunhj"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/features/selection/selection_box.tscn" id="6_x1kyj"]
 [ext_resource type="PackedScene" uid="uid://d1t1ag5bk5u53" path="res://demo/scenes/entities/units/soldier.tscn" id="7_p3hpf"]
 [ext_resource type="PackedScene" uid="uid://71g6dowvqb5i" path="res://addons/rts_framework/features/vision/fog_of_war_manager.tscn" id="8_12bj3"]
+[ext_resource type="PackedScene" uid="uid://glr2ilfffssp" path="res://demo/scenes/ui/ui_layer.tscn" id="11_hn7rm"]
 
 [sub_resource type="Environment" id="Environment_tavya"]
 sdfgi_enabled = true
@@ -55,17 +56,20 @@ shape = SubResource("BoxShape3D_m28nb")
 
 [node name="Entities" type="Node" parent="."]
 
-[node name="Soldier" parent="Entities" instance=ExtResource("7_p3hpf")]
+[node name="Soldier" parent="Entities" groups=["revealed_units"] instance=ExtResource("7_p3hpf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.92926, 0.211501, 6.07202)
+visible = true
 material = ExtResource("3_1d533")
 
 [node name="Soldier2" parent="Entities" instance=ExtResource("7_p3hpf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.94615, 0.211501, 6.07202)
+visible = true
 material = ExtResource("4_6ku06")
 team = 1
 
 [node name="Soldier3" parent="Entities" groups=["revealed_units"] instance=ExtResource("7_p3hpf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5574, 0.211501, 6.07202)
+visible = true
 material = ExtResource("3_1d533")
 
 [node name="RTSController" type="Node" parent="."]
@@ -84,3 +88,5 @@ fog_size = Vector2i(300, 300)
 [node name="CameraHolder" parent="." instance=ExtResource("6_3gdxu")]
 
 [node name="SelectionBox" parent="." instance=ExtResource("6_x1kyj")]
+
+[node name="UiLayer" parent="." instance=ExtResource("11_hn7rm")]
