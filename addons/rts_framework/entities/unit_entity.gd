@@ -7,14 +7,14 @@ signal passive_movement_finished
 
 @export_group("Navigation")
 
-## TODO: Add description
+## Initial random dispersion factor to prevent units from stacking at spawn
 @export_range(0, 1, 0.1, "or_greater") var INITIAL_DISPERSION_FACTOR : float = 0.1
 
-## TODO: Add description
+## Whether to track and emit signals for passive movement (movement not directed by navigation)
 @export var  PASSIVE_MOVEMENT_TRACKING_ENABLED : bool = true
 
 @export_subgroup("Stuck Prevention", "STUCK_PREVENTION")
-## TODO: Add description
+## Whether to enable the stuck prevention system to help units navigate around obstacles
 @export var  STUCK_PREVENTION_ENABLED : bool = true
 ## number of frames for accumulating distance traveled
 @export_range(0, 100, 1, "or_greater") var  STUCK_PREVENTION_WINDOW_SIZE : int = 10
@@ -31,7 +31,7 @@ signal passive_movement_finished
 ## velocities below will be dropped  
 @export_range(0, 1, 0.01, "or_greater") var  ROTATION_LOW_PASS_FILTER_VELOCITY_THRESHOLD : float = 0.01  
 
-## TODO: Add description
+## Unit movement speed
 @export var speed : float = 0.0
 
 var _interim_speed: float = 0.0
