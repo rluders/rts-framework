@@ -31,6 +31,7 @@ func exit() -> void:
 	print_debug("Exiting %s State" % self.name)
 
 func physics_update(delta: float) -> void:
+	# Movement physics are now handled by UnitEntity's _update_unit_position_on_velocity_computed
 	pass
 
 func update(delta: float) -> void:
