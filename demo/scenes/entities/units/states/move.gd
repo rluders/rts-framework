@@ -31,14 +31,7 @@ func exit() -> void:
 	print_debug("Exiting %s State" % self.name)
 
 func physics_update(delta: float) -> void:
-	if target_position:
-		var direction : Vector3
-		
-		direction = navigation_agent.get_next_path_position() - body.global_position
-		direction = direction.normalized()
-		
-		body.velocity = body.velocity.lerp(direction * speed, acceleration * delta)
-		body.move_and_slide()
+	pass
 
 func update(delta: float) -> void:
 	pass
