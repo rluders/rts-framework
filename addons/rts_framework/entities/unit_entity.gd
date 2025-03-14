@@ -129,7 +129,7 @@ func _get_fake_direction_due_to_stuck_prevention() -> Vector3:
 
 
 # Updates stuck prevention variables.
-# If did STUCK_PREVENTION_WINDOW_SIZE movements and moved less then stuck_prevention_threshold
+# If did STUCK_PREVENTION_WINDOW_SIZE movements and moved less than stuck_prevention_threshold
 # Then set _number_of_forced_side_moves_left to STUCK_PREVENTION_SIDE_MOVES
 func _update_stuck_prevention(safe_velocity: Vector3) -> void:
 	if not _is_moving_actively():
