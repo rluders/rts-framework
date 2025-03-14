@@ -202,7 +202,6 @@ func _on_velocity_computed(safe_velocity: Vector3) -> void:
 
 # Overwrite, if needed
 func _update_unit_position_on_velocity_computed(safe_velocity: Vector3) -> void:
-	print_debug("Print original _update_unit_position_on_velocity_computed")
 	# Move the unit forward
 	# Swap this, if not using a CharacterBody3D or RigidBody3D
 	self.global_transform.origin = self.global_transform.origin.move_toward(
