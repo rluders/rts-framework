@@ -7,25 +7,32 @@ signal passive_movement_finished
 
 @export_group("Navigation")
 
-@export var INITIAL_DISPERSION_FACTOR : float = 0.1
+## TODO: Add description
+@export_range(0, 1, 0.1, "or_greater") var INITIAL_DISPERSION_FACTOR : float = 0.1
 
+## TODO: Add description
 @export var  PASSIVE_MOVEMENT_TRACKING_ENABLED : bool = true
 
 @export_subgroup("Stuck Prevention", "STUCK_PREVENTION")
+## TODO: Add description
 @export var  STUCK_PREVENTION_ENABLED : bool = true
-@export_range(0, 100, 1, "or_greater") var  STUCK_PREVENTION_WINDOW_SIZE : int = 10  # number of frames for accumulating distance traveled
-@export var  STUCK_PREVENTION_THRESHOLD : float = 0.3  # fraction of expected distance traveled at full speed
-@export_range(0, 100, 1, "or_greater") var  STUCK_PREVENTION_SIDE_MOVES : int = 15  # number of forced moves to the side if stuck
+## number of frames for accumulating distance traveled
+@export_range(0, 100, 1, "or_greater") var  STUCK_PREVENTION_WINDOW_SIZE : int = 10
+## fraction of expected distance traveled at full speed
+@export_range(0, 1, 0.1, "or_greater") var  STUCK_PREVENTION_THRESHOLD : float = 0.3
+## number of forced moves to the side if stuck
+@export_range(0, 100, 1, "or_greater") var  STUCK_PREVENTION_SIDE_MOVES : int = 15
 
 @export_subgroup("Rotation Low Pass Filter", "ROTATION_LOW_PASS_FILTER")
+## TODO: Add description
 @export var  ROTATION_LOW_PASS_FILTER_ENABLED : bool = true
-@export_range(0, 100, 1, "or_greater") var  ROTATION_LOW_PASS_FILTER_WINDOW_SIZE : int = 10  # number of frames for accumulating directions
-@export var  ROTATION_LOW_PASS_FILTER_VELOCITY_THRESHOLD : float = 0.01  # velocities below will be dropped
+## number of frames for accumulating directions
+@export_range(0, 100, 1, "or_greater") var  ROTATION_LOW_PASS_FILTER_WINDOW_SIZE : int = 10
+## velocities below will be dropped  
+@export_range(0, 1, 0.01, "or_greater") var  ROTATION_LOW_PASS_FILTER_VELOCITY_THRESHOLD : float = 0.01  
 
-#@export var domain = Constants.Match.Navigation.Domain.TERRAIN
-#@export var speed: float = 4.0
-@export var domain = 0
-@export var speed : float = 0
+## TODO: Add description
+@export var speed : float = 0.0
 
 var _interim_speed: float = 0.0
 
