@@ -1,4 +1,4 @@
-# FogOfWarManager ![](../../../addons/rts_framework/features/vision/fog_of_war_icon.svg)
+# FogOfWarManager ![Fog Of War Icon](../../../addons/rts_framework/features/vision/fog_of_war_icon.svg)
 
 ## **Class**
 
