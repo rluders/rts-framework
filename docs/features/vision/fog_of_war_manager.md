@@ -234,7 +234,7 @@ set(value):
 - None
 
 ## **Dependencies**
-- **DynamicCircle2D**: Draw the the circles which clear the fog
+- **DynamicCircle2D**: Draw the circles which clear the fog
 - **detailed_fog_of_war.gdshader (Shader)**:
 - **fog_of_war_manager.gdshader (Shader)**:
 
