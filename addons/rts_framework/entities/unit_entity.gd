@@ -24,7 +24,7 @@ signal passive_movement_finished
 @export_range(0, 100, 1, "or_greater") var  STUCK_PREVENTION_SIDE_MOVES : int = 15
 
 @export_subgroup("Rotation Low Pass Filter", "ROTATION_LOW_PASS_FILTER")
-## TODO: Add description
+## Enables smoothing of rotation over time, reducing abrupt direction changes
 @export var  ROTATION_LOW_PASS_FILTER_ENABLED : bool = true
 ## number of frames for accumulating directions
 @export_range(0, 100, 1, "or_greater") var  ROTATION_LOW_PASS_FILTER_WINDOW_SIZE : int = 10
@@ -207,6 +207,8 @@ func _on_velocity_computed(safe_velocity: Vector3) -> void:
 	_previously_set_global_transform_of_unit = self.global_transform
 	_update_passive_movement_tracking(safe_velocity)
 
+# This approach linearly interpolates position each frame,
+# which differs from a typical "position += velocity * delta" method.
 # Overwrite, if needed
 func _update_unit_position_on_velocity_computed(safe_velocity: Vector3) -> void:
 	# Move the unit forward
