@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c4by2q2g1r3em"]
+[gd_scene load_steps=21 format=3 uid="uid://c4by2q2g1r3em"]
 
 [ext_resource type="Texture2D" uid="uid://cj6w0rv0tko5d" path="res://demo/assets/textures/green.png" id="1_0crr1"]
 [ext_resource type="Script" uid="uid://cuyhslhlbyrr2" path="res://demo/scripts/rts_controller.gd" id="2_yunhj"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://ctoeptkckw6xq" path="res://addons/rts_framework/features/selection/selection_box.tscn" id="6_x1kyj"]
 [ext_resource type="PackedScene" uid="uid://d1t1ag5bk5u53" path="res://demo/scenes/entities/units/soldier.tscn" id="7_p3hpf"]
 [ext_resource type="PackedScene" uid="uid://71g6dowvqb5i" path="res://addons/rts_framework/features/vision/fog_of_war_manager.tscn" id="8_12bj3"]
+[ext_resource type="PackedScene" uid="uid://bo2b1x0u1j1dg" path="res://addons/rts_framework/features/vision/minimap.tscn" id="11_hn7rm"]
+[ext_resource type="Shader" uid="uid://vtuyxlu83g58" path="res://addons/rts_framework/features/vision/minimap.gdshader" id="12_wlnpp"]
 
 [sub_resource type="Environment" id="Environment_tavya"]
 sdfgi_enabled = true
@@ -30,6 +32,20 @@ size = Vector2(500, 500)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m28nb"]
 size = Vector3(100, 0.1, 100)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_fqft5"]
+viewport_path = NodePath("CombinedViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ri1tv"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("12_wlnpp")
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/world_visibility_texture = SubResource("ViewportTexture_fqft5")
+shader_parameter/texture_units_per_world_unit = 2
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_wlnpp"]
+viewport_path = NodePath("CombinedViewport")
 
 [node name="Game" type="Node3D"]
 
@@ -84,3 +100,28 @@ fog_size = Vector2i(300, 300)
 [node name="CameraHolder" parent="." instance=ExtResource("6_3gdxu")]
 
 [node name="SelectionBox" parent="." instance=ExtResource("6_x1kyj")]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="HUD"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -677.0
+offset_right = -77.0
+offset_bottom = 600.0
+grow_horizontal = 0
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Minimap" parent="HUD/Panel/CenterContainer" node_paths=PackedStringArray("_fog_of_war_manager") instance=ExtResource("11_hn7rm")]
+material = SubResource("ShaderMaterial_ri1tv")
+layout_mode = 2
+texture = SubResource("ViewportTexture_wlnpp")
+_fog_of_war_manager = NodePath("../../../../RTSController/FogOfWarManager")

@@ -90,6 +90,7 @@ const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 		find_child("EditorOnlyCircle").position = value
 	get:
 		return find_child("EditorOnlyCircle").position
+## TODO: Add description
 
 #TODO Think if to merge both Dictionary or not
 var _unit_to_circles_mapping : Dictionary = {}
@@ -110,7 +111,7 @@ func _ready() -> void:
 		_revealer.hide()
 		find_child("EditorOnlyCircle").queue_free()
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta : float) -> void:
 	if not Engine.is_editor_hint(): # Code to execute when in game.
 		var units_synced = {}
 		var units_to_sync = get_tree().get_nodes_in_group("revealed_units")
@@ -176,6 +177,11 @@ func _cleanup_mapping(unit : BaseEntity) -> void:
 	_unit_to_shape_3d_mapping[unit].queue_free()
 	_unit_to_shape_3d_mapping.erase(unit)
 
+
+func get_visibile_unit() -> Array[Node3D]:
+	return _visibility_field.get_overlapping_bodies().filter(func(node3D):
+			return node3D is UnitEntity
+	)
 
 # When a PhysicsBody3D enters the total field of vision
 func _on_visibility_field_body_entered(body: Node3D) -> void:
