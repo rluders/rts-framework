@@ -178,8 +178,13 @@ func _cleanup_mapping(unit : BaseEntity) -> void:
 	_unit_to_shape_3d_mapping.erase(unit)
 
 
-func get_visibile_unit() -> Array[Node3D]:
-	return _visibility_field.get_overlapping_bodies().filter(func(node3D):
+func get_visible_unit() -> Array[Node3D]:
+	# Returns an array of visible UnitEntity objects within the fog of war visibility field
+	var overlapping_bodies = _visibility_field.get_overlapping_bodies()
+	var visible_units: Array[Node3D] = []
+	visible_units.resize(overlapping_bodies.size())
+	
+	return overlapping_bodies.filter(func(node3D):
 			return node3D is UnitEntity
 	)
 
