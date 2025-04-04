@@ -24,7 +24,7 @@ var fog_texture : Texture2D :
 			return fog_node.texture
 		return null
 
-@onready var _minimap_viewport = find_child("CombinedViewport")
+@onready var _minimap_viewport: SubViewport = find_child("CombinedViewport") as SubViewport
  
 func _ready() -> void:
 	assert(fog_of_war_manager != null, "Minimap missing fog of war manager node")
