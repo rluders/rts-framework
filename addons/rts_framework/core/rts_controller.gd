@@ -1,4 +1,5 @@
 @tool
+@icon("res://addons/rts_framework/core/rts_controller_icon.svg")
 extends Node
 class_name RTSController
 
