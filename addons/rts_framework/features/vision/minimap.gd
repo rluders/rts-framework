@@ -11,6 +11,12 @@ const DynamicCircle2D : PackedScene = preload("res://addons/rts_framework/featur
 @export var fog_of_war_manager : FogOfWarManager
 
 var _unit_to_circles_mapping : Dictionary = {}
+
+## Texture representing the fog of war alpha layer
+##
+## This texture is obtained from fog of war calculations and is multiplied over 
+## the background of the minimap to create the fog of war effect, controlling
+## what areas are visible to the player.
 var fog_texture : Texture2D : # fog_texture multiply the images above. This to force what is seen and what not according to fog of war
 	set(value):
 		var fog_node = find_child("FogOfWarTexture")
