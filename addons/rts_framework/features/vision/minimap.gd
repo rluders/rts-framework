@@ -57,8 +57,8 @@ func _unit_is_mapped(unit : BaseEntity) -> bool:
 ## Creates visibility representation for a unit on the minimap
 ## Parameters:
 ## - unit: The entity to create visibility for
-## - default_color: The defualt color of the visibility circle (default: unit's team color if available, or blue)
-## - default_radius: The defualt radius of visibility in world units (default: unit's sight range if available, or 5)
+## - default_color: The default color of the visibility circle
+## - default_radius: The default radius of visibility
 func _map_unit_to_new_circles_body(unit : BaseEntity, default_color : Color = Color.BLUE, default_radius : int = 5) -> void:
 	var minimap_circle = DynamicCircle2D.instantiate() # Make a white circle 2D
 	
