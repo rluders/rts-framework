@@ -30,11 +30,15 @@ var fog_texture : Texture2D : # fog_texture multiply the images above. This to f
  
 func _ready() -> void:
 	assert(fog_of_war_manager != null, "Minimap missing fog of war manager node. Minimap Node Name: " + self.name)
-	var fog_texture_result = fog_of_war_manager.combined_viewport.get_texture()
-	if fog_texture_result:
-		fog_texture = fog_texture_result
+	var fog_of_war_combined_viewport = fog_of_war_manager.combined_viewport
+	if fog_of_war_combined_viewport:
+		var fog_texture_result = fog_of_war_manager.combined_viewport.get_texture()
+		if fog_texture_result:
+			fog_texture = fog_texture_result
+		else:
+			push_error("Failed to retrieve fog of war texture. Minimap Node Name: " + self.name)
 	else:
-		push_error("Failed to retrieve fog of war texture. Minimap Node Name: " + self.name)
+		push_error("Failed to retrieve fog of war combined viewport. Minimap Node Name: " + self.name)
 	if not Engine.is_editor_hint():
 		var circle = find_child("EditorOnlyCircle")
 		if circle:
