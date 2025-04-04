@@ -14,14 +14,16 @@ var _unit_to_circles_mapping : Dictionary = {}
 var fog_texture : Texture2D :
 	set(value):
 		var fog_node = find_child("FogOfWarTexture")
-		if fog_node && fog_node is Texture2D:
-			fog_node.texture = value
+		if fog_node && fog_node is TextureRect:
+			var texture_rect = fog_node as TextureRect
+			texture_rect.texture = value
 		else:
 			push_error("FogOfWarTexture node not found")
 	get:
 		var fog_node = find_child("FogOfWarTexture")
-		if fog_node &&  fog_node is Texture2D:
-			return fog_node.texture
+		if fog_node &&  fog_node is TextureRect:
+			var texture_rect = fog_node as TextureRect
+			return texture_rect.texture
 		return null
 
 @onready var _minimap_viewport: SubViewport = find_child("CombinedViewport") as SubViewport
