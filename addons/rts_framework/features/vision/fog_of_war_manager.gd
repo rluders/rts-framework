@@ -90,7 +90,6 @@ const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 		find_child("EditorOnlyCircle").position = value
 	get:
 		return find_child("EditorOnlyCircle").position
-## TODO: Add description
 
 #TODO Think if to merge both Dictionary or not
 var _unit_to_circles_mapping : Dictionary = {}
