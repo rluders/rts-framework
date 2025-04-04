@@ -28,7 +28,7 @@ var fog_texture : Texture2D :
  
 func _ready() -> void:
 	assert(fog_of_war_manager != null, "Minimap missing fog of war manager node")
-	var fog_texture_result = fog_of_war_manager._combined_viewport.get_texture()
+	var fog_texture_result = fog_of_war_manager.combined_viewport.get_texture()
 	if fog_texture_result:
 		fog_texture = fog_texture_result
 	else:

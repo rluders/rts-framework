@@ -98,7 +98,7 @@ var _unit_to_shape_3d_mapping : Dictionary = {}
 @onready var _revealer : ColorRect = find_child("Revealer")
 @onready var _fog_viewport : SubViewport = find_child("FogViewport")
 @onready var _fog_viewport_container : SubViewportContainer = find_child("FogViewportContainer")
-@onready var _combined_viewport : SubViewport = find_child("CombinedViewport")
+@onready var combined_viewport : SubViewport = find_child("CombinedViewport")
 @onready var _screen_overlay : MeshInstance3D = find_child("ScreenOverlay")
 @onready var _visibility_field : Area3D = find_child("VisibilityField")
 
