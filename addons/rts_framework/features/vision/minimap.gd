@@ -36,17 +36,17 @@ func _ready() -> void:
 	find_child("EditorOnlyCircle").queue_free()
 
 func _physics_process(_delta : float) -> void:
-	var units_synced = {}
+	var visible_units = {}
 	var units_to_sync = fog_of_war_manager.get_visible_units()
 	for unit in units_to_sync:
 		if not unit.is_revealing():
 			continue
-		units_synced[unit] = 1
+		visible_units[unit] = 1
 		if not _unit_is_mapped(unit):
 			_map_unit_to_new_circles_body(unit)
 		_sync_vision_to_unit(unit)
 	for mapped_unit in _unit_to_circles_mapping:
-		if not mapped_unit in units_synced:
+		if not mapped_unit in visible_units:
 			_cleanup_mapping(mapped_unit)
 
 func _unit_is_mapped(unit : BaseEntity) -> bool:
