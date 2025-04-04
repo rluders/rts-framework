@@ -41,7 +41,7 @@ func _ready() -> void:
 			circle.queue_free()
 
 func _physics_process(_delta : float) -> void:
-	var visible_units = {}
+	var visible_units : Dictionary = {}
 	var units_to_sync = fog_of_war_manager.get_visible_units()
 	for unit in units_to_sync:
 		if not unit.is_revealing():

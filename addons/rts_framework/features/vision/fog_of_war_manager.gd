@@ -119,7 +119,7 @@ func _ready() -> void:
 
 func _physics_process(_delta : float) -> void:
 	if not Engine.is_editor_hint(): # Code to execute when in game.
-		var units_synced = {}
+		var units_synced : Dictionary = {}
 		var units_to_sync = get_tree().get_nodes_in_group("revealed_units")
 		for unit in units_to_sync:
 			if not unit.is_revealing():
