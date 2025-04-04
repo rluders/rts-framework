@@ -56,8 +56,8 @@ func _unit_is_mapped(unit : BaseEntity) -> bool:
 ## Parameters:
 ## - unit: The entity to create visibility for
 ## - default_color: The defualt color of the visibility circle (default: unit's team color if available, or blue)
-## - radius: Radius of visibility in world units (default: unit's sight range if available, or 5)
-func _map_unit_to_new_circles_body(unit : BaseEntity, default_color : Color = Color.BLUE, radius : int = 5) -> void:
+## - default_radius: The defualt radius of visibility in world units (default: unit's sight range if available, or 5)
+func _map_unit_to_new_circles_body(unit : BaseEntity, default_color : Color = Color.BLUE, default_radius : int = 5) -> void:
 	var minimap_circle = DynamicCircle2D.instantiate() # Make a white circle 2D
 	
 	if unit.has_method("get_team_color"): # If unit has get_team_color, use that color
@@ -65,7 +65,11 @@ func _map_unit_to_new_circles_body(unit : BaseEntity, default_color : Color = Co
 	else: # if doesn't have the function, use the defualt one
 		minimap_circle.color = default_color # Set color
 	
-	minimap_circle.radius = radius  # Set circle size to world units and unit sight range
+	if unit.has_method("get_sight_range"):  # Set circle size to world units and unit sight range
+		minimap_circle.radius = unit.get_sight_range() # If has sight range, then use it
+	else:
+		minimap_circle.radius = default_radius # If doesn't have sight range, then use default
+		
 	_minimap_viewport.add_child(minimap_circle) # Add the view circle 2D to fog of war viewport. In the fog of war viewport it create an image for the fog of war.
 	_unit_to_circles_mapping[unit] = minimap_circle # Keep map to connect unit with fog of war view
 
