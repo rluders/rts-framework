@@ -8,7 +8,7 @@ class_name Minimap
 
 const DynamicCircle2D : PackedScene = preload("res://addons/rts_framework/features/vision/dynamic_circle_2d.tscn")
 
-@export var _fog_of_war_manager : FogOfWarManager
+@export var fog_of_war_manager : FogOfWarManager
 
 var _unit_to_circles_mapping : Dictionary = {}
 var fog_texture : Texture2D :
@@ -27,19 +27,17 @@ var fog_texture : Texture2D :
 @onready var _minimap_viewport = find_child("CombinedViewport")
  
 func _ready() -> void:
-	assert(_fog_of_war_manager != null, "Minimap missing fog of war manager node")
-	var fog_texture_result = _fog_of_war_manager._combined_viewport.get_texture()
+	assert(fog_of_war_manager != null, "Minimap missing fog of war manager node")
+	var fog_texture_result = fog_of_war_manager._combined_viewport.get_texture()
 	if fog_texture_result:
 		fog_texture = fog_texture_result
 	else:
 		push_error("Failed to retrieve fog of war texture")
 	find_child("EditorOnlyCircle").queue_free()
-	
-	print_debug(_fog_of_war_manager.name)
 
 func _physics_process(_delta : float) -> void:
 	var units_synced = {}
-	var units_to_sync = _fog_of_war_manager.get_visible_unit()
+	var units_to_sync = fog_of_war_manager.get_visible_unit()
 	for unit in units_to_sync:
 		if not unit.is_revealing():
 			continue
@@ -68,7 +66,7 @@ func _map_unit_to_new_circles_body(unit : BaseEntity, color : Color = Color.BLUE
 
 func _sync_vision_to_unit(unit : BaseEntity) -> void:
 	var unit_pos_3d = unit.global_transform.origin
-	var unit_pos_2d = Vector2(unit_pos_3d.x, unit_pos_3d.z)  * _fog_of_war_manager.texture_units_per_world_unit
+	var unit_pos_2d = Vector2(unit_pos_3d.x, unit_pos_3d.z)  * fog_of_war_manager.texture_units_per_world_unit
 	_unit_to_circles_mapping[unit].position = unit_pos_2d
 
 func _cleanup_mapping(unit : BaseEntity) -> void:
