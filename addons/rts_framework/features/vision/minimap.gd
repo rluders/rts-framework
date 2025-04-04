@@ -34,10 +34,12 @@ func _ready() -> void:
 	else:
 		push_error("Failed to retrieve fog of war texture")
 	find_child("EditorOnlyCircle").queue_free()
+	
+	print_debug(_fog_of_war_manager.name)
 
 func _physics_process(_delta : float) -> void:
 	var units_synced = {}
-	var units_to_sync = _fog_of_war_manager.get_visibile_unit()
+	var units_to_sync = _fog_of_war_manager.get_visible_unit()
 	for unit in units_to_sync:
 		if not unit.is_revealing():
 			continue
