@@ -37,7 +37,7 @@ func _ready() -> void:
 
 func _physics_process(_delta : float) -> void:
 	var units_synced = {}
-	var units_to_sync = fog_of_war_manager.get_visible_unit()
+	var units_to_sync = fog_of_war_manager.get_visible_units()
 	for unit in units_to_sync:
 		if not unit.is_revealing():
 			continue
