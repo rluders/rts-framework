@@ -11,7 +11,7 @@ const DynamicCircle2D : PackedScene = preload("res://addons/rts_framework/featur
 @export var fog_of_war_manager : FogOfWarManager
 
 var _unit_to_circles_mapping : Dictionary = {}
-var fog_texture : Texture2D :
+var fog_texture : Texture2D : # fog_texture multiply the images above. This to force what is seen and what not according to fog of war
 	set(value):
 		var fog_node = find_child("FogOfWarTexture")
 		if fog_node && fog_node is TextureRect:
