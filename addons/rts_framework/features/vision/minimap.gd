@@ -14,13 +14,13 @@ var _unit_to_circles_mapping : Dictionary = {}
 var fog_texture : Texture2D :
 	set(value):
 		var fog_node = find_child("FogOfWarTexture")
-		if fog_node:
+		if fog_node && fog_node is Texture2D:
 			fog_node.texture = value
 		else:
 			push_error("FogOfWarTexture node not found")
 	get:
 		var fog_node = find_child("FogOfWarTexture")
-		if fog_node:
+		if fog_node &&  fog_node is Texture2D:
 			return fog_node.texture
 		return null
 
