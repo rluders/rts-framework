@@ -102,6 +102,7 @@ var _unit_to_shape_3d_mapping : Dictionary = {}
 @onready var _screen_overlay : MeshInstance3D = find_child("ScreenOverlay")
 @onready var _visibility_field : Area3D = find_child("VisibilityField")
 
+# No set function, to prevent setting from outside
 var combined_viewport  : SubViewport :
 	get:
 		return _combined_viewport as SubViewport
