@@ -67,7 +67,7 @@ func _map_unit_to_new_circles_body(unit : BaseEntity, default_color : Color = Co
 	
 	if unit.has_method("get_team_color"): # If unit has get_team_color, use that color
 		minimap_circle.color = unit.get_team_color()
-	else: # if doesn't have the function, use the defualt one
+	else: # if doesn't have the function, use the default one
 		minimap_circle.color = default_color # Set color
 	
 	if unit.has_method("get_sight_range"):  # Set circle size to world units and unit sight range
