@@ -35,7 +35,10 @@ func _ready() -> void:
 		fog_texture = fog_texture_result
 	else:
 		push_error("Failed to retrieve fog of war texture")
-	find_child("EditorOnlyCircle").queue_free()
+	if not Engine.is_editor_hint():
+		var circle = find_child("EditorOnlyCircle")
+		if circle:
+			circle.queue_free()
 
 func _physics_process(_delta : float) -> void:
 	var visible_units = {}

@@ -112,7 +112,9 @@ func _ready() -> void:
 	)
 	if not Engine.is_editor_hint():
 		_revealer.hide()
-		find_child("EditorOnlyCircle").queue_free()
+		var circle = find_child("EditorOnlyCircle")
+		if circle:
+			circle.queue_free()
 
 func _physics_process(_delta : float) -> void:
 	if not Engine.is_editor_hint(): # Code to execute when in game.
