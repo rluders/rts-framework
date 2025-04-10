@@ -35,12 +35,12 @@ func _ready() -> void:
 func collect(amount: int) -> int:
 	if amount <= 0:
 		return 0
+	var real_amount : int = amount
 	if amount > self.resource_amount:
-		var real_amount = resource_amount
-		self.resource_amount = 0
-		return real_amount
-	self.resource_amount = self.resource_amount - amount
-	return amount
+		real_amount = resource_amount
+	self.resource_amount = self.resource_amount - real_amount
+	on_collected.emit(real_amount)
+	return real_amount
 
 # Completely depletes the resource.
 func deplete(amount: int) -> void:
