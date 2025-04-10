@@ -16,7 +16,7 @@ signal on_depleted()
 		_internal_amount = value
 		if _internal_amount <= 0:
 			_internal_amount = 0
-			emit_signal("on_depleted")
+			on_depleted.emit()
 
 var _internal_amount : int = 1000
 
