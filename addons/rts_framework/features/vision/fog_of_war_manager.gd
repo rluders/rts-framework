@@ -102,17 +102,24 @@ var _unit_to_shape_3d_mapping : Dictionary = {}
 @onready var _screen_overlay : MeshInstance3D = find_child("ScreenOverlay")
 @onready var _visibility_field : Area3D = find_child("VisibilityField")
 
+# No set function, to prevent setting from outside
+var combined_viewport  : SubViewport :
+	get:
+		return _combined_viewport as SubViewport
+
 func _ready() -> void:
 	_screen_overlay.material_override.set_shader_parameter(
 		"texture_units_per_world_unit", texture_units_per_world_unit
 	)
 	if not Engine.is_editor_hint():
 		_revealer.hide()
-		find_child("EditorOnlyCircle").queue_free()
+		var circle = find_child("EditorOnlyCircle")
+		if circle:
+			circle.queue_free()
 
-func _physics_process(_delta) -> void:
+func _physics_process(_delta : float) -> void:
 	if not Engine.is_editor_hint(): # Code to execute when in game.
-		var units_synced = {}
+		var units_synced : Dictionary = {}
 		var units_to_sync = get_tree().get_nodes_in_group("revealed_units")
 		for unit in units_to_sync:
 			if not unit.is_revealing():
@@ -176,6 +183,13 @@ func _cleanup_mapping(unit : BaseEntity) -> void:
 	_unit_to_shape_3d_mapping[unit].queue_free()
 	_unit_to_shape_3d_mapping.erase(unit)
 
+
+func get_visible_units() -> Array[Node3D]:
+	# Returns an array of visible UnitEntity objects within the fog of war visibility field
+	var overlapping_bodies = _visibility_field.get_overlapping_bodies()
+	return overlapping_bodies.filter(func(node3D):
+		return node3D is UnitEntity
+	)
 
 # When a PhysicsBody3D enters the total field of vision
 func _on_visibility_field_body_entered(body: Node3D) -> void:
