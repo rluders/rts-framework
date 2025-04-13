@@ -4,3 +4,8 @@
 
 [node name="Projectil" type="MeshInstance3D"]
 script = ExtResource("1_u18ob")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_timedout"]
