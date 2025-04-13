@@ -8,9 +8,9 @@ class_name AttackComponent
 		_attack_range_squared = value**2
 	get:
 		return _attack_range
-# Saving both _attack_range and _attack_range_squared because calculating squre root cost a lot of performance
-# Then a work around is to calculate the power of 2 and save the original value.
-# The power of 2, squared, is used in func in_range
+# Storing both the original attack range and its squared value to avoid performance-costly square root calculations
+# We pre-calculate attack_range² and use it directly for distance comparisons in the in_range() method
+# This is more efficient than calculating square roots for distance checks
 var _attack_range : int = 10
 var _attack_range_squared : int = 100
 

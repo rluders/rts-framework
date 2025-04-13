@@ -29,7 +29,7 @@ func _ready() -> void:
 func apply_damage(amount: int) -> int:
 	if amount <= 0:
 		return 0
-	var real_amount = clampi(self.current_health - amount, 0, max_health)
+	var real_amount = min(amount, self.current_health)
 	self.current_health = self.current_health - amount
 	on_damage.emit(real_amount)
 	return real_amount
