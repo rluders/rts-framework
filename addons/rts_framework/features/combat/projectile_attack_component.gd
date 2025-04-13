@@ -1,12 +1,21 @@
+@tool
 extends AttackComponent
 class_name ProjectileAttackComponent
 
+signal generated_projectile(projectile : ProjectileData)
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+## todo
+@export var projectile : ProjectileData
 
+func generate_projectile(target) -> bool:
+	if projectile.projectile_can_instantiate():
+		var proj = projectile.projectile_instantiate(owner.position)
+		generated_projectile.emit(projectile)
+		return true
+	return false
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings : PackedStringArray = super()
+	if projectile == null:
+		warnings.append("Missing Projectile")
+	return warnings

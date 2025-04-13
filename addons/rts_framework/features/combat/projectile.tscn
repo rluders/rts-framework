@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://don5hhuh36u4b"]
+
+[ext_resource type="Script" uid="uid://cehhgd3bsd1an" path="res://addons/rts_framework/features/combat/projectile.gd" id="1_u18ob"]
+
+[node name="Projectil" type="MeshInstance3D"]
+script = ExtResource("1_u18ob")
