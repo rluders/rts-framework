@@ -2,7 +2,7 @@
 extends AttackComponent
 class_name ProjectileAttackComponent
 
-signal generated_projectile(projectile : ProjectileData)
+signal generated_projectile(proj : Projectile)
 
 ## The projectile data resource that defines the projectile's properties and behavior
 @export var projectile : ProjectileData
@@ -13,7 +13,7 @@ func generate_projectile(target) -> bool:
 	if projectile.projectile_can_instantiate():
 		var proj = projectile.projectile_instantiate(owner.position)
 		proj.target = target
-		generated_projectile.emit(projectile)
+		generated_projectile.emit(proj)
 		return true
 	return false
 
