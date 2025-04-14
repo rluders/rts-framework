@@ -2,6 +2,9 @@
 extends MeshInstance3D
 class_name Projectile
 
+## Represents a projectile in the game world that moves toward a target.
+## Handles movement, collision detection, damage application, and lifecycle management.
+
 signal collided(target : AttackTarget)
 signal timeout
 
@@ -18,6 +21,11 @@ var collision_damage : int = 10
 var target : AttackTarget = null
 
 func _physics_process(delta: float) -> void:
+	if target == null:
+		push_warning("Projectile _physics_process with null target")
+		self.queue_free()
+		return
+
 	if target.has_target():
 		var direction = (target.get_target_position() - global_position).normalized()
 		direction.y = calculate_y_direction.call(delta, global_position, target.get_target_position())
@@ -26,6 +34,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		push_warning("Projectile _physics_process without a target")
 		self.queue_free()
+		return
 
 func _collide() -> void:
 	# Apply damage to the target if it's a unit

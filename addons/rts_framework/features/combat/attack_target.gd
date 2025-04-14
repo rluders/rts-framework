@@ -1,6 +1,9 @@
 extends Resource
 class_name AttackTarget
 
+## Manages a target for combat operations, supporting both unit entities and spatial points.
+## Use has_target() to verify target validity before accessing position or other properties.
+
 enum TARGET_TYPE {NONE, POINT, ENTITY}
 var target_type : TARGET_TYPE :
 	set(value): # Prevent setting value
@@ -13,7 +16,9 @@ var target_type : TARGET_TYPE :
 		else:
 			return TARGET_TYPE.NONE
 
-## Is type UnitEntity or Vector3
+## The combat target, which can be either a UnitEntity or a Vector3 position.
+## When set, internal tracking variables are updated based on the value type.
+## This property is the main interface for setting and retrieving the current target.
 var target : 
 	set(value):
 		# Reset values

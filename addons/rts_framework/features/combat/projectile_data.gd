@@ -1,6 +1,9 @@
 extends Resource
 class_name ProjectileData
 
+## Resource that defines projectile data and handles projectile instantiation.
+## Used by attack components to create and configure projectiles.
+
 ## The projectile scene which will be instantiated
 @export var projectile_scene : PackedScene
 
