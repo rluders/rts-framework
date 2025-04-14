@@ -2,8 +2,11 @@
 extends MeshInstance3D
 class_name Projectile
 
-var speed : float = 0.0 #TODO : Change to Vector3. This can be something that slings, that goes up and then down. Not necessarily straight arrow
-#var start_y_direction # Maybe an idea how to do the sling shots  
+signal collided(target : AttackTarget)
+signal timeout
+
+var speed : float = 0.0
+var y_direction = 0 # If doing artilirey, or alike, then can use tween or another calculation to do the trajectory
 var lifetime : float :
 	set(value):
 		$Timer.wait_time = value
@@ -14,8 +17,8 @@ var target : AttackTarget = null
 
 func _physics_process(delta: float) -> void:
 	if target.has_target():
-		#TODO : Change to support slinging shots
 		var direction = (target.get_target_position() - global_position).normalized()
+		direction.y = y_direction
 		global_position += direction * speed * delta
 		look_at(target.get_target_position(), Vector3.UP)
 
@@ -24,7 +27,9 @@ func _collide() -> void:
 	if target.get_target_unit() != null:
 		if target.get_target_unit().has_component("damageable_comonent") :
 			target.get_target_unit().get_component("damageable_component").apply_damage(collision_damage) # Replace with actual damage value
+	collided.emit(target)
 	self.queue_free()
 
 func _timedout() -> void:
+	timeout.emit()
 	self.queue_free()
