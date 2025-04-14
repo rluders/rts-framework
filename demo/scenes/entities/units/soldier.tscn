@@ -12,7 +12,9 @@ height = 0.997191
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_axipv"]
 
 [node name="Soldier" instance=ExtResource("1_j25l6")]
+visible = false
 script = ExtResource("2_kl8ra")
+speed = 100.0
 
 [node name="CollisionShape3D" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

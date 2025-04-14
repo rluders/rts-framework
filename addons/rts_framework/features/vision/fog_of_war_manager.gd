@@ -202,4 +202,3 @@ func _on_visibility_field_body_exited(body: Node3D) -> void:
 	#print_debug("_on_visibility_field_body_exited")
 	if body is UnitEntity:
 		body.visible = false
-		
