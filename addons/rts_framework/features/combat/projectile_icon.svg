@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="projectile_icon.svg"
+   inkscape:version="1.4.1 (93de688d07, 2025-03-30)"
+   xml:space="preserve"
+   inkscape:export-filename="projectile_icon.png"
+   inkscape:export-xdpi="1"
+   inkscape:export-ydpi="1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="74.825389"
+     inkscape:cx="6.0941882"
+     inkscape:cy="10.183709"
+     inkscape:window-width="3840"
+     inkscape:window-height="2111"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" /><defs
+     id="defs1" /><g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="scale(3.7795272)"><path
+       style="display:inline;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#fa9b9b;stroke-width:0.721414;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+       d="M 1.9482068,4.2333335 V 1.9482068 h 2.2851269"
+       id="path2-8"
+       inkscape:label="feather" /><path
+       id="path1"
+       style="display:inline;fill:#fa9b9b;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.406679;stroke-opacity:1;paint-order:markers fill stroke"
+       d="M 2.5534432,0 1.7886553,0.76219086 4.2333337,3.0000003 3.0000003,4.2333337 0.74345105,1.8046823 0,2.5456859 V 0 Z"
+       sodipodi:nodetypes="cccccccc"
+       inkscape:label="body" /></g></svg>

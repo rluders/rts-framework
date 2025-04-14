@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://don5hhuh36u4b"]
+
+[ext_resource type="Script" uid="uid://cehhgd3bsd1an" path="res://addons/rts_framework/features/combat/projectile.gd" id="1_u18ob"]
+
+[node name="Projectile" type="MeshInstance3D"]
+script = ExtResource("1_u18ob")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_timedout"]
