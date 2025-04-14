@@ -6,7 +6,9 @@ signal collided(target : AttackTarget)
 signal timeout
 
 var speed : float = 0.0
-var y_direction = 0 # If doing artilirey, or alike, then can use tween or another calculation to do the trajectory
+# If doing artilirey, or alike, then can use tween or another calculation to do the trajectory
+# Default flat trajectory
+var calculate_y_direction: Callable = func(_delta: float, _current_position: Vector3, _target_position: Vector3) -> float : return 0.0
 var lifetime : float :
 	set(value):
 		$Timer.wait_time = value
@@ -18,7 +20,7 @@ var target : AttackTarget = null
 func _physics_process(delta: float) -> void:
 	if target.has_target():
 		var direction = (target.get_target_position() - global_position).normalized()
-		direction.y = y_direction
+		direction.y = calculate_y_direction.call(delta, global_position, target.get_target_position())
 		global_position += direction * speed * delta
 		look_at(target.get_target_position(), Vector3.UP)
 

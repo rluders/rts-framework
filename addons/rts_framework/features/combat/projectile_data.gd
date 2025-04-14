@@ -6,15 +6,20 @@ class_name ProjectileData
 
 var target : AttackTarget = null
 
-func projectile_instantiate(start_position : Vector3) -> Node3D:
+func projectile_instantiate(start_position : Vector3) -> Projectile:
 	if projectile_scene == null:
 		push_error("ProjectileData: projectile_scene is null")
 		return null
-
-	var projectile : Projectile = projectile_scene.instantiate() as Projectile
+		
+	var projectile = projectile_scene.instantiate()
+	if not projectile is Projectile:
+		push_error("ProjectileData: instantiated scene is not a Projectile")
+		projectile.queue_free()
+		return null
+	
 	projectile.position = start_position
 	projectile.target = self.target
-	return projectile
+	return projectile as Projectile
 
 func projectile_can_instantiate() -> bool:
 	if projectile_scene == null:

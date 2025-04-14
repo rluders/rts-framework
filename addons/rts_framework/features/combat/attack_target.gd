@@ -19,7 +19,7 @@ var _target_unit : UnitEntity = null
 var _target_point : Vector3 = Vector3.INF
 
 func get_target_position() -> Vector3:
-	if target is UnitEntity && target != null: #_target_unit
+	if target != null && target is UnitEntity: #_target_unit
 		return target.global_position
 	return target #_target_point
 
