@@ -23,6 +23,9 @@ func _physics_process(delta: float) -> void:
 		direction.y = calculate_y_direction.call(delta, global_position, target.get_target_position())
 		global_position += direction * speed * delta
 		look_at(target.get_target_position(), Vector3.UP)
+	else:
+		push_warning("Projectile _physics_process without a target")
+		self.queue_free()
 
 func _collide() -> void:
 	# Apply damage to the target if it's a unit

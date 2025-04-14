@@ -1,6 +1,18 @@
 extends Resource
 class_name AttackTarget
 
+enum TARGET_TYPE {NONE, POINT, ENTITY}
+var target_type : TARGET_TYPE :
+	set(value): # Prevent setting value
+		return
+	get:
+		if self.target is UnitEntity:
+			return TARGET_TYPE.ENTITY
+		elif self.target is Vector3:
+			return TARGET_TYPE.POINT
+		else:
+			return TARGET_TYPE.NONE
+
 ## Is type UnitEntity or Vector3
 var target : 
 	set(value):
@@ -19,12 +31,16 @@ var _target_unit : UnitEntity = null
 var _target_point : Vector3 = Vector3.INF
 
 func get_target_position() -> Vector3:
-	if target != null && target is UnitEntity: #_target_unit
-		return target.global_position
-	return target #_target_point
+	match self.target_type:
+		TARGET_TYPE.ENTITY:
+			return target.global_position
+		TARGET_TYPE.POINT:
+			return target
+		_:
+			return Vector3.INF
 
 func has_target() -> bool:
-	return (target != null && target != Vector3.INF)
+	return self.target_type != TARGET_TYPE.NONE
 
 func get_target_unit() -> UnitEntity:
 	return _target_unit

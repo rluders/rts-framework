@@ -21,7 +21,5 @@ func projectile_instantiate(start_position : Vector3) -> Projectile:
 	projectile.target = self.target
 	return projectile as Projectile
 
-func projectile_can_instantiate() -> bool:
-	if projectile_scene == null:
-		return false
-	return projectile_scene.can_instantiate()
+func can_instantiate() -> bool:
+	return projectile_scene != null && projectile_scene.can_instantiate()
