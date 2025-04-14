@@ -17,9 +17,9 @@ func _ready() -> void:
 func set_linear_velocity(velocity) -> void:
 	body.velocity = velocity
 
-func enter(params: Dictionary = {}) -> void:
-	if params.has("target_position"):
-		target_position = params["target_position"]
+func enter(data: StateData = null) -> void:
+	if data is MoveData:
+		target_position = data.target_position
 		
 		var navmap = body.get_world_3d().get_navigation_map()
 		var closest_point = NavigationServer3D.map_get_closest_point(navmap, target_position)
@@ -27,7 +27,7 @@ func enter(params: Dictionary = {}) -> void:
 		
 		print_debug("Entering %s State to position: " % self.name, closest_point)
 
-func exit() -> void:
+func exit(data: StateData = null) -> void:
 	print_debug("Exiting %s State" % self.name)
 
 func physics_update(delta: float) -> void:
