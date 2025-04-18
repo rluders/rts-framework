@@ -11,7 +11,6 @@ func _init() -> void:
 # Drop all data that is not needed 
 static func narrow(data : StateData) -> StateData:
 	if data == null:
-		push_error("Cannot narrow null StateData")
 		return StateData.new()
 	var new_data : StateData = StateData.new()
 	new_data.previous_states = data.previous_states
