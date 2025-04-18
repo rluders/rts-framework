@@ -4,6 +4,9 @@ class_name StateData
 ## Previous states[0] contains the name of the immediate previous state
 @export var previous_states : Array[String] = [] 
 
+func _init() -> void:
+	pass
+
 # Turn any class which extend StateData to StateData
 # Drop all data that is not needed 
 static func narrow(data : StateData) -> StateData:
