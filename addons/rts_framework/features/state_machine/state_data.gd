@@ -9,6 +9,7 @@ func _init() -> void:
 
 # Turn any class which extend StateData to StateData
 # Drop all data that is not needed 
+# Handles null gracefully by returning a new empty StateData instance
 static func narrow(data : StateData) -> StateData:
 	if data == null:
 		return StateData.new()
