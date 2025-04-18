@@ -12,9 +12,11 @@ func _ready() -> void:
 	$MeshInstance3D.material_override = material
 
 func _on_command_issued(command: String, target: Variant, context: Dictionary) -> void:
+	var data : MoveData = MoveData.new()
+	data.target_position = target
 	match command:
 		"move":
-			state_machine.transition_to("move", {"target_position": target})
+			state_machine.transition_to("move", data)
 		"idle":
 			state_machine.transition_to("idle")
 		_:

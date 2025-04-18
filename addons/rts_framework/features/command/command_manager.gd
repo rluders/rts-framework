@@ -61,6 +61,7 @@ func issue_entity_command(units: Array, target: Dictionary) -> void:
 	emit_command_issued(command_type, entity, {"target_group": "entities"})
 
 # --- Helper Methods ---
+# Target is of type BaseEntity or Vector3
 func emit_command_issued(command: String, target: Variant, context: Dictionary) -> void:
 	var team_group = "team_%d_selected" % team
 	get_tree().call_group(team_group, "_on_command_issued", command, target, context)

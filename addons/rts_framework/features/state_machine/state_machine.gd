@@ -11,12 +11,11 @@ var states : Dictionary = {}
 func _ready() -> void:
 	for child in get_children():
 		if child is State:
-			var state_name = child.name.to_lower()
-			states[state_name] = child
+			states[child.get_state_name()] = child
 			child.state_transitioned.connect(_on_state_transitioned)
 	
 	if initial_state:
-		transition_to(initial_state.name.to_lower())
+		transition_to(initial_state.get_state_name())
 
 func _process(delta: float) -> void:
 	if current_state:
@@ -26,8 +25,7 @@ func _physics_process(delta: float) -> void:
 	if current_state:
 		current_state.physics_update(delta)
 
-func transition_to(state_name: String, params: Dictionary = {}) -> void:
-	state_name = state_name.to_lower()
+func transition_to(state_name: String, data: StateData = null) -> void:
 	var new_state = states.get(state_name)
 
 	if not new_state:
@@ -35,11 +33,11 @@ func transition_to(state_name: String, params: Dictionary = {}) -> void:
 		return
 	
 	if current_state:
-		current_state.exit()
+		current_state.exit(data)
 
 	# Transition to the new state
 	current_state = new_state
-	current_state.enter(params)
+	current_state.enter(data)
 
 	state_changed.emit(state_name)
 	print_debug("State changed to:", state_name)
