@@ -15,7 +15,7 @@ func _ready() -> void:
 			child.state_transitioned.connect(_on_state_transitioned)
 	
 	if initial_state:
-		transition_to(initial_state.name.to_lower())
+		transition_to(initial_state.get_state_name())
 
 func _process(delta: float) -> void:
 	if current_state:
@@ -26,7 +26,6 @@ func _physics_process(delta: float) -> void:
 		current_state.physics_update(delta)
 
 func transition_to(state_name: String, data: StateData = null) -> void:
-	state_name = state_name.to_lower()
 	var new_state = states.get(state_name)
 
 	if not new_state:

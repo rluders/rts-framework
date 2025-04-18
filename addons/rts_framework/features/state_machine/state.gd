@@ -3,11 +3,12 @@ class_name State
 
 signal state_transitioned
 
-func enter(data: StateData) -> void:
+func enter(data: StateData = null) -> void:
 	pass
 
-func exit(data: StateData) -> void:
-	data.previous_states.push_front(get_state_name())
+func exit(data: StateData = null) -> void:
+	if data != null:
+		data.previous_states.push_front(get_state_name())
 
 func update(_delta: float) -> void:
 	pass
