@@ -34,7 +34,8 @@ var _texture_units_per_world_unit: int = 2
 		if material_override:
 			return material_override.get_shader_parameter("color")
 		return Color.BLACK
-## TODO add description for outer_margin_for_fade_out.
+
+## Controls the size of the fade-out effect at the edges of the visible area, creating a smooth transition between visible and fog areas.
 @export var outer_margin_for_fade_out : float :
 	set(value):
 		if material_override:
@@ -54,7 +55,8 @@ var _texture_units_per_world_unit: int = 2
 		if material_override:
 			return material_override.get_shader_parameter("debug_texture_view")
 		return false
-## Shows small texture of the fog
+
+## Controls the size of the debug texture view when enabled
 @export_range(0, 1) var debug_texture_view_size : float = 0.2:
 	set(value):
 		if material_override:
