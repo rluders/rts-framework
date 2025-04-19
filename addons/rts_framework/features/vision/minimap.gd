@@ -8,9 +8,10 @@ class_name Minimap
 
 const DynamicCircle2D : PackedScene = preload("res://addons/rts_framework/features/vision/dynamic_circle_2d.tscn")
 
-@export var fog_of_war_manager : FogOfWarManager
+@export var vision_manager : VisionManager
 
-var _unit_to_circles_mapping : Dictionary = {}
+#var _unit_to_circles_mapping : Dictionary = {}
+var _vision_data : Dictionary # Weak Ref for Dictionary{ BaseEntity : UnitVisionData }
 
 ## Texture representing the fog of war alpha layer
 ##
@@ -35,37 +36,31 @@ var fog_texture : Texture2D : # fog_texture multiply the images above. This to f
 @onready var _minimap_viewport: SubViewport = find_child("CombinedViewport") as SubViewport
  
 func _ready() -> void:
-	assert(fog_of_war_manager != null, "Minimap missing fog of war manager node. Minimap Node Name: " + self.name)
-	var fog_of_war_combined_viewport = fog_of_war_manager.combined_viewport
-	if fog_of_war_combined_viewport:
-		var fog_texture_result = fog_of_war_manager.combined_viewport.get_texture()
-		if fog_texture_result:
-			fog_texture = fog_texture_result
-		else:
-			push_error("Failed to retrieve fog of war texture. Minimap Node Name: " + self.name)
+	assert(vision_manager != null, "Minimap missing vision manager node. Minimap Node Name: " + self.name)
+	await vision_manager
+	var fog_texture_result = vision_manager.get_fog_texture()
+	if fog_texture_result:
+		fog_texture = fog_texture_result
 	else:
-		push_error("Failed to retrieve fog of war combined viewport. Minimap Node Name: " + self.name)
+		push_error("Failed to retrieve fog of war texture. Minimap Node Name: " + self.name)
+	_vision_data = vision_manager.get_vision_data()
 	if not Engine.is_editor_hint():
 		var circle = find_child("EditorOnlyCircle")
 		if circle:
 			circle.queue_free()
 
 func _physics_process(_delta : float) -> void:
-	var visible_units : Dictionary = {}
-	var units_to_sync = fog_of_war_manager.get_visible_units()
-	for unit in units_to_sync:
+	for unit in _vision_data:
 		if not unit.is_revealing():
 			continue
-		visible_units[unit] = 1
-		if not _unit_is_mapped(unit):
+		if not _unit_is_minimap_mapped(unit):
 			_map_unit_to_new_circles_body(unit)
-		_sync_vision_to_unit(unit)
-	for mapped_unit in _unit_to_circles_mapping:
-		if not mapped_unit in visible_units:
-			_cleanup_mapping(mapped_unit)
 
-func _unit_is_mapped(unit : BaseEntity) -> bool:
-	return unit in _unit_to_circles_mapping
+func _unit_is_minimap_mapped(unit : BaseEntity) -> bool:
+	if _vision_data != null:
+		if unit in _vision_data:
+			return _vision_data[unit].minimap_circle != null # If unit has minimap_circle
+	return false
 
 ## Creates visibility representation for a unit on the minimap
 ## Parameters:
@@ -73,32 +68,18 @@ func _unit_is_mapped(unit : BaseEntity) -> bool:
 ## - default_color: The default color of the visibility circle
 ## - default_radius: The default radius of visibility
 func _map_unit_to_new_circles_body(unit : BaseEntity, default_color : Color = Color.BLUE, default_radius : int = 5) -> void:
-	var minimap_circle = DynamicCircle2D.instantiate() # Make a white circle 2D
-	
-	if unit.has_method("get_team_color"): # If unit has get_team_color, use that color
-		minimap_circle.color = unit.get_team_color()
-	else: # if doesn't have the function, use the default one
-		minimap_circle.color = default_color # Set color
-	
-	if unit.has_method("get_sight_range"):  # Set circle size to world units and unit sight range
-		minimap_circle.radius = unit.get_sight_range() # If has sight range, then use it
-	else:
-		minimap_circle.radius = default_radius # If doesn't have sight range, then use default
+	if _vision_data != null:
+		var minimap_circle = DynamicCircle2D.instantiate() # Make a white circle 2D
 		
-	_minimap_viewport.add_child(minimap_circle) # Add the view circle 2D to fog of war viewport. In the fog of war viewport it create an image for the fog of war.
-	_unit_to_circles_mapping[unit] = minimap_circle # Keep map to connect unit with fog of war view
-
-func _sync_vision_to_unit(unit : BaseEntity) -> void:
-	var unit_pos_3d = unit.global_transform.origin
-	var unit_pos_2d = Vector2(unit_pos_3d.x, unit_pos_3d.z)  * fog_of_war_manager.texture_units_per_world_unit
-	_unit_to_circles_mapping[unit].position = unit_pos_2d
-
-func _cleanup_mapping(unit : BaseEntity) -> void:
-	_unit_to_circles_mapping[unit].queue_free()
-	_unit_to_circles_mapping.erase(unit)
-
-func _exit_tree() -> void:
-	# Clean up all remaining circles
-	for unit in _unit_to_circles_mapping.keys():
-		_cleanup_mapping(unit)
-	_unit_to_circles_mapping.clear()
+		if unit.has_method("get_team_color"): # If unit has get_team_color, use that color
+			minimap_circle.color = unit.get_team_color()
+		else: # if doesn't have the function, use the default one
+			minimap_circle.color = default_color # Set color
+		
+		if unit.has_method("get_sight_range"):  # Set circle size to world units and unit sight range
+			minimap_circle.radius = unit.get_sight_range() # If has sight range, then use it
+		else:
+			minimap_circle.radius = default_radius # If doesn't have sight range, then use default
+			
+		_minimap_viewport.add_child(minimap_circle) # Add the view circle 2D to fog of war viewport. In the fog of war viewport it create an image for the fog of war.
+		_vision_data[unit].minimap_circle = minimap_circle # Keep map to connect unit with fog of war view
