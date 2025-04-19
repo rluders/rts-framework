@@ -12,7 +12,6 @@ var shroud_circle : Node2D = null
 var minimap_circle : Node2D = null
 var shape_3d : CollisionShape3D = null
 
-
 # fow_circle
 var fow_circle_radius : float :
 	get:
@@ -103,7 +102,7 @@ var position : Vector3 :
 	set(value): # Prevent setting
 		return
 
-static func create(unit, fow_circle, shroud_circle, shape_3d, minimap_circle = null) -> UnitVisionData:
+static func create(unit : BaseEntity, fow_circle : Node2D, shroud_circle : Node2D, shape_3d : CollisionShape3D , minimap_circle : Node2D = null) -> UnitVisionData:
 	var instance = UnitVisionData.new()
 	instance.unit = unit
 	instance.fow_circle = fow_circle

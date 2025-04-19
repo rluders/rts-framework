@@ -66,7 +66,7 @@ const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 	get:
 		return find_child("EditorOnlyCircle").position
 
-var _unit_to_vision_data : Dictionary = {}
+var _unit_to_vision_data : Dictionary = {}  # Dictionary<BaseEntity : UnitVisionData>
 
 @onready var _revealer : ColorRect = find_child("Revealer")
 @onready var _fog_viewport : SubViewport = find_child("FogViewport")
@@ -138,11 +138,7 @@ func _map_unit_to_new_circles_body(unit : BaseEntity) -> void:
 	var visibility_shape_3d = VisibilityShape3D.instantiate() # Make a cylinder
 	visibility_shape_3d.shape.radius = effective_sight_range  # Cylinder radius equal to sight range
 	_visibility_field.add_child(visibility_shape_3d) # Add the shape to the VisibilityField(Area3D node type)
-	
-	#_unit_to_shape_3d_mapping[unit] = visibility_shape_3d # Map unit and shape
-	#_unit_to_circles_mapping[unit] = [shroud_circle, fow_circle] # Keep map to connect unit with fog of war view
-	#_unit_to_circles_mapping[unit] = [shroud_circle, fow_circle] # Keep map to connect unit with fog of war view
-	
+
 	_unit_to_vision_data[unit] = UnitVisionData.create(unit, fow_circle, shroud_circle, visibility_shape_3d)
 
 func _sync_vision_to_unit(unit : BaseEntity) -> void:
@@ -190,4 +186,4 @@ func _get_configuration_warnings() -> PackedStringArray:
 	var warnings : Array[String] = []
 	if fog_size == DEFAULT_SIZE:
 		warnings.append("Fog of war size is default size")
-	return warnings
+	return PackedStringArray(warnings)

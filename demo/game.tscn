@@ -48,7 +48,7 @@ shader_parameter/outer_margin_for_fade_out = 0.0
 shader_parameter/debug_texture_view = false
 shader_parameter/debug_texture_view_size = 0.0
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_wlnpp"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ri1tv"]
 viewport_path = NodePath("CombinedViewport")
 
 [node name="Game" type="Node3D"]
@@ -109,6 +109,7 @@ fog_size = Vector2i(500, 500)
 material_override = SubResource("ShaderMaterial_ri1tv")
 skeleton = NodePath("../RTSController")
 vision_manager = NodePath("../RTSController/VisionManager")
+texture_units_per_world_unit = null
 debug_texture_view_size = 0.0
 
 [node name="CameraHolder" parent="." instance=ExtResource("6_3gdxu")]
@@ -136,5 +137,5 @@ grow_vertical = 2
 
 [node name="Minimap" parent="HUD/Panel/CenterContainer" node_paths=PackedStringArray("vision_manager") instance=ExtResource("11_hn7rm")]
 layout_mode = 2
-texture = SubResource("ViewportTexture_wlnpp")
+texture = SubResource("ViewportTexture_ri1tv")
 vision_manager = NodePath("../../../../RTSController/VisionManager")

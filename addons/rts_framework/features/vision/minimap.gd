@@ -10,8 +10,7 @@ const DynamicCircle2D : PackedScene = preload("res://addons/rts_framework/featur
 
 @export var vision_manager : VisionManager
 
-#var _unit_to_circles_mapping : Dictionary = {}
-var _vision_data : Dictionary # Weak Ref for Dictionary{ BaseEntity : UnitVisionData }
+var _vision_data : Dictionary
 
 ## Texture representing the fog of war alpha layer
 ##
@@ -37,7 +36,6 @@ var fog_texture : Texture2D : # fog_texture multiply the images above. This to f
  
 func _ready() -> void:
 	assert(vision_manager != null, "Minimap missing vision manager node. Minimap Node Name: " + self.name)
-	await vision_manager.ready
 	var fog_texture_result = vision_manager.get_fog_texture()
 	if fog_texture_result:
 		fog_texture = fog_texture_result
