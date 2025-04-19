@@ -6,16 +6,19 @@ class_name BaseEntity
 
 @export var sight_range : int = 2
 
+var components : Array[Node] = []
+
 func _ready() -> void:
 	print_debug("Calling framework BaseEntity::_ready")
 	add_to_group("entities")
+	if has_node("Components"):
+		$Components.connect("child_entered_tree", _on_new_component_added)
+		$Components.connect("child_exiting_tree", _on_new_component_removed)
 
 func get_component(component_class: String) -> Node:
-	if has_node("Components"):
-		var components = $Components.get_children()
-		for component in components:
-			if component is BaseComponent:
-				return component
+	for component in components:
+		if component is BaseComponent:
+			return component
 	return null
 
 func has_component(component_class: String) -> bool:
@@ -23,3 +26,9 @@ func has_component(component_class: String) -> bool:
 
 func is_revealing() -> bool:
 	return true;
+
+func _on_new_component_added(component : Node) -> void:
+	components.append(component)
+
+func _on_new_component_removed(component : Node) -> void:
+	components.erase(component)
