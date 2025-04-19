@@ -44,7 +44,7 @@ var _texture_units_per_world_unit: int = 2
 
 @export_category("Debug Values")
 ## Reveals the whole fog.
-@export var revel_fog : bool = false:
+@export var reveal_fog : bool = false:
 	set(value):
 		find_child("Revealer").set_visible(value)
 	get:

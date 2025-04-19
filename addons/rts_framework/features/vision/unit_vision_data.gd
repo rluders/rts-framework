@@ -96,9 +96,9 @@ var sight_range : float :
 # All
 var position : Vector3 :
 	get:
-		if shape_3d == null:
-			return EMPTY_VECTOR3
-		return shape_3d.position
+		if shape_3d:
+			return shape_3d.position
+		return EMPTY_VECTOR3
 	set(value): # Prevent setting
 		return
 
@@ -131,15 +131,24 @@ func sync_position(texture_units_per_world_unit : int) -> void:
 	var unit_pos_2d = Vector2(unit_pos_3d.x, unit_pos_3d.z) * texture_units_per_world_unit
 	
 	# Check if any component exists to determine if we need to emit a change
-	var should_emit = fow_circle != null || shroud_circle != null || minimap_circle != null || shape_3d != null
+	var should_emit : bool = false
 
 	if fow_circle:
+		should_emit = should_emit_sync_position_helper(should_emit, fow_circle.position, unit_pos_2d)
 		fow_circle.position = unit_pos_2d
 	if shroud_circle:
+		should_emit = should_emit_sync_position_helper(should_emit, shroud_circle.position, unit_pos_2d)
 		shroud_circle.position = unit_pos_2d
 	if minimap_circle:
+		should_emit = should_emit_sync_position_helper(should_emit, minimap_circle.position, unit_pos_2d)
 		minimap_circle.position = unit_pos_2d
 	if shape_3d:
+		should_emit = should_emit_sync_position_helper(should_emit, shape_3d.position, unit_pos_3d)
 		shape_3d.position = unit_pos_3d
 	if should_emit:
 		emit_changed()
+		
+func should_emit_sync_position_helper(should_emit : bool, preview, current) -> bool:
+	if !should_emit:
+		return preview != current
+	return true
