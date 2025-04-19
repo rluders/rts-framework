@@ -31,14 +31,18 @@ var _texture_units_per_world_unit: int = 2
 		if material_override:
 			material_override.set_shader_parameter("color", value)
 	get:
-		return material_override.get_shader_parameter("color")
+		if material_override:
+			return material_override.get_shader_parameter("color")
+		return Color.BLACK
 ## TODO add description for outer_margin_for_fade_out.
 @export var outer_margin_for_fade_out : float :
 	set(value):
 		if material_override:
 			material_override.set_shader_parameter("outer_margin_for_fade_out", value)
 	get:
-		return material_override.get_shader_parameter("outer_margin_for_fade_out")
+		if material_override:
+			return material_override.get_shader_parameter("outer_margin_for_fade_out")
+		return 0.0
 
 @export_category("Debug Values")
 ## Shows small texture of the fog
@@ -47,14 +51,18 @@ var _texture_units_per_world_unit: int = 2
 		if material_override:
 			material_override.set_shader_parameter("debug_texture_view", value)
 	get:
-		return material_override.get_shader_parameter("debug_texture_view")
+		if material_override:
+			return material_override.get_shader_parameter("debug_texture_view")
+		return false
 ## Shows small texture of the fog
 @export_range(0, 1) var debug_texture_view_size : float = 0.2:
 	set(value):
 		if material_override:
 			material_override.set_shader_parameter("debug_texture_view_size", value)
 	get:
-		return material_override.get_shader_parameter("debug_texture_view_size")
+		if material_override:
+			return material_override.get_shader_parameter("debug_texture_view_size")
+		return 0.2
 
 # Private backing field to store the texture
 var _fog_texture : ViewportTexture
