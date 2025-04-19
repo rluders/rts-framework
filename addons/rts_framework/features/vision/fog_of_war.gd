@@ -5,7 +5,8 @@ class_name FogOfWarManager
 @export var vision_manager : VisionManager:
 	set(value):
 		_vision_manager = value
-		_apply_fog_texture_from_vision_manager()
+		if _vision_manager:
+			_apply_fog_texture_from_vision_manager()
 	get:
 		return _vision_manager
 
@@ -68,6 +69,8 @@ func _ready() -> void:
 		fog_texture = fog_texture_result
 
 func _apply_fog_texture_from_vision_manager() -> void:
+	if _vision_manager == null:
+		return
 	var fog_texture_result = _vision_manager.get_fog_texture()
 	if fog_texture_result:
 		fog_texture = fog_texture_result

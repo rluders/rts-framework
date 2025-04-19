@@ -8,16 +8,20 @@ const VisibilityShape3D : PackedScene  = preload("res://addons/rts_framework/fea
 
 const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 
-## Color of area the units saw and not seeing currenty. Can see in Debug Texture View
+## Color of area the units saw and not seeing currently. Can see in Debug Texture View
 @export var fog_circle_color : Color = Color(0.25, 0.25, 0.25)
 ## Color of area the units see around them. Can see in Debug Texture View
 @export var shroud_circle_color : Color = Color(1.0, 1.0, 1.0)
 @export_category("Fog Values")
 
 ## The size of a single pixel in the 3D world
-@export_range(1, 10000, 1,"suffix:px/length") var texture_units_per_world_unit : int = 2 : # px/length
+@export_range(1, 10000, 1,"suffix:px/length") var texture_units_per_world_unit : int : # px/length
 		set(value):
-			texture_units_per_world_unit = value
+			_texture_units_per_world_unit = value
+		get:
+			return _texture_units_per_world_unit
+# private backing store
+var _texture_units_per_world_unit: int = 2
 
 ## AAA
 @export var map_mesh_node : MeshInstance3D:
@@ -39,7 +43,7 @@ const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 		return fog_size
 
 @export_category("Debug Values")
-## Revels the whole fog.
+## Reveals the whole fog.
 @export var revel_fog : bool = false:
 	set(value):
 		find_child("Revealer").set_visible(value)
@@ -97,7 +101,7 @@ func _physics_process(_delta : float) -> void:
 			if not _unit_is_mapped(unit):
 				_map_unit_to_new_circles_body(unit)
 			_sync_vision_to_unit(unit)
-		for mapped_unit in _unit_to_vision_data:
+		for mapped_unit in _unit_to_vision_data.keys():
 			if not mapped_unit in units_synced:
 				_cleanup_mapping(mapped_unit)
 	else:
