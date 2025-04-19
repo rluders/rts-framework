@@ -1,6 +1,8 @@
 extends Node3D
 class_name BaseEntity
 
+const COMPONENT_NAME_ENDING : String = "Component"
+
 @export var team: int = 0
 @export var is_active: bool = true
 
@@ -12,12 +14,15 @@ func _ready() -> void:
 	print_debug("Calling framework BaseEntity::_ready")
 	add_to_group("entities")
 	if has_node("Components"):
+		# Initialize components array with existing components
+		for child in $Components.get_children():
+			components.append(child)
 		$Components.connect("child_entered_tree", _on_new_component_added)
 		$Components.connect("child_exiting_tree", _on_new_component_removed)
 
 func get_component(component_class: String) -> Node:
 	for component in components:
-		if component is BaseComponent:
+		if component.name == component_class + COMPONENT_NAME_ENDING:
 			return component
 	return null
 
