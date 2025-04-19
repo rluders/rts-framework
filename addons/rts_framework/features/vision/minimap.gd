@@ -37,7 +37,7 @@ var fog_texture : Texture2D : # fog_texture multiply the images above. This to f
  
 func _ready() -> void:
 	assert(vision_manager != null, "Minimap missing vision manager node. Minimap Node Name: " + self.name)
-	await vision_manager
+	await vision_manager.ready
 	var fog_texture_result = vision_manager.get_fog_texture()
 	if fog_texture_result:
 		fog_texture = fog_texture_result

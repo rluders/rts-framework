@@ -53,7 +53,7 @@ var fog_texture : ViewportTexture:
 
 
 func _ready() -> void:
-	await vision_manager
+	await vision_manager.ready
 	var fog_texture_result = vision_manager.get_fog_texture()
 	if fog_texture_result:
 		fog_texture = fog_texture_result
