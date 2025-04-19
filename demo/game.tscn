@@ -102,6 +102,7 @@ selection_box = NodePath("../../SelectionBox")
 script = ExtResource("4_lcg0b")
 
 [node name="VisionManager" parent="RTSController" node_paths=PackedStringArray("map_mesh_node") instance=ExtResource("8_fqft5")]
+texture_units_per_world_unit = null
 map_mesh_node = NodePath("../../Map/NavigationRegion3D/MeshInstance3D")
 fog_size = Vector2i(500, 500)
 
