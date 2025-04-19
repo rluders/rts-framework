@@ -1,6 +1,11 @@
 extends Resource
 class_name UnitVisionData
 
+const EMPTY_RADUIS : float = -1
+const EMPTY_COLOR : Color = Color.TRANSPARENT
+const EMPTY_VECTOR3 : Vector3 = Vector3.INF
+const EMPTY_VECTOR2 : Vector2 = Vector2.INF
+
 var unit : BaseEntity = null
 var fow_circle : Node2D = null
 var shroud_circle : Node2D = null
@@ -12,7 +17,7 @@ var shape_3d : CollisionShape3D = null
 var fow_circle_radius : float :
 	get:
 		if fow_circle == null:
-			return 0
+			return EMPTY_RADUIS
 		return fow_circle.radius
 	set(value):
 		if fow_circle == null:
@@ -22,8 +27,12 @@ var fow_circle_radius : float :
 
 var fow_circle_color : Color :
 	get:
+		if fow_circle == null:
+			return EMPTY_COLOR
 		return fow_circle.color
 	set(value):
+		if fow_circle == null:
+			return
 		fow_circle.color = value
 		emit_changed()
 
@@ -31,7 +40,7 @@ var fow_circle_color : Color :
 var shroud_circle_radius : float :
 	get:
 		if shroud_circle == null:
-			return 0
+			return EMPTY_RADUIS
 		return shroud_circle.radius
 	set(value):
 		if shroud_circle == null:
@@ -41,8 +50,12 @@ var shroud_circle_radius : float :
 
 var shroud_circle_color : Color :
 	get:
+		if shroud_circle == null:
+			return EMPTY_COLOR
 		return shroud_circle.color
 	set(value):
+		if shroud_circle == null:
+			return
 		shroud_circle.color = value
 		emit_changed()
 
@@ -50,7 +63,7 @@ var shroud_circle_color : Color :
 var minimap_circle_radius : float :
 	get:
 		if minimap_circle == null:
-			return 0
+			return EMPTY_RADUIS
 		return minimap_circle.radius
 	set(value):
 		if minimap_circle == null:
@@ -60,8 +73,12 @@ var minimap_circle_radius : float :
 
 var minimap_circle_color : Color :
 	get:
+		if minimap_circle == null:
+			return EMPTY_COLOR
 		return minimap_circle.color
 	set(value):
+		if minimap_circle == null:
+			return
 		minimap_circle.color = value
 		emit_changed()
 
@@ -69,7 +86,7 @@ var minimap_circle_color : Color :
 var sight_range : float :
 	get:
 		if shape_3d == null || shape_3d.shape == null:
-			return 0
+			return EMPTY_RADUIS
 		return shape_3d.shape.radius
 	set(value):
 		if shape_3d == null || shape_3d.shape == null:
@@ -81,17 +98,19 @@ var sight_range : float :
 var position : Vector3 :
 	get:
 		if shape_3d == null:
-			return Vector3.INF
+			return EMPTY_VECTOR3
 		return shape_3d.position
 	set(value): # Prevent setting
 		return
 
-static func create(unit, fow_circle, shroud_circle, shape_3d) -> UnitVisionData:
+static func create(unit, fow_circle, shroud_circle, shape_3d, minimap_circle = null) -> UnitVisionData:
 	var instance = UnitVisionData.new()
 	instance.unit = unit
 	instance.fow_circle = fow_circle
 	instance.shroud_circle = shroud_circle
 	instance.shape_3d = shape_3d
+	if minimap_circle != null:
+		instance.minimap_circle = minimap_circle
 	return instance
 
 # TODO: Talk about having a RefCounted in the unit itself and
