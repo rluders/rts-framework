@@ -1,7 +1,7 @@
 extends Resource
 class_name UnitVisionData
 
-const EMPTY_RADUIS : float = -1
+const EMPTY_RADIUS : float = -1
 const EMPTY_COLOR : Color = Color.TRANSPARENT
 const EMPTY_VECTOR3 : Vector3 = Vector3.INF
 const EMPTY_VECTOR2 : Vector2 = Vector2.INF
@@ -16,7 +16,7 @@ var shape_3d : CollisionShape3D = null
 var fow_circle_radius : float :
 	get:
 		if fow_circle == null:
-			return EMPTY_RADUIS
+			return EMPTY_RADIUS
 		return fow_circle.radius
 	set(value):
 		if fow_circle == null:
@@ -39,7 +39,7 @@ var fow_circle_color : Color :
 var shroud_circle_radius : float :
 	get:
 		if shroud_circle == null:
-			return EMPTY_RADUIS
+			return EMPTY_RADIUS
 		return shroud_circle.radius
 	set(value):
 		if shroud_circle == null:
@@ -62,7 +62,7 @@ var shroud_circle_color : Color :
 var minimap_circle_radius : float :
 	get:
 		if minimap_circle == null:
-			return EMPTY_RADUIS
+			return EMPTY_RADIUS
 		return minimap_circle.radius
 	set(value):
 		if minimap_circle == null:
@@ -85,7 +85,7 @@ var minimap_circle_color : Color :
 var sight_range : float :
 	get:
 		if shape_3d == null || shape_3d.shape == null:
-			return EMPTY_RADUIS
+			return EMPTY_RADIUS
 		return shape_3d.shape.radius
 	set(value):
 		if shape_3d == null || shape_3d.shape == null:
