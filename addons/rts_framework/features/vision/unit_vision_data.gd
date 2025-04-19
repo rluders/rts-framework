@@ -130,18 +130,17 @@ func _notification(what):
 func sync_position(texture_units_per_world_unit : int) -> void:
 	var unit_pos_3d = unit.global_transform.origin
 	var unit_pos_2d = Vector2(unit_pos_3d.x, unit_pos_3d.z) * texture_units_per_world_unit
-	var changed_flag = false
+	
+	# Check if any component exists to determine if we need to emit a change
+	var should_emit = fow_circle != null || shroud_circle != null || minimap_circle != null || shape_3d != null
+
 	if fow_circle:
 		fow_circle.position = unit_pos_2d
-		changed_flag = true
 	if shroud_circle:
 		shroud_circle.position = unit_pos_2d
-		changed_flag = true
 	if minimap_circle:
 		minimap_circle.position = unit_pos_2d
-		changed_flag = true
 	if shape_3d:
 		shape_3d.position = unit_pos_3d
-		changed_flag = true
-	if changed_flag:
+	if should_emit:
 		emit_changed()
