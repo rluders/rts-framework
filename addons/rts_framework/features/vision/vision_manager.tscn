@@ -42,6 +42,7 @@ shader_parameter/overlay = true
 
 [node name="VisionManager" type="Node"]
 script = ExtResource("1_m01pg")
+texture_units_per_world_unit = 2
 metadata/_custom_type_script = "uid://cg181bb316phb"
 
 [node name="CombinedViewport" type="SubViewport" parent="."]
@@ -98,3 +99,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VisibilityField" type="Area3D" parent="."]
+
+[connection signal="body_entered" from="VisibilityField" to="." method="_on_visibility_field_body_entered"]
+[connection signal="body_exited" from="VisibilityField" to="." method="_on_visibility_field_body_exited"]
