@@ -102,15 +102,14 @@ selection_box = NodePath("../../SelectionBox")
 script = ExtResource("4_lcg0b")
 
 [node name="VisionManager" parent="RTSController" node_paths=PackedStringArray("map_mesh_node") instance=ExtResource("8_fqft5")]
-texture_units_per_world_unit = null
 map_mesh_node = NodePath("../../Map/NavigationRegion3D/MeshInstance3D")
 fog_size = Vector2i(500, 500)
 
 [node name="FogOfWar" parent="." node_paths=PackedStringArray("vision_manager") instance=ExtResource("8_12bj3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.242398, 0, 0)
 material_override = SubResource("ShaderMaterial_ri1tv")
 skeleton = NodePath("../RTSController")
 vision_manager = NodePath("../RTSController/VisionManager")
-texture_units_per_world_unit = null
 debug_texture_view_size = 0.0
 
 [node name="CameraHolder" parent="." instance=ExtResource("6_3gdxu")]
