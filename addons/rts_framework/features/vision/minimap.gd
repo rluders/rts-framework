@@ -87,6 +87,6 @@ func _map_unit_to_new_circles_body(unit : BaseEntity, default_color : Color = Co
 ## Return true on success, false on fail
 func draw_node_on_minimap(draw_node : CanvasItem) -> bool:
 	if _minimap_viewport:
-		add_child(draw_node)
+		_minimap_viewport.add_child(draw_node)
 		return true
 	return false
