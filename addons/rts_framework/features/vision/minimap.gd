@@ -87,11 +87,14 @@ func _map_unit_to_new_circles_body(unit : BaseEntity, default_color : Color = Co
 		else:
 			minimap_circle.radius = default_radius # If doesn't have sight range, then use default
 		
-		draw_node_on_minimap(minimap_circle) # Add the view circle 2D to fog of war viewport. In the fog of war viewport it create an image for the fog of war.
+		var did_draw : bool = draw_node_on_minimap(minimap_circle) # Add the view circle 2D to fog of war viewport. In the fog of war viewport it create an image for the fog of war.
 		
-		_vision_data[unit].minimap_circle = minimap_circle # Keep map to connect unit with fog of war view
-		# place at the correct coordinates straight away
-		_vision_data[unit].sync_position(vision_manager.texture_units_per_world_unit)
+		if did_draw:
+			_vision_data[unit].minimap_circle = minimap_circle # Keep map to connect unit with fog of war view
+			# place at the correct coordinates straight away
+			_vision_data[unit].sync_position(vision_manager.texture_units_per_world_unit)
+		else:
+			minimap_circle.queue_free()
 
 ## Addes draw_node(:CanvasItem) in way to draw it over other (preview) things in the minimap
 ##
