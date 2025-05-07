@@ -35,7 +35,10 @@ var fog_texture : Texture2D : # fog_texture multiply the images above. This to f
 @onready var _minimap_viewport: SubViewport = find_child("CombinedViewport") as SubViewport
  
 func _ready() -> void:
-	assert(vision_manager != null, "Minimap missing vision manager node. Minimap Node Name: " + self.name)
+	if vision_manager == null:
+		push_error("Minimap missing VisionManager – minimap will be disabled. Minimap Node Name: " + self.name)
+		set_physics_process(false)
+		return
 	var fog_texture_result = vision_manager.get_fog_texture()
 	if fog_texture_result:
 		fog_texture = fog_texture_result
@@ -43,7 +46,7 @@ func _ready() -> void:
 		push_error("Failed to retrieve fog of war texture. Minimap Node Name: " + self.name)
 	_vision_data = vision_manager.get_vision_data()
 	if _vision_data == null:
-		push_error("VisionManager returned null vision data for minimap: " + self.name)
+		push_error("VisionManager returned null vision data. Minimap Node Name: " + self.name)
 		set_physics_process(false) # Disable physics processing to prevent runtime errors
 		return # Abort further initialisation – minimap cannot function without data
 	
