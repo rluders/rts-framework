@@ -9,9 +9,9 @@ const VisibilityShape3D : PackedScene  = preload("res://addons/rts_framework/fea
 const DEFAULT_SIZE : Vector2i = Vector2i(100, 100)
 
 ## Color of area the units saw and not seeing currently. Can see in Debug Texture View
-@export var fog_circle_color : Color = Color(0.25, 0.25, 0.25)
+@export var fog_circle_color : Color = Color(1.0, 1.0, 1.0)
 ## Color of area the units see around them. Can see in Debug Texture View
-@export var shroud_circle_color : Color = Color(1.0, 1.0, 1.0)
+@export var shroud_circle_color : Color = Color(0.25, 0.25, 0.25)
 @export_category("Fog Values")
 
 ## The size of a single pixel in the 3D world
@@ -130,12 +130,12 @@ func _map_unit_to_new_circles_body(unit : BaseEntity) -> void:
 	var effective_sight_range = unit.sight_range * texture_units_per_world_unit;
 	
 	var shroud_circle = DynamicCircle2D.instantiate() # Make a white circle 2D
-	shroud_circle.color = fog_circle_color # Set color
+	shroud_circle.color =  shroud_circle_color# Set color
 	shroud_circle.radius = effective_sight_range  # Set circle size to world units and unit sight range
 	_fog_viewport.add_child(shroud_circle) # Add the view circle 2D to fog of war viewport. In the fog of war viewport it create an image for the fog of war.
 	
 	var fow_circle = DynamicCircle2D.instantiate()
-	fow_circle.color = shroud_circle_color
+	fow_circle.color = fog_circle_color
 	fow_circle.radius = effective_sight_range
 	_fog_viewport_container.add_sibling(fow_circle)
 	
