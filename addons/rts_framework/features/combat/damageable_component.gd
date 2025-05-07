@@ -1,3 +1,4 @@
+@tool
 extends BaseComponent
 class_name DamageableComponent
 
@@ -25,11 +26,13 @@ func _ready() -> void:
 	_health = max_health  # Initialize health after all properties are set
 
 # Reduces health by the given amount.
-func apply_damage(amount: int) -> void:
+func apply_damage(amount: int) -> int:
 	if amount <= 0:
-		return
+		return 0
+	var real_amount = min(amount, self.current_health)
 	self.current_health = self.current_health - amount
-	on_damage.emit(amount)
+	on_damage.emit(real_amount)
+	return real_amount
 
 # Restores health up to max_health.
 func repair(amount: int) -> void:

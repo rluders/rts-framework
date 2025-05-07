@@ -18,6 +18,11 @@ var is_dragging: bool = false
 var start_sel_pos: Vector2 = Vector2.ZERO
 var end_sel_pos: Vector2 = Vector2.ZERO
 
+# TODO: Consider using a shared `AttackTarget` resource managed by `selection_manager`.
+# When units are selected, pass a shared target to them so that all generated projectiles reference
+# the same AttackTarget. This approach will help avoid collisions in state management if multiple projectiles
+# would otherwise reference distinct target instances.
+
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("select"):
 		_start_selection(_get_mouse_position())
