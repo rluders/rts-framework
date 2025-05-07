@@ -3,11 +3,12 @@ class_name State
 
 signal state_transitioned
 
-func enter(params: Dictionary) -> void:
+func enter(data: StateData = null) -> void:
 	pass
 
-func exit() -> void:
-	pass
+func exit(data: StateData = null) -> void:
+	if data != null:
+		data.previous_states.push_front(get_state_name())
 
 func update(_delta: float) -> void:
 	pass
@@ -25,3 +26,6 @@ func get_state_machine() -> StateMachine:
 
 func get_root_node():
 	return get_state_machine().get_root_node()
+
+func get_state_name() -> String:
+	return name.to_lower()

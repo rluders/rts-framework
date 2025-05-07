@@ -17,17 +17,21 @@ func _ready() -> void:
 func set_linear_velocity(velocity) -> void:
 	body.velocity = velocity
 
-func enter(params: Dictionary = {}) -> void:
-	if params.has("target_position"):
-		target_position = params["target_position"]
-		
-		var navmap = body.get_world_3d().get_navigation_map()
-		var closest_point = NavigationServer3D.map_get_closest_point(navmap, target_position)
-		navigation_agent.target_position = closest_point
-		
-		print_debug("Entering %s State to position: " % self.name, closest_point)
+# Data is of type MoveData
+func enter(data: StateData = null) -> void:
+	if data is not MoveData:
+		push_error("Expected MoveData but received %s" % data.get_class() if data else "null")
+		return
+	
+	target_position = data.target_position
+	
+	var navmap = body.get_world_3d().get_navigation_map()
+	var closest_point = NavigationServer3D.map_get_closest_point(navmap, target_position)
+	navigation_agent.target_position = closest_point
+	
+	print_debug("Entering %s State to position: " % self.name, closest_point)
 
-func exit() -> void:
+func exit(data: StateData = null) -> void:
 	print_debug("Exiting %s State" % self.name)
 
 func physics_update(delta: float) -> void:
