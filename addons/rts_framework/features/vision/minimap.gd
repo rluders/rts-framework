@@ -42,8 +42,8 @@ func _ready() -> void:
 	else:
 		push_error("Failed to retrieve fog of war texture. Minimap Node Name: " + self.name)
 	_vision_data = vision_manager.get_vision_data()
-	assert(_vision_data != null, "VisionManager returned null vision data for minimap '" + name + "'")
 	if _vision_data == null:
+		push_error("VisionManager returned null vision data for minimap: " + self.name)
 		return # Abort further initialisation – minimap cannot function without data
 	
 	if not Engine.is_editor_hint():
@@ -52,7 +52,7 @@ func _ready() -> void:
 			circle.queue_free()
 
 func _physics_process(_delta : float) -> void:
-	for unit in _vision_data:
+	for unit in _vision_data.keys():
 		if not unit.is_revealing():
 			continue
 		if not _unit_is_minimap_mapped(unit):

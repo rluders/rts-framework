@@ -177,14 +177,9 @@ func get_vision_data() -> Dictionary:
 
 
 func get_fog_texture() -> ViewportTexture:
-	var fog_texture_result
-	if combined_viewport:
-		fog_texture_result = combined_viewport.get_texture()
-	else:
-		fog_texture_result = $CombinedViewport.get_texture()
-	if fog_texture_result:
-		return fog_texture_result
-	return null
+	var viewport = combined_viewport if combined_viewport else $CombinedViewport
+	var texture = viewport.get_texture() if viewport else null
+	return texture
 
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings : Array[String] = []
