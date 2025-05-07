@@ -38,6 +38,7 @@ func _ready() -> void:
 	if vision_manager == null:
 		push_error("Minimap missing VisionManager – minimap will be disabled. Minimap Node Name: " + self.name)
 		set_physics_process(false)
+		set_process(false)
 		return
 	var fog_texture_result = vision_manager.get_fog_texture()
 	if fog_texture_result:
