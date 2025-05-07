@@ -44,6 +44,7 @@ func _ready() -> void:
 	_vision_data = vision_manager.get_vision_data()
 	if _vision_data == null:
 		push_error("VisionManager returned null vision data for minimap: " + self.name)
+		set_physics_process(false) # Disable physics processing to prevent runtime errors
 		return # Abort further initialisation – minimap cannot function without data
 	
 	if not Engine.is_editor_hint():
