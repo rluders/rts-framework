@@ -55,9 +55,6 @@ func _physics_process(_delta : float) -> void:
 	for unit in _vision_data:
 		if not unit.is_revealing():
 			continue
-			#if _unit_is_minimap_mapped(unit): # not unit.is_revealing() and _unit_is_minimap_mapped(unit)
-				#_vision_data[unit].minimap_circle.queue_free()
-				#_vision_data[unit].minimap_circle = null
 		if not _unit_is_minimap_mapped(unit):
 			_map_unit_to_new_circles_body(unit)
 
