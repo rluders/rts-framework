@@ -102,7 +102,7 @@ func _physics_process(_delta : float) -> void:
 				_map_unit_to_new_circles_body(unit)
 			_sync_vision_to_unit(unit)
 		for mapped_unit in _unit_to_vision_data.keys():
-			if not mapped_unit in units_synced:
+			if (not mapped_unit in units_synced) or (not mapped_unit.is_revealing()):
 				_cleanup_mapping(mapped_unit)
 	else:
 		update_configuration_warnings()
