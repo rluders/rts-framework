@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://71g6dowvqb5i"]
+
+[ext_resource type="Script" uid="uid://de87xn1b8u07i" path="res://addons/rts_framework/features/vision/fog_of_war.gd" id="1_vrsar"]
+[ext_resource type="Shader" uid="uid://cbo2vdgrqc60a" path="res://addons/rts_framework/features/vision/detailed_fog_of_war.gdshader" id="2_oehrr"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_m5cnj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_imaik"]
+resource_local_to_scene = true
+render_priority = 2
+shader = ExtResource("2_oehrr")
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/world_visibility_texture = SubResource("ViewportTexture_m5cnj")
+shader_parameter/texture_units_per_world_unit = 2
+shader_parameter/outer_margin_for_fade_out = 0.0
+shader_parameter/debug_texture_view = false
+shader_parameter/debug_texture_view_size = 0.2
+
+[sub_resource type="QuadMesh" id="QuadMesh_3f4cn"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="FogOfWar" type="MeshInstance3D"]
+material_override = SubResource("ShaderMaterial_imaik")
+cast_shadow = 0
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_3f4cn")
+script = ExtResource("1_vrsar")
